@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 23:56:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/07 20:51:01 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/08 17:31:51 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ typedef struct s_map_node
 	struct s_map_node	*next;
 }	t_map_node;
 
+/**
+ * @brief Key-value association list.
+ */
 typedef struct s_map
 {
 	t_map_node	*head;

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 23:56:43 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/07 20:53:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/08 17:36:45 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ void	map_destroy(t_map *map)
 }
 
 /**
- * @brief Adds a key-value pair to the map.
- * 		  A copy of the key and value is stored in the map.
+ * @brief Adds a copy of key-value pair to the map.
+ * 		  If there is a pair in map with a key equivalent to the one passed
+ * 		  in the parameter, then the value of this pair will be overwritten
+ * 		  with the value passed in the parameter.
  * 
  * @param map Pointer to the map.
  * @param key Key string.
@@ -114,7 +116,8 @@ void	map_delete(t_map *map, const char *key)
 }
 
 /**
- * @brief Returns the value associated with the key passed as a parameter.
+ * @brief Returns the value stored in the map (not a copy) associated
+ * 		  with the key passed as a parameter.
  * 
  * @param map Pointer to the map.
  * @param key Key string.
