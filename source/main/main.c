@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/09 21:32:33 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/10 01:10:02 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	main(int argc, char *argv[], char *envp[])
 		// TODO error handle
 	}
 	// TODO signal handler
-	while (1)
+	while (shell_readline(shell_data))
 	{
-		// TODO readline
+		// TODO parse
 		// TODO execute
-		// TODO add_history
+		shell_add_history(shell_data);
 	}
 	return (0);
 }
