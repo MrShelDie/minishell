@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 22:13:43 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/08 17:31:57 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/09 21:12:10 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_vector
 }	t_vector;
 
 t_vector	*vector_create(void);
-t_vector	*vector_create_copy(const char *const *data);
+t_vector	*vector_create_copy(char *const *data);
 void		vector_destroy(t_vector *vector);
 
 int			vector_add(t_vector *vector, const char *value);

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 22:14:06 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/08 17:07:09 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/09 21:11:56 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_vector	*vector_create(void)
  * 		   In case of a memory allocation error or if a NULL pointer
  * 		   to data parameter was passed to the function, the NULL value is returned.
  */
-t_vector	*vector_create_copy(const char *const *data)
+t_vector	*vector_create_copy(char *const *data)
 {
 	t_vector	*vector;
 

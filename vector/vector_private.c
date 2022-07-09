@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 14:18:37 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/08 17:28:32 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/09 21:16:06 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * 		   If a NULL pointer is passed to the function,
  * 		   NULL is returned.
  */
-size_t	data_length(const char *const *data)
+size_t	data_length(char *const *data)
 {
 	size_t	i;
 
@@ -43,7 +43,7 @@ size_t	data_length(const char *const *data)
  * 		   if a NULL pointer is passed to the function,
  * 		   the NULL pointer is returned.
  */
-char	**copy_data(const char *const *data)
+char	**copy_data(char *const *data)
 {
 	char	**new_data;
 	size_t	length;
@@ -61,8 +61,9 @@ char	**copy_data(const char *const *data)
 		new_data[i] = ft_strdup(data[i]);
 		if (!new_data[i])
 		{
-			while (--i >= 0)
+			while (--i > 0)
 				free(new_data[i]);
+			free(new_data[0]);
 			free(new_data);
 			return (NULL);
 		}
