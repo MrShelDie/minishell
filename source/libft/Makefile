@@ -23,7 +23,7 @@ DEP			= ${SRC:.c=.d}
 
 NAME		= libft.a
 CFLAGS		= -Wall -Werror -Wextra
-CPPFLAGS	= -I./../include -MMD
+CPPFLAGS	= -I./../../include -MMD
 
 all:		${NAME}
 
