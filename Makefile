@@ -18,7 +18,7 @@ CPPFLAGS 	= -MMD -I./include
 all:		$(LIBFT) $(NAME) Makefile
 
 $(LIBFT):
-	@make -C $(LIBFTDIR) all
+	@make -C $(LIBFTDIR) bonus
 
 $(NAME):	$(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $@
