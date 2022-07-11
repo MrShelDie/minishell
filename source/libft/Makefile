@@ -10,7 +10,7 @@ ft_calloc.c		ft_strdup.c		ft_substr.c		\
 ft_strjoin.c	ft_strtrim.c	ft_split.c		\
 ft_itoa.c		ft_strmapi.c	ft_striteri.c	\
 ft_putchar_fd.c	ft_putstr_fd.c	ft_putendl_fd.c	\
-ft_putnbr_fd.c
+ft_putnbr_fd.c	ft_isspace.c
 
 SRC_BONUS = \
 ft_lstnew.c		ft_lstadd_front.c	ft_lstsize.c	\
@@ -27,11 +27,8 @@ CPPFLAGS	= -I./../../include -MMD
 
 all:		${NAME}
 
-${NAME}:	${OBJ} Makefile
-	ar rcs $@ ${OBJ}
-
-bonus: 		${OBJ} ${OBJ_BONUS} 
-	ar rcs $@ $?
+${NAME}:	${OBJ} ${OBJ_BONUS}  Makefile
+	ar rcs $@ ${OBJ} ${OBJ_BONUS}
 
 clean:
 	${RM} ${OBJ} ${OBJ_BONUS} ${DEP}

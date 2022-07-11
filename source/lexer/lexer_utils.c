@@ -1,46 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/10 12:26:38 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 16:08:59 by gannemar         ###   ########.fr       */
+/*   Created: 2022/07/11 14:27:03 by gannemar          #+#    #+#             */
+/*   Updated: 2022/07/11 17:32:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
-
-# include "libft.h"
-
-typedef enum e_token_id
-{
-	END,
-	PIPE,
-	EQUAL,
-	PAR_L,
-	PAR_R,
-	ANG_BR_L,
-	ANG_BR_R,
-	D_ANG_BR_L,
-	D_ANG_BR_R,
-	AND,
-	OR,
-	WORD
-}	t_token_id;
+#include "lexer_private.h"
 
 /**
- * @brief Token, contains an identifier and a pointer
- * 		to the first character of its value.
+ * @brief Frees up the token's memory.
+ * 
+ * @param token Pointer to the token.
  */
-typedef struct s_token
+void	free_token(void *token)
 {
-	t_token_id	id;
-	char		*value;
-}	t_token;
+	free(((t_token *)token)->value);
+	free(token);
+}
 
-t_list	*get_token_list(const char *str);
-
-#endif
+int	is_special(char c)
+{
+	if (c == '\0' || c == '|' || c == '=' || c == '(' || c == ')'
+		|| c == '<' || c == '>')
+			return (1);
+	return (0);
+}

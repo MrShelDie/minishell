@@ -4,7 +4,10 @@ SRC = 								\
 	source/map/map.c				\
 	source/map/map_private.c		\
 	source/vector/vector.c			\
-	source/vector/vector_private.c
+	source/vector/vector_private.c	\
+	source/lexer/lexer.c			\
+	source/lexer/lexer_private.c	\
+	source/lexer/lexer_utils.c
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
@@ -18,7 +21,7 @@ CPPFLAGS 	= -MMD -I./include
 all:		$(LIBFT) $(NAME) Makefile
 
 $(LIBFT):
-	@make -C $(LIBFTDIR) bonus
+	@make -C $(LIBFTDIR) all
 
 $(NAME):	$(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $@
