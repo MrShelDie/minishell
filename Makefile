@@ -4,6 +4,8 @@ SRC = 								\
 	source/map/map.c				\
 	source/map/map_private.c		\
 	source/vector/vector.c			\
+	source/executer/executer.c		\
+	source/builtin/echo.c			\
 	source/vector/vector_private.c
 
 OBJ = $(SRC:.c=.o)

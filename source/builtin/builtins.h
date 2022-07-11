@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 19:38:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 17:38:46 by medric           ###   ########.fr       */
+/*   Created: 2022/07/10 17:14:08 by medric            #+#    #+#             */
+/*   Updated: 2022/07/11 19:34:57 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
-{
-	if (!lst || !new)
-		return ;
-	new -> next = *lst;
-	*lst = new;
-}
+# include "../../include/libft.h"
+
+int	ft_pwd(void);
+int	ft_echo(char **argv, int iter);
+//int	check_builtin(const char *s)
+//int	ft_cd();
+
+#endif

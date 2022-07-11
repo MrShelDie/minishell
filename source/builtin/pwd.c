@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 19:38:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 17:38:46 by medric           ###   ########.fr       */
+/*   Created: 2022/07/10 16:51:13 by medric            #+#    #+#             */
+/*   Updated: 2022/07/11 15:58:13 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+# include "../libft/libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+int	ft_pwd(void)
 {
-	if (!lst || !new)
-		return ;
-	new -> next = *lst;
-	*lst = new;
+	char	cmd[PATH_MAX];
+
+	getcwd(cmd, PATH_MAX);
+	if (cmd != NULL)
+	{
+		ft_putstr_fd(cmd, 1);
+		return (SUCCESS);
+	}
+	else
+		return (FAILED);
 }

@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 19:38:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 17:38:46 by medric           ###   ########.fr       */
+/*   Created: 2022/07/10 17:13:42 by medric            #+#    #+#             */
+/*   Updated: 2022/07/10 17:30:30 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft_src.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+int	ft_cd(char **argv);
+
+int main(int ac, char **av, char**envp)
 {
-	if (!lst || !new)
-		return ;
-	new -> next = *lst;
-	*lst = new;
+	int i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
 }
