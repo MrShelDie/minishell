@@ -6,63 +6,84 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/12 19:41:15 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:09:36 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	t_shell_data	*shell_data;
-
-// 	if (argc != 1)
-// 	{
-// 		// TODO handle error
-// 	}
-// 	shell_data = shell_init(envp);
-// 	if (!shell_data)
-// 	{
-// 		// TODO error handle
-// 	}
-// 	// TODO signal handler
-// 	while (1)
-// 	{
-// 		// TODO readline
-// 		// TODO execute
-// 		// TODO add_history
-// 	}
-// 	return (0);
-// }
-
 #include "lexer.h"
-#include <assert.h>
+#include "libft.h"
+
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <stdlib.h>
 
-void	print_token(void *token)
+/**
+ * @brief Checks if the string consists of only whitespace characters.
+ * 
+ * @param str The string to be checked.
+ * @return 1 if the string consists of only whitespace characters,
+ * 		   0 if not.
+ */
+static int	is_space_string(const char *str)
 {
-	printf("ID: %d\tVALUE: %s\n", ((t_token *)token)->id, ((t_token *)token)->value);
+	if (!str)
+		return (0);
+	while (*str)
+	{
+		if (!ft_isspace(*str))
+			return (1);
+		++str;
+	}
+	return (0);
+}
+
+/**
+ * @brief Writes the prompt string, reads user input and adds it to the history
+ * 		if if at least one non-whitespace character was entered.
+ * 
+ * @return The string entered by the user.
+ * 		If EOF is read or a read error occurs, it returns NULL,
+ */
+static char	*shell_readline(void)
+{
+	char	*user_input;
+
+	// TODO prompt string like in bash
+	user_input = readline("minishell> ");
+	if (user_input && !is_space_string(user_input))
+		add_history(user_input);
+	return (user_input);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_shell_data	*shell_data;
 	t_list			*token_list;
-	char			*input;
+	char			*user_input;
 
-	(void)argc;
-	(void)argv;
+	// TODO handle argc and argv
 	shell_data = shell_init(envp);
-	assert(shell_data);
+	if (!shell_data)
+	{
+		// TODO error handler
+	}
+	// TODO signal handler
 	while (1)
 	{
-		input = readline("> ");
-		token_list = get_token_list(input);
-		free(input);
-		ft_lstiter(token_list, print_token);
+		user_input = shell_readline();
+		if (!user_input)
+		{
+			// TODO error handler
+		}
+		token_list = get_token_list(user_input);
+		if (!token_list)
+		{
+			// TODO error handler
+		}
+		// TODO parser
+		// TODO executer
+		ft_lstclear(&token_list, free_token);
 	}
 	return (0);
 }
