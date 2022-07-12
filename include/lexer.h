@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:38 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 16:08:59 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/12 16:38:04 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ typedef struct s_token
 }	t_token;
 
 t_list	*get_token_list(const char *str);
+void	free_token(void *token);
 
 #endif

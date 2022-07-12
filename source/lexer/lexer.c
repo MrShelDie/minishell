@@ -6,145 +6,109 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 19:18:26 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/12 17:27:53 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_private.h"
-#include <stdlib.h>
 
 /**
- * @brief Creates a new token. Increases the offset index by value_length.
+ * @brief Gets a token that is outside the parentheses.
+ * 		All tokens outside the parentheses and the parentheses themselves receive
+ * 		an identifier according to their value.
+ * 		Moves the pointer to the current character
+ * 		by a value equal to the length of the read token.
  * 
- * @param str A string whose value_length characters, starting from
- * 			  the offset index, will be written to the value field in t_token.
- * @param offset The offset index. Will be increased by value_length.
- * @param id Token's ID
- * @param value_length Token length
- * @return A pointer to the created token structure.
- * 		   In case of a memory allocation error, returns NULL.
- */
-static t_list	*get_token(
-	const char *str, size_t *offset, t_token_id id, size_t value_length)
-{
-	t_list	*list_node;
-	t_token	*token;
-	char	*value;
-
-	value = (char *)malloc(sizeof(char) * (value_length + 1));
-	if (!value)
-		return (NULL);
-	ft_strlcpy(value, str, value_length + 1);
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-	{
-		free(value);
-		return (NULL);
-	}
-	token->id = id;
-	token->value = value;
-	list_node = ft_lstnew(token);
-	if (!list_node)
-	{
-		free(value);
-		free(token);
-	}
-	(*offset) += value_length;
-	return (list_node);
-}
-
-/**
- * @brief Gets the length of a WORD type token, including quotes.
- * 
- * @param str Pointer to the first token symbol.
- * @return Token length.
- */
-static size_t	get_token_length(const char *str)
-{
-	size_t	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (!ft_isspace(str[i]) && ft_strncmp(str + i, "&&", 2) != 0)
-	{
-		if (str[i] == '\'')
-		{
-			while (str[++i] != '\'')
-				;
-		}
-		else if (str[i] == '\"')
-		{
-			while (str[++i] != '\'')
-				;
-		}
-		++i;
-	}
-	return (i);
-}
-
-// static t_list	*get_next_subshell_token(const char *str, size_t *offset)
-// {
-// 	if (str[*offset] == '(')
-// 		return (get_token(str, offset, PAR_L, 1));
-// 	if (str[*offset] == ')')
-// 		return (get_token(str, offset, PAR_R, 1));
-// }
-
-static t_list	*get_subshell_token_list(const char *str, size_t *offset)
-{
-	t_list	*subshell_list;
-	t_list	*new_token;
-
-	subshell_list = NULL;
-	new_token = get_token(str, offset, ANG_BR_L, 1);
-	if (!new_token)
-		return (NULL);
-	while (((t_token *)new_token)->id != END && ((t_token *)new_token)->id != PAR_R)
-	{
-		ft_lstadd_back(&subshell_list, new_token);
-		if (str[*offset] == '(')
-			new_token = get_subshell_token_list(str, offset));
-		else if (str[*offset] == ')')
-			new_token = get_token(str, offset));
-	}
-	
-}
-
-/**
- * @brief Gets the next sublist of tokens, moves the offset index.
- * 
- * @param str User Input string.
- * @param offset Offset index.
- * @return Pointer to the first node of the sublist.
+ * @param current_char Double pointer to the current character.
+ * @return Pointer to the created token.
  *		   In case of a memory allocation error, returns NULL.
  */
-static t_list	*get_next_token_sublist(const char *str, size_t	*offset)
+static t_list	*get_token_outside_parenthesis(const char **pp_current_char)
 {
-	while (ft_isspace(str[*offset]))
-		++(*offset);	
-	if (str[*offset] == '(')
-		return (get_subshell_token_list(str, offset));
-	else if (str[*offset] == '\0')
-		return (get_token(str, offset, END, 1));
-	else if (str[*offset] == '|')
-		return (get_token(str, offset, PIPE, 1));
-	else if (str[*offset] == '=')
-		return (get_token(str, offset, EQUAL, 1));
-	else if (str[*offset] == '<')
-		return (get_token(str, offset, ANG_BR_L, 1));
-	else if (str[*offset] == '>')
-		return (get_token(str, offset, ANG_BR_R, 1));
-	else if (ft_strncmp(str + *offset, "<<", 2))
-		return (get_token(str, offset, D_ANG_BR_L, 2));
-	else if (ft_strncmp(str + *offset, ">>", 2))
-		return (get_token(str, offset, D_ANG_BR_R, 2));
-	else if (ft_strncmp(str + *offset, "&&", 2))
-		return (get_token(str, offset, AND, 2));
-	else if (ft_strncmp(str + *offset, "||", 2))
-		return (get_token(str, offset, OR, 2));
+	if (ft_strncmp(*pp_current_char, "<<", 2) == 0)
+		return (get_token(pp_current_char, D_ANG_BR_L, 2));
+	else if (ft_strncmp(*pp_current_char, ">>", 2) == 0)
+		return (get_token(pp_current_char, D_ANG_BR_R, 2));
+	else if (ft_strncmp(*pp_current_char, "&&", 2) == 0)
+		return (get_token(pp_current_char, AND, 2));
+	else if (ft_strncmp(*pp_current_char, "||", 2) == 0)
+		return (get_token(pp_current_char, OR, 2));
+	else if (**pp_current_char == '|')
+		return (get_token(pp_current_char, PIPE, 1));
+	else if (**pp_current_char == '=')
+		return (get_token(pp_current_char, EQUAL, 1));
+	else if (**pp_current_char == '(')
+		return (get_token(pp_current_char, PAR_L, 1));
+	else if (**pp_current_char == ')')
+		return (get_token(pp_current_char, PAR_R, 1));
+	else if (**pp_current_char == '<')
+		return (get_token(pp_current_char, ANG_BR_L, 1));
+	else if (**pp_current_char == '>')
+		return (get_token(pp_current_char, ANG_BR_R, 1));
 	else
-		return (get_token(str, offset, WORD, get_token_length(str)));
+		return (get_token(pp_current_char, WORD,
+				get_word_token_length(*pp_current_char)));
+}
+
+/**
+ * @brief Gets a token that is inside the parentheses. All tokens inside the
+ * 		parentheses, with the exception of the parentheses themselves,
+ * 		will be given a WORD ID.
+ * 		Moves the pointer to the current character
+ * 		by a value equal to the length of the read token.
+ * 
+ * @param pp_current_char Double pointer to the current character.
+ * @return Pointer to the created token.
+ *		   In case of a memory allocation error, returns NULL.
+ */
+static t_list	*get_token_inside_parenthesis(const char **pp_current_char)
+{
+	if (**pp_current_char == '|' || **pp_current_char == '='
+		|| **pp_current_char == '(' || **pp_current_char == ')'
+		|| **pp_current_char == '<' || **pp_current_char == '>'
+	)
+		return (get_token(pp_current_char, WORD, 1));
+	if (ft_strncmp(*pp_current_char, "<<", 2) == 0
+		|| ft_strncmp(*pp_current_char, ">>", 2) == 0
+		|| ft_strncmp(*pp_current_char, "&&", 2) == 0
+		|| ft_strncmp(*pp_current_char, "||", 2) == 0
+	)
+		return (get_token(pp_current_char, WORD, 2));
+	return (get_token(pp_current_char, WORD,
+			get_word_token_length(*pp_current_char)));
+}
+
+/**
+ * @brief Gets the next token, moves the pointer to the current character
+ * 		by a value equal to the length of the read token.
+ * 
+ * @param pp_current_char Double pointer to the current character
+ * @return Pointer to the created token.
+ *		   In case of a memory allocation error, returns NULL.
+ */
+static t_list	*get_next_token(const char **pp_current_char)
+{
+	static size_t	open_parenthesis_counter;
+	t_list			*result;
+	char			current_char;
+
+	while (ft_isspace(**pp_current_char))
+		++(*pp_current_char);
+	if (**pp_current_char == '\0')
+	{
+		open_parenthesis_counter = 0;
+		return (get_token(pp_current_char, END, 1));
+	}
+	current_char = **pp_current_char;
+	if (current_char == ')' && open_parenthesis_counter > 0)
+		--open_parenthesis_counter;
+	if (open_parenthesis_counter > 0)
+		result = get_token_inside_parenthesis(pp_current_char);
+	else
+		result = get_token_outside_parenthesis(pp_current_char);
+	if (current_char == '(')
+		++open_parenthesis_counter;
+	return (result);
 }
 
 /**
@@ -157,29 +121,23 @@ static t_list	*get_next_token_sublist(const char *str, size_t	*offset)
  */
 t_list	*get_token_list(const char *str)
 {
-	t_list	*token_list;
-	t_list	*new_token_sublist;
-	size_t	offset;
+	t_list		*token_list;
+	t_list		*new_token;
+	const char	*p_current_char;
 
 	if (!str)
 		return (NULL);
-	offset = 0;
+	p_current_char = str;
 	token_list = NULL;
-	new_token_sublist = get_next_token_sublist(str, &offset);
-	if (!new_token_sublist)
+	while (!token_list || ((t_token *)(new_token->content))->id != END)
 	{
-		ft_lstclear(&token_list, free_token);
-		return (NULL);
-	}
-	while (((t_token *)(new_token_sublist->content))->id != END)
-	{
-		ft_lstadd_back(&token_list, new_token_sublist);
-		new_token_sublist = get_next_token_sublist(str, &offset);
-		if (!new_token_sublist)
+		new_token = get_next_token(&p_current_char);
+		if (!new_token)
 		{
 			ft_lstclear(&token_list, free_token);
 			return (NULL);
 		}
+		ft_lstadd_back(&token_list, new_token);
 	}
 	return (token_list);
 }
