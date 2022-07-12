@@ -4,7 +4,10 @@ SRC = 								\
 	source/map/map.c				\
 	source/map/map_private.c		\
 	source/vector/vector.c			\
-	source/vector/vector_private.c
+	source/vector/vector_private.c	\
+	source/lexer/lexer.c			\
+	source/lexer/lexer_utils.c		\
+	source/lexer/get_token.c
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
@@ -21,7 +24,7 @@ $(LIBFT):
 	@make -C $(LIBFTDIR) all
 
 $(NAME):	$(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $@
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $@
 
 clean:
 	@make -C $(LIBFTDIR) clean
