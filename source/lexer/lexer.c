@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/12 17:27:53 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/13 16:15:38 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static t_list	*get_token_outside_parenthesis(const char **pp_current_char)
 		return (get_token(pp_current_char, OR, 2));
 	else if (**pp_current_char == '|')
 		return (get_token(pp_current_char, PIPE, 1));
-	else if (**pp_current_char == '=')
-		return (get_token(pp_current_char, EQUAL, 1));
 	else if (**pp_current_char == '(')
 		return (get_token(pp_current_char, PAR_L, 1));
 	else if (**pp_current_char == ')')
@@ -63,9 +61,9 @@ static t_list	*get_token_outside_parenthesis(const char **pp_current_char)
  */
 static t_list	*get_token_inside_parenthesis(const char **pp_current_char)
 {
-	if (**pp_current_char == '|' || **pp_current_char == '='
-		|| **pp_current_char == '(' || **pp_current_char == ')'
-		|| **pp_current_char == '<' || **pp_current_char == '>'
+	if (**pp_current_char == '|' || **pp_current_char == '('
+		|| **pp_current_char == ')' || **pp_current_char == '<'
+		|| **pp_current_char == '>'
 	)
 		return (get_token(pp_current_char, WORD, 1));
 	if (ft_strncmp(*pp_current_char, "<<", 2) == 0
