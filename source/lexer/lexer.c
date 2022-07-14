@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/14 19:24:54 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/14 23:46:41 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ static size_t	get_word_token_length(const char *str)
  * @return A pointer to the created token structure.
  * 		   In case of a memory allocation error, returns NULL.
  */
-static t_list	*get_token(
+static t_token_list	*get_token(
 	const char **pp_current_char, t_token_id id, size_t value_length)
 {
-	t_list	*list_node;
-	t_token	*token;
-	char	*value;
+	t_token_list	*list_node;
+	t_token			*token;
+	char			*value;
 
 	value = (char *)malloc(sizeof(char) * (value_length + 1));
 	if (!value)
@@ -112,7 +112,7 @@ static t_list	*get_token(
  * @return Pointer to the created token.
  *		   In case of a memory allocation error, returns NULL.
  */
-static t_list	*get_next_token(const char **pp_current_char)
+static t_token_list	*get_next_token(const char **pp_current_char)
 {
 	while (ft_isspace(**pp_current_char))
 		++(*pp_current_char);
@@ -125,7 +125,7 @@ static t_list	*get_next_token(const char **pp_current_char)
 	else if (ft_strncmp(*pp_current_char, "||", 2) == 0)
 		return (get_token(pp_current_char, OR, 2));
 	else if (**pp_current_char == '\0')
-		return (get_token(pp_current_char, END, 1));
+		return (get_token(pp_current_char, NEW_LINE, 1));
 	else if (**pp_current_char == '|')
 		return (get_token(pp_current_char, PIPE, 1));
 	else if (**pp_current_char == '(')
@@ -149,17 +149,17 @@ static t_list	*get_next_token(const char **pp_current_char)
  * 		   In case of a memory allocation error or passing
  * 		   a null pointer to an argument, returns NULL.
  */
-t_list	*get_token_list(const char *str)
+t_token_list	*get_token_list(const char *str)
 {
-	t_list		*token_list;
-	t_list		*new_token;
-	const char	*p_current_char;
+	t_token_list	*token_list;
+	t_token_list	*new_token;
+	const char		*p_current_char;
 
 	if (!str)
 		return (NULL);
 	p_current_char = str;
 	token_list = NULL;
-	while (!token_list || ((t_token *)(new_token->content))->id != END)
+	while (!token_list || ((t_token *)(new_token->content))->id != NEW_LINE)
 	{
 		new_token = get_next_token(&p_current_char);
 		if (!new_token)

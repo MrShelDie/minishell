@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:38 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/13 16:14:29 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/14 23:45:07 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include "libft.h"
 
+typedef t_list	t_token_list;
+
 typedef enum e_token_id
 {
-	END,
+	NEW_LINE,
 	PIPE,
 	PAR_L,
 	PAR_R,
@@ -40,7 +42,7 @@ typedef struct s_token
 	char		*value;
 }	t_token;
 
-t_list	*get_token_list(const char *str);
-void	free_token(void *token);
+t_token_list	*get_token_list(const char *str);
+void			free_token(void *token);
 
 #endif
