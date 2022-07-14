@@ -6,11 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 14:27:03 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/12 17:20:30 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/14 19:10:16 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_private.h"
+#include "lexer.h"
 #include <stdlib.h>
 
 /**
@@ -22,13 +22,4 @@ void	free_token(void *token)
 {
 	free(((t_token *)token)->value);
 	free(token);
-}
-
-int	is_special(char c)
-{
-	if (c == '\0' || c == '|' || c == '=' || c == '(' || c == ')'
-		|| c == '<' || c == '>'
-	)
-		return (1);
-	return (0);
 }

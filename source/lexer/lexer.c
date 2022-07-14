@@ -6,76 +6,102 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/12 17:27:53 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/14 19:24:54 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_private.h"
+#include "lexer.h"
+#include <stdlib.h>
 
 /**
- * @brief Gets a token that is outside the parentheses.
- * 		All tokens outside the parentheses and the parentheses themselves receive
- * 		an identifier according to their value.
- * 		Moves the pointer to the current character
- * 		by a value equal to the length of the read token.
+ * @brief Checks if the next few characters are metacharacters.
  * 
- * @param current_char Double pointer to the current character.
- * @return Pointer to the created token.
- *		   In case of a memory allocation error, returns NULL.
+ * @param Pointer to the first character.
+ * @return 0 if the characters are not metacharacters or if a NULL pointer
+ * 		is passed to the function. Otherwise returns 1.
  */
-static t_list	*get_token_outside_parenthesis(const char **pp_current_char)
+static int	is_metacharacter(const char *c)
 {
-	if (ft_strncmp(*pp_current_char, "<<", 2) == 0)
-		return (get_token(pp_current_char, D_ANG_BR_L, 2));
-	else if (ft_strncmp(*pp_current_char, ">>", 2) == 0)
-		return (get_token(pp_current_char, D_ANG_BR_R, 2));
-	else if (ft_strncmp(*pp_current_char, "&&", 2) == 0)
-		return (get_token(pp_current_char, AND, 2));
-	else if (ft_strncmp(*pp_current_char, "||", 2) == 0)
-		return (get_token(pp_current_char, OR, 2));
-	else if (**pp_current_char == '|')
-		return (get_token(pp_current_char, PIPE, 1));
-	else if (**pp_current_char == '=')
-		return (get_token(pp_current_char, EQUAL, 1));
-	else if (**pp_current_char == '(')
-		return (get_token(pp_current_char, PAR_L, 1));
-	else if (**pp_current_char == ')')
-		return (get_token(pp_current_char, PAR_R, 1));
-	else if (**pp_current_char == '<')
-		return (get_token(pp_current_char, ANG_BR_L, 1));
-	else if (**pp_current_char == '>')
-		return (get_token(pp_current_char, ANG_BR_R, 1));
-	else
-		return (get_token(pp_current_char, WORD,
-				get_word_token_length(*pp_current_char)));
+	if (!c)
+		return (0);
+	if (*c == '\0' || *c == '|' || *c == '('
+		|| *c == ')' || *c == '<' || *c == '>'
+		|| ft_strncmp(c, "&&", 2) == 0
+	)
+		return (1);
+	return (0);
 }
 
 /**
- * @brief Gets a token that is inside the parentheses. All tokens inside the
- * 		parentheses, with the exception of the parentheses themselves,
- * 		will be given a WORD ID.
+ * @brief Gets the length of a WORD type token, including text in quotes.
+ * 
+ * @param str Pointer to the first token symbol.
+ * @return Token length.
+ */
+static size_t	get_word_token_length(const char *str)
+{
+	size_t	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (!ft_isspace(str[i]) && !is_metacharacter(str + i))
+	{
+		if (str[i] == '\'')
+		{
+			++i;
+			while (str[i] != '\'' && str[i] != '\0')
+				++i;
+		}
+		else if (str[i] == '\"')
+		{
+			++i;
+			while (str[i] != '\"' && str[i] != '\0')
+				++i;
+		}
+		++i;
+	}
+	return (i);
+}
+
+/**
+ * @brief Creates a new token.
  * 		Moves the pointer to the current character
  * 		by a value equal to the length of the read token.
  * 
- * @param pp_current_char Double pointer to the current character.
- * @return Pointer to the created token.
- *		   In case of a memory allocation error, returns NULL.
+ * @param str Double pointer to the current character.
+ * @param id ID to be assigned to the token.
+ * @param value_length Token length.
+ * @return A pointer to the created token structure.
+ * 		   In case of a memory allocation error, returns NULL.
  */
-static t_list	*get_token_inside_parenthesis(const char **pp_current_char)
+static t_list	*get_token(
+	const char **pp_current_char, t_token_id id, size_t value_length)
 {
-	if (**pp_current_char == '|' || **pp_current_char == '='
-		|| **pp_current_char == '(' || **pp_current_char == ')'
-		|| **pp_current_char == '<' || **pp_current_char == '>'
-	)
-		return (get_token(pp_current_char, WORD, 1));
-	if (ft_strncmp(*pp_current_char, "<<", 2) == 0
-		|| ft_strncmp(*pp_current_char, ">>", 2) == 0
-		|| ft_strncmp(*pp_current_char, "&&", 2) == 0
-		|| ft_strncmp(*pp_current_char, "||", 2) == 0
-	)
-		return (get_token(pp_current_char, WORD, 2));
-	return (get_token(pp_current_char, WORD,
-			get_word_token_length(*pp_current_char)));
+	t_list	*list_node;
+	t_token	*token;
+	char	*value;
+
+	value = (char *)malloc(sizeof(char) * (value_length + 1));
+	if (!value)
+		return (NULL);
+	ft_strlcpy(value, *pp_current_char, value_length + 1);
+	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+	{
+		free(value);
+		return (NULL);
+	}
+	token->id = id;
+	token->value = value;
+	list_node = ft_lstnew(token);
+	if (!list_node)
+	{
+		free(value);
+		free(token);
+	}
+	*pp_current_char += value_length;
+	return (list_node);
 }
 
 /**
@@ -88,27 +114,31 @@ static t_list	*get_token_inside_parenthesis(const char **pp_current_char)
  */
 static t_list	*get_next_token(const char **pp_current_char)
 {
-	static size_t	open_parenthesis_counter;
-	t_list			*result;
-	char			current_char;
-
 	while (ft_isspace(**pp_current_char))
 		++(*pp_current_char);
-	if (**pp_current_char == '\0')
-	{
-		open_parenthesis_counter = 0;
+	if (ft_strncmp(*pp_current_char, "<<", 2) == 0)
+		return (get_token(pp_current_char, D_ANG_BR_L, 2));
+	else if (ft_strncmp(*pp_current_char, ">>", 2) == 0)
+		return (get_token(pp_current_char, D_ANG_BR_R, 2));
+	else if (ft_strncmp(*pp_current_char, "&&", 2) == 0)
+		return (get_token(pp_current_char, AND, 2));
+	else if (ft_strncmp(*pp_current_char, "||", 2) == 0)
+		return (get_token(pp_current_char, OR, 2));
+	else if (**pp_current_char == '\0')
 		return (get_token(pp_current_char, END, 1));
-	}
-	current_char = **pp_current_char;
-	if (current_char == ')' && open_parenthesis_counter > 0)
-		--open_parenthesis_counter;
-	if (open_parenthesis_counter > 0)
-		result = get_token_inside_parenthesis(pp_current_char);
+	else if (**pp_current_char == '|')
+		return (get_token(pp_current_char, PIPE, 1));
+	else if (**pp_current_char == '(')
+		return (get_token(pp_current_char, PAR_L, 1));
+	else if (**pp_current_char == ')')
+		return (get_token(pp_current_char, PAR_R, 1));
+	else if (**pp_current_char == '<')
+		return (get_token(pp_current_char, ANG_BR_L, 1));
+	else if (**pp_current_char == '>')
+		return (get_token(pp_current_char, ANG_BR_R, 1));
 	else
-		result = get_token_outside_parenthesis(pp_current_char);
-	if (current_char == '(')
-		++open_parenthesis_counter;
-	return (result);
+		return (get_token(pp_current_char, WORD,
+				get_word_token_length(*pp_current_char)));
 }
 
 /**

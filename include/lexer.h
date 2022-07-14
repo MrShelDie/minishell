@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:38 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/12 16:38:04 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/13 16:14:29 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef enum e_token_id
 {
 	END,
 	PIPE,
-	EQUAL,
 	PAR_L,
 	PAR_R,
 	ANG_BR_L,
