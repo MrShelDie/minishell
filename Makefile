@@ -6,8 +6,7 @@ SRC = 								\
 	source/vector/vector.c			\
 	source/vector/vector_private.c	\
 	source/lexer/lexer.c			\
-	source/lexer/lexer_utils.c		\
-	source/lexer/get_token.c
+	source/lexer/lexer_utils.c
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
