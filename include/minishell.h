@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/15 00:00:35 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/15 19:02:53 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "map.h"
 # include "vector.h"
+# include <stdbool.h>
 
 # define FAIL 0
 # define SUCCESS 1
@@ -26,6 +27,7 @@ typedef struct s_shell_data
 {
 	t_map		*env_map;
 	t_vector	*env_vector;
+	char		*program_name;
 }	t_shell_data;
 
 typedef t_list	t_redir_list;
@@ -48,9 +50,11 @@ typedef struct s_cmd
 {
 	t_vector		*argv;
 	t_redir_list	*redir_list;
+	bool			is_subshell;
 }	t_cmd;
 
-t_shell_data	*shell_init(char *const *envp);
+t_shell_data	*shell_init(t_shell_data *shell_data, char *const *argv,
+					char *const *envp);
 void			shell_destroy(t_shell_data *shell_data);
 
 #endif // !MINISHELL_H

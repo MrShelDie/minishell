@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:01:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 16:42:54 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/15 18:59:55 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ft_isprint(int c);
 int		ft_isspace(char c);
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *b, int c, size_t len);
-void	ft_bzero(void *s, unsigned long int n);
+void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dst,
 			const void *src, size_t n);
 void	*ft_memmove(void *dst,

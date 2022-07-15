@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/14 23:46:41 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/15 14:34:50 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,27 +117,27 @@ static t_token_list	*get_next_token(const char **pp_current_char)
 	while (ft_isspace(**pp_current_char))
 		++(*pp_current_char);
 	if (ft_strncmp(*pp_current_char, "<<", 2) == 0)
-		return (get_token(pp_current_char, D_ANG_BR_L, 2));
+		return (get_token(pp_current_char, TOKEN_D_ANG_BR_L, 2));
 	else if (ft_strncmp(*pp_current_char, ">>", 2) == 0)
-		return (get_token(pp_current_char, D_ANG_BR_R, 2));
+		return (get_token(pp_current_char, TOKEN_D_ANG_BR_R, 2));
 	else if (ft_strncmp(*pp_current_char, "&&", 2) == 0)
-		return (get_token(pp_current_char, AND, 2));
+		return (get_token(pp_current_char, TOKEN_AND, 2));
 	else if (ft_strncmp(*pp_current_char, "||", 2) == 0)
-		return (get_token(pp_current_char, OR, 2));
+		return (get_token(pp_current_char, TOKEN_OR, 2));
 	else if (**pp_current_char == '\0')
-		return (get_token(pp_current_char, NEW_LINE, 1));
+		return (get_token(pp_current_char, TOKEN_NEW_LINE, 1));
 	else if (**pp_current_char == '|')
-		return (get_token(pp_current_char, PIPE, 1));
+		return (get_token(pp_current_char, TOKEN_PIPE, 1));
 	else if (**pp_current_char == '(')
-		return (get_token(pp_current_char, PAR_L, 1));
+		return (get_token(pp_current_char, TOKEN_PAR_L, 1));
 	else if (**pp_current_char == ')')
-		return (get_token(pp_current_char, PAR_R, 1));
+		return (get_token(pp_current_char, TOKEN_PAR_R, 1));
 	else if (**pp_current_char == '<')
-		return (get_token(pp_current_char, ANG_BR_L, 1));
+		return (get_token(pp_current_char, TOKEN_ANG_BR_L, 1));
 	else if (**pp_current_char == '>')
-		return (get_token(pp_current_char, ANG_BR_R, 1));
+		return (get_token(pp_current_char, TOKEN_ANG_BR_R, 1));
 	else
-		return (get_token(pp_current_char, WORD,
+		return (get_token(pp_current_char, TOKEN_WORD,
 				get_word_token_length(*pp_current_char)));
 }
 
@@ -159,7 +159,7 @@ t_token_list	*get_token_list(const char *str)
 		return (NULL);
 	p_current_char = str;
 	token_list = NULL;
-	while (!token_list || ((t_token *)(new_token->content))->id != NEW_LINE)
+	while (!token_list || ((t_token *)(new_token->content))->id != TOKEN_NEW_LINE)
 	{
 		new_token = get_next_token(&p_current_char);
 		if (!new_token)

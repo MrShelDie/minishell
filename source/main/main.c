@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/14 23:45:25 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/15 18:44:07 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ static char	*shell_readline(void)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_shell_data	*shell_data;
+	t_shell_data	shell_data;
 	t_token_list	*token_list;
 	char			*user_input;
 
 	// TODO handle argc and argv
-	shell_data = shell_init(envp);
-	if (!shell_data)
+	if (!shell_init(&shell_data, argv, envp))
 	{
 		// TODO error handler
 	}

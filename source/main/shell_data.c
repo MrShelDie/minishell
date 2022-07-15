@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 14:11:11 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/09 21:37:24 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/15 18:58:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,22 @@ static int	parse_env_to_map(t_map *map, char *const *envp)
 }
 
 /**
- * @brief Creates and initializes the general data structure of the program.
+ * @brief Initializes the general data structure of the program (shell_data).
  * 
+ * @param shell_data Pointer to the shell_data structure.
+ * @param argv Pointer to an array of program arguments.
  * @param envp Pointer to an array of environment variables.
- * @return If successful, pointer to the created structure is returned.
- * 		   In case of a memory allocation error, the NULL value is returned.
+ * @return If successful, pointer to the an initialized structure shell_data
+ * 		is returned.
+ * 		   In case of a memory allocation error or if a null pointer is passed
+ * 		to the function, a null value is returned.
  */
-t_shell_data	*shell_init(char *const *envp)
+t_shell_data	*shell_init(t_shell_data *shell_data, char *const *argv,
+	char *const *envp)
 {
-	t_shell_data	*shell_data;
-
-	shell_data = (t_shell_data *)malloc(sizeof(t_shell_data));
 	if (!shell_data)
 		return (NULL);
-	ft_memset(shell_data, 0, sizeof(t_shell_data));
+	ft_bzero(shell_data, sizeof(t_shell_data));
 	shell_data->env_vector = vector_create_copy(envp);
 	shell_data->env_map = map_create();
 	if (!shell_data->env_vector
@@ -100,14 +102,14 @@ t_shell_data	*shell_init(char *const *envp)
 		shell_destroy(shell_data);
 		return (NULL);
 	}
-	shell_data->user_input = NULL;
+	shell_data->program_name = argv[0];
 	return (shell_data);
 }
 
 /**
  * @brief Frees up the memory allocated for the general data of the program.
  * 
- * @param shell_data Pointer to the general data structure.
+ * @param shell_data Pointer to the general data structure shell_data.
  */
 void	shell_destroy(t_shell_data *shell_data)
 {
@@ -117,8 +119,5 @@ void	shell_destroy(t_shell_data *shell_data)
 		map_destroy(shell_data->env_map);
 	if (shell_data->env_vector)
 		vector_destroy(shell_data->env_vector);
-	if (shell_data->user_input)
-		free(shell_data->user_input);
-	ft_memset(shell_data, 0, sizeof(t_shell_data));
-	free(shell_data);
+	ft_bzero(shell_data, sizeof(t_shell_data));
 }

@@ -6,71 +6,49 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/15 00:18:05 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/15 17:38:43 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "lexer.h"
-#include "minishell.h"
+#include "parser_private.h"
 #include <stdlib.h>
 
-static t_parsed_data	*init_parsed_data(void)
+t_parsed_data	*init_parsed_data(t_parsed_data *parsed_data)
 {
-	t_parsed_data	*parsed_data;
-
-	parsed_data = (t_parsed_data *)malloc(sizeof(t_parsed_data));
 	if (parsed_data)
 	{
-		parsed_data->pipe_list = NULL;
+		parsed_data->pipeline_list = NULL;
 		parsed_data->operator_list = NULL;
 	}
 	return (parsed_data);
 }
 
-static void	destroy_parsed_data(t_parsed_data **parsed_data)
+void	destroy_parsed_data(t_parsed_data *parsed_data)
 {
-	if (!parsed_data || !*parsed_data)
-		return ;
-	if ((*parsed_data)->pipe_list)
-		// TODO destroy
-	if ((*parsed_data)->operator_list)
-		// TODO destroy
-	*parsed_data = NULL;
-}
-
-static t_pipe_list	*get_next_pipe(t_list **token)
-{
-	t_pipe_list	*new_pipe;
-	t_cmd_list	*cmd_list;
-	t_cmd		*cmd;
-
-	// TODO
-}
-
-static t_operator_list	*get_next_operator(t_list **token)
-{
-	// TODO
-}
-
-t_parsed_data	*parse(t_list *token_list)
-{
-	t_parsed_data	*parsed_data;
-	t_pipe_list		*new_pipe;
-	t_operator_list	*new_operator;
-
-	if (!token_list)
-		return (NULL);
-	parsed_data = init_parsed_data();
 	if (!parsed_data)
+		return ;
+	if (parsed_data->pipeline_list)
+		// TODO destroy
+	if (parsed_data->operator_list)
+		// TODO destroy
+}
+
+t_parsed_data	*parse(t_parsed_data *parsed_data, t_token_list *token_list)
+{
+	t_pipeline_list	*pipeline_list_node;
+	t_operator_list	*operator_list_node;
+
+	if (!parsed_data || !token_list)
 		return (NULL);
-	while (((t_token *)(token_list->content))->id != NEW_LINE)
+	operator_list_node = NULL;
+	while (operator_list_node
+		&& *((t_operator *)(operator_list_node->content)) != OP_NEW_LINE)
 	{
-		new_pipe = get_next_pipe(&token_list);
-		new_operator = get_next_operator(&token_list);
-		ft_lstadd_back(&parsed_data->pipe_list, new_pipe);
-		ft_lstadd_back(&parsed_data->operator_list, new_operator);
-		if (!new_pipe || !new_operator)
+		pipeline_list_node = get_next_pipeline(&token_list);
+		operator_list_node = get_next_operator(&token_list);
+		ft_lstadd_back(&parsed_data->pipeline_list, pipeline_list_node);
+		ft_lstadd_back(&parsed_data->operator_list, operator_list_node);
+		if (!pipeline_list_node || !operator_list_node)
 		{
 			destroy_parsed_data(&parsed_data);
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:38 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/14 23:45:07 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/15 14:34:15 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ typedef t_list	t_token_list;
 
 typedef enum e_token_id
 {
-	NEW_LINE,
-	PIPE,
-	PAR_L,
-	PAR_R,
-	ANG_BR_L,
-	ANG_BR_R,
-	D_ANG_BR_L,
-	D_ANG_BR_R,
-	AND,
-	OR,
-	WORD
+	TOKEN_NEW_LINE,
+	TOKEN_PIPE,
+	TOKEN_PAR_L,
+	TOKEN_PAR_R,
+	TOKEN_ANG_BR_L,
+	TOKEN_ANG_BR_R,
+	TOKEN_D_ANG_BR_L,
+	TOKEN_D_ANG_BR_R,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_WORD
 }	t_token_id;
 
 /**
