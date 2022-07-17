@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/15 19:02:53 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/17 13:02:48 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ typedef t_list	t_redir_list;
 
 typedef enum e_redir_id
 {
-	IN,
-	OUT,
-	OUT_APPEND,
-	HEREDOC
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_OUT_APPEND,
+	REDIR_HEREDOC
 }	t_redir_id;
 
 typedef struct s_redir

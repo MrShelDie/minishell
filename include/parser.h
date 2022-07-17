@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/15 18:20:12 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/17 14:41:59 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ typedef struct s_parsed_data
 	t_operator_list	*operator_list;
 }	t_parsed_data;
 
-t_parsed_data	*init_parsed_data(t_parsed_data *parsed_data);
-void			destroy_parsed_data(t_parsed_data *parsed_data);
+void	init_parsed_data(t_parsed_data *parsed_data);
+void	destroy_parsed_data(t_parsed_data *parsed_data);
+
+int		*parse(t_parsed_data *parsed_data, t_token_list *token_list);
 
 #endif // !PARSER_H
