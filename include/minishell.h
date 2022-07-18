@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/17 13:02:48 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:38:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "map.h"
 # include "vector.h"
+# include "libft.h"
 # include <stdbool.h>
 
 # define FAIL 0

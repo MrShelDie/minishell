@@ -6,11 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 12:48:20 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/17 13:12:19 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/18 17:01:55 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_private.h"
+#include "../parser_private.h"
 #include "libft.h"
 #include <stdlib.h>
 
@@ -33,17 +33,29 @@ static t_redir	*create_redir(t_redir_id id, char *value)
 	return (redir);
 }
 
+void	destroy_redir(void *redir)
+{
+	free(((t_redir *)redir)->value);
+}
+
 int	fill_redir(t_cmd *cmd, t_token_list **token, t_redir_id redir_id)
 {
-	t_redir	*redir;
+	t_redir			*redir;
+	t_redir_list	*redir_list_node;
 
 	(*token) = (*token)->next;
 	if (((t_token *)((*token)->content))->id != TOKEN_WORD)
-		// TODO UNEXPECTED TOKEN ERROR
+		unexpected_token_error(((t_token *)((*token)->content))->id);
 	redir = create_redir(redir_id, ((t_token *)((*token)->content))->value);
 	if (!redir)
 		return (FAIL);
-	ft_lstadd_back(&cmd->redir_list, redir);
+	redir_list_node = ft_lstnew(redir);
+	if (!redir_list_node)
+	{
+		destroy_redir(redir);
+		return (FAIL);
+	}
+	ft_lstadd_back(&cmd->redir_list, redir_list_node);
 	(*token) = (*token)->next;
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:56 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/17 13:37:20 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/18 19:29:05 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,19 @@
 # include "lexer.h"
 # include "minishell.h"
 
-t_pipeline_list	*get_next_pipeline(t_token_list **token);
+t_pipe_group_list	*get_next_pipe_group(t_token_list **token);
 t_operator_list	*get_next_operator(t_token_list **token);
+
+t_cmd			*get_next_cmd(t_token_list **token);
 
 int				fill_redir(t_cmd *cmd, t_token_list **token, t_redir_id redir_id);
 int				fill_argv(t_cmd *cmd, t_token_list **token);
 int				fill_subshell(t_cmd *cmd, t_token_list **token);
+
+void			destroy_cmd(void *cmd);
+void			destroy_redir(void *redir);
+void			destroy_pipeline(void *pipeline);
+
+void			unexpected_token_error(t_token_id id);
 
 #endif // !PARSER_PRIVATE_H

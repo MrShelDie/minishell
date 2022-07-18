@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/17 14:41:44 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/18 19:29:35 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,34 @@ void	init_parsed_data(t_parsed_data *parsed_data)
 {
 	if (parsed_data)
 		ft_bzero(parsed_data, sizeof(t_parsed_data));
-	return (parsed_data);
 }
 
 void	destroy_parsed_data(t_parsed_data *parsed_data)
 {
 	if (!parsed_data)
 		return ;
-	if (parsed_data->pipeline_list)
-		// TODO destroy
+	if (parsed_data->pipe_group_list)
+		ft_lstclear(&parsed_data->pipe_group_list, destroy_pipeline);
 	if (parsed_data->operator_list)
-		// TODO destroy
+		ft_lstclear(&parsed_data->operator_list, free);
 }
 
-int	*parse(t_parsed_data *parsed_data, t_token_list *token_list)
+int	parse(t_parsed_data *parsed_data, t_token_list *token_list)
 {
-	t_pipeline_list	*pipeline_list_node;
-	t_operator_list	*operator_list_node;
+	t_pipe_group_list	*pipe_group;
+	t_operator_list		*operator;
 
 	if (!parsed_data || !token_list)
 		return (FAIL);
-	operator_list_node = NULL;
-	while (operator_list_node
-		&& *((t_operator *)(operator_list_node->content)) != OP_NEW_LINE)
+	operator = NULL;
+	while (!(operator
+		&& *((t_operator *)(operator->content)) == OP_NEW_LINE))
 	{
-		pipeline_list_node = get_next_pipeline(&token_list);
-		operator_list_node = get_next_operator(&token_list);
-		ft_lstadd_back(&parsed_data->pipeline_list, pipeline_list_node);
-		ft_lstadd_back(&parsed_data->operator_list, operator_list_node);
-		if (!pipeline_list_node || !operator_list_node)
+		pipe_group = get_next_pipe_group(&token_list);
+		operator = get_next_operator(&token_list);
+		ft_lstadd_back(&parsed_data->pipe_group_list, pipe_group);
+		ft_lstadd_back(&parsed_data->operator_list, operator);
+		if (!pipe_group || !operator)
 			return (FAIL);
 	}
 	return (SUCCESS);

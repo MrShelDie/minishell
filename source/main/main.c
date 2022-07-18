@@ -6,13 +6,12 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/15 18:44:07 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/18 20:09:20 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "lexer.h"
-#include "libft.h"
+#include "parser.h"
 
 #include <stdio.h>
 #include <readline/readline.h>
@@ -56,16 +55,67 @@ static char	*shell_readline(void)
 	return (user_input);
 }
 
+
+// -------------------------------------TEST-BEGIN------------------------------------
+
+#define GET_CMD(X) (*(t_cmd *)(X))
+
+// void print_redir(void *redir)
+// {
+
+// }
+
+void print_cmd(void *cmd)
+{
+	printf("\t\tCmd:\n");
+	printf("\t\t\tIs subshell: %d\n", ((t_cmd *)cmd)->is_subshell);
+	printf("\t\t\tArgv: ");
+	for (size_t i = 0; i < ((t_cmd *)cmd)->argv->length; i++)
+		printf("%s", ((t_cmd *)cmd)->argv->data[i]);
+	printf("\n");
+}
+
+void print_cmd_list(void *cmd_list)
+{
+	printf("\tCmd list:\n");
+	ft_lstiter(((t_cmd_list *)cmd_list)->content , print_cmd);
+}
+
+#define GET_OP(X) (*(t_operator *)(X)) 
+
+void print_operator(void *op)
+{
+	if (GET_OP(op) == OP_AND)
+		printf("\tAND\n");
+	else if (GET_OP(op) == OP_OR)
+		printf("\tOR\n");
+	else
+		printf("\tNEW_LINE\n");
+}
+
+void print_parsed_data(t_parsed_data parsed_data)
+{
+	printf("\nPipe group list:\n");
+	ft_lstiter(parsed_data.pipe_group_list, print_cmd_list);
+	printf("Operator list:\n");
+	ft_lstiter(parsed_data.operator_list, print_operator);
+}
+
+// -------------------------------------TEST-END------------------------------------
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_shell_data	shell_data;
+	t_parsed_data	parsed_data;
 	t_token_list	*token_list;
 	char			*user_input;
 
+	(void)argc;
 	// TODO handle argc and argv
 	if (!shell_init(&shell_data, argv, envp))
 	{
 		// TODO error handler
+		return (0);
 	}
 	// TODO signal handler
 	while (1)
@@ -74,6 +124,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (!user_input)
 		{
 			// TODO error handler
+			return (0);
 		}
 		if (user_input[0] == '\0')
 			continue ;
@@ -81,9 +132,20 @@ int	main(int argc, char *argv[], char *envp[])
 		if (!token_list)
 		{
 			// TODO error handler
+			shell_destroy(&shell_data);
+			return (0);
 		}
-		// TODO parser
+		init_parsed_data(&parsed_data);
+		if (!parse(&parsed_data, token_list))
+		{
+			ft_lstclear(&token_list, free_token);
+			shell_destroy(&shell_data);
+			return (0);
+		}
 		// TODO executer
+		print_parsed_data(parsed_data);
+
+		destroy_parsed_data(&parsed_data);
 		ft_lstclear(&token_list, free_token);
 	}
 	return (0);

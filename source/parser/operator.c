@@ -6,11 +6,12 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:29 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/15 15:49:10 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:56:28 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_private.h"
+#include <stdlib.h>
 
 static t_operator_list	*create_operator_list_node(t_operator id)
 {
@@ -49,6 +50,6 @@ t_operator_list	*get_next_operator(t_token_list **token)
 		++(*token);
 		return (create_operator_list_node(OP_NEW_LINE));
 	}
-	// TODO UNEXPECTED TOKEN ERROR
+	unexpected_token_error(token_id);
 	return (NULL);
 }
