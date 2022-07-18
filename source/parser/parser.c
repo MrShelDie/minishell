@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/18 19:29:35 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/18 23:50:29 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	destroy_parsed_data(t_parsed_data *parsed_data)
 	if (!parsed_data)
 		return ;
 	if (parsed_data->pipe_group_list)
-		ft_lstclear(&parsed_data->pipe_group_list, destroy_pipeline);
+		ft_lstclear(&parsed_data->pipe_group_list, destroy_pipe_group);
 	if (parsed_data->operator_list)
 		ft_lstclear(&parsed_data->operator_list, free);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                         :+:      :+:    :+:   */
+/*   pipe_group.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:39:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/18 19:29:05 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/18 23:52:27 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ static t_cmd_list	*get_next_cmd_list(t_token_list **token)
 
 t_pipe_group_list	*get_next_pipe_group(t_token_list **token)
 {
-	t_pipe_group_list	*pipeline_list_node;
-	t_cmd_list		*cmd_list;
-	t_token_id		token_id;
+	t_pipe_group_list	*pipe_group_list_node;
+	t_cmd_list			*cmd_list;
+	t_token_id			token_id;
 
 	if (!token || !*token)
 		return (NULL);
@@ -60,18 +60,13 @@ t_pipe_group_list	*get_next_pipe_group(t_token_list **token)
 	cmd_list = get_next_cmd_list(token);
 	if (!cmd_list)
 		return (NULL);
-	pipeline_list_node = ft_lstnew(cmd_list);
-	if (!pipeline_list_node)
+	pipe_group_list_node = ft_lstnew(cmd_list);
+	if (!pipe_group_list_node)
 		ft_lstclear(&cmd_list, destroy_cmd);
-	return (pipeline_list_node);
+	return (pipe_group_list_node);
 }
 
-void	destroy_pipeline(void *pipeline)
+void	destroy_pipe_group(void *pipe_group)
 {
-	t_pipe_group_list	*p_pipeline;
-	t_list			*p_content;
-
-	p_pipeline = (t_pipe_group_list *)pipeline;
-	p_content = p_pipeline->content;
-	ft_lstclear((t_list **)&p_content, destroy_cmd);
+	ft_lstclear((t_list **)&pipe_group, destroy_cmd);
 }
