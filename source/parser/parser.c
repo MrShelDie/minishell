@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/18 23:50:29 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 18:01:45 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ int	parse(t_parsed_data *parsed_data, t_token_list *token_list)
 		&& *((t_operator *)(operator->content)) == OP_NEW_LINE))
 	{
 		pipe_group = get_next_pipe_group(&token_list);
+		if (!pipe_group)
+			return (FAIL);
 		operator = get_next_operator(&token_list);
+		if (!operator)
+			return (FAIL);
 		ft_lstadd_back(&parsed_data->pipe_group_list, pipe_group);
 		ft_lstadd_back(&parsed_data->operator_list, operator);
-		if (!pipe_group || !operator)
-			return (FAIL);
 	}
 	return (SUCCESS);
 }

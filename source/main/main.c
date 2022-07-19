@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 14:13:42 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 17:20:22 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,19 +149,15 @@ int	main(int argc, char *argv[], char *envp[])
 			return (0);
 		}
 		init_parsed_data(&parsed_data);
-		if (!parse(&parsed_data, token_list))
-		{
-			ft_lstclear(&token_list, destroy_token);
-			shell_destroy(&shell_data);
-			return (0);
-		}
+		
+		if (parse(&parsed_data, token_list))
+			print_parsed_data(&parsed_data);
 		// TODO executer
-		print_parsed_data(&parsed_data);
 
 		destroy_parsed_data(&parsed_data);
 		ft_lstclear(&token_list, destroy_token);
 
-		// ! NEED FIX IT
+		// ! NEED FIX
 		clear_history();
 	}
 	return (0);

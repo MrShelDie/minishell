@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 13:20:42 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 15:11:41 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 18:09:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,18 @@ static t_token_list	*get_token_sublist(t_token_list *token)
 	open_par_count = 1;
 	while (open_par_count > 0)
 	{
-		token = token->next;
 		if (((t_token *)(token->content))->id == TOKEN_NEW_LINE)
 		{
 			unexpected_token_error(TOKEN_NEW_LINE);
 			return (NULL);
 		}
-		else if (((t_token *)(token->content))->id == TOKEN_PAR_L)
+		else if (((t_token *)(token->next->content))->id == TOKEN_PAR_L)
 			++open_par_count;
 		else if (((t_token *)(token->next->content))->id == TOKEN_PAR_R)
 			--open_par_count;
+		token = token->next;
 	}
-	end = token->next;
+	end = token;
 	return (copy_sublist(begin, end));
 }
 

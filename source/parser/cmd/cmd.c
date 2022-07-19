@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:40:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 13:15:48 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 19:56:18 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ t_cmd	*get_next_cmd(t_token_list **token)
 
 	if (!token && !*token)
 		return (NULL);
+	token_id = ((t_token *)((*token)->content))->id;
 	cmd = create_cmd();
 	if (!cmd)
 		return (NULL);
-	token_id = ((t_token *)((*token)->content))->id;
 	while (token_id != TOKEN_PIPE && token_id != TOKEN_AND
 		&& token_id != TOKEN_OR && token_id != TOKEN_NEW_LINE)
 	{
@@ -78,7 +78,5 @@ t_cmd	*get_next_cmd(t_token_list **token)
 			return (NULL);
 		token_id = ((t_token *)((*token)->content))->id;
 	}
-	if (token_id == TOKEN_PIPE)
-		*token = (*token)->next;
 	return (cmd);
 }
