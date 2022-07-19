@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:39:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 20:06:51 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 20:41:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_cmd_list	*get_next_cmd_list(t_token_list **token)
 		if (((t_token *)((*token)->content))->id == TOKEN_PIPE
 			&& ((t_token *)((*token)->next->content))->id == TOKEN_NEW_LINE)
 		{
-			unexpected_token_error(((t_token *)((*token)->next->content))->id);
+			write_unexpected_token_error(((t_token *)((*token)->next->content))->id);
 	 		return (NULL);
 		}
 		if (((t_token *)((*token)->content))->id == TOKEN_PIPE)
@@ -76,7 +76,7 @@ t_pipe_group_list	*get_next_pipe_group(t_token_list **token)
 	if (token_id == TOKEN_AND || token_id == TOKEN_OR
 		|| token_id == TOKEN_NEW_LINE)
 	{
-		unexpected_token_error(token_id);
+		write_unexpected_token_error(token_id);
 		return (NULL);
 	}
 	cmd_list = get_next_cmd_list(token);

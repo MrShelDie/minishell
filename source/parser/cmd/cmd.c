@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:40:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 19:56:18 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 20:41:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	fill_cmd(t_cmd *cmd, t_token_list **token)
 		return (fill_argv(cmd, token));
 	else
 	{
-		unexpected_token_error(token_id);
+		write_unexpected_token_error(token_id);
 		return (FAIL);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:56 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/18 23:50:29 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 20:41:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void			destroy_cmd(void *cmd);
 void			destroy_redir(void *redir);
 void			destroy_pipe_group(void *pipeline);
 
-void			unexpected_token_error(t_token_id id);
+void			write_unexpected_token_error(t_token_id id);
 
 #endif // !PARSER_PRIVATE_H
