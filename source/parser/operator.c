@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:29 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/18 16:56:28 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 13:16:44 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ t_operator_list	*get_next_operator(t_token_list **token)
 	token_id = ((t_token *)((*token)->content))->id;
 	if (token_id == TOKEN_OR)
 	{
-		++(*token);
+		*token = (*token)->next;
 		return (create_operator_list_node(OP_OR));
 	}
 	else if (token_id == TOKEN_AND)
 	{
-		++(*token);
+		*token = (*token)->next;
 		return (create_operator_list_node(OP_AND));
 	}
 	else if (token_id == TOKEN_NEW_LINE)
 	{
-		++(*token);
+		*token = (*token)->next;
 		return (create_operator_list_node(OP_NEW_LINE));
 	}
 	unexpected_token_error(token_id);

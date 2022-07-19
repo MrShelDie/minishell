@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:40:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/18 17:21:59 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 13:15:48 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ t_cmd	*get_next_cmd(t_token_list **token)
 		token_id = ((t_token *)((*token)->content))->id;
 	}
 	if (token_id == TOKEN_PIPE)
-		++(*token);
+		*token = (*token)->next;
 	return (cmd);
 }

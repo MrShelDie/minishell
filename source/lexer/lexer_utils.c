@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 14:27:03 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/14 19:10:16 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 14:13:42 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@
  * 
  * @param token Pointer to the token.
  */
-void	free_token(void *token)
+void	destroy_token(void *token)
 {
-	free(((t_token *)token)->value);
+	if (!token)
+		return ;
+	if (((t_token *)token)->value)
+		free(((t_token *)token)->value);
 	free(token);
 }

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/15 14:34:50 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 14:13:42 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ t_token_list	*get_token_list(const char *str)
 		new_token = get_next_token(&p_current_char);
 		if (!new_token)
 		{
-			ft_lstclear(&token_list, free_token);
+			ft_lstclear(&token_list, destroy_token);
 			return (NULL);
 		}
 		ft_lstadd_back(&token_list, new_token);

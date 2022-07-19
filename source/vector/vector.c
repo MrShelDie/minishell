@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 22:14:06 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/09 21:11:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/19 14:45:02 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	vector_destroy(t_vector *vector)
  * @param value The string whose copy will be added to the vector.
  * @return If successful, the value 1 is returned.
  * 		   In case of a memory allocation error or if a NULL pointer
- * 		   to vector or value parameter was passed to the function,
+ * 		   to vector was passed to the function,
  * 		   the value 0 is returned.
  */
 int	vector_add(t_vector *vector, const char *value)
@@ -104,10 +104,10 @@ int	vector_add(t_vector *vector, const char *value)
 	char	**new_data;
 	size_t	i;
 
-	if (!vector || !value)
+	if (!vector)
 		return (FAIL);
 	value_copy = ft_strdup(value);
-	if (!value_copy)
+	if (value && !value_copy)
 		return (FAIL);
 	new_data = malloc(sizeof(char *) * (vector->length + 2));
 	if (!new_data)
