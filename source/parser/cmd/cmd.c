@@ -6,33 +6,33 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:40:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 20:41:25 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:13:03 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser_private.h"
 #include <stdlib.h>
 
-static int	fill_cmd(t_cmd *cmd, t_token_list **token)
+static int	fill_cmd(t_cmd *cmd, t_token_list **token, size_t *recursion_level)
 {
 	t_token_id		token_id;
 
 	token_id = ((t_token *)((*token)->content))->id;
 	if (token_id == TOKEN_ANG_BR_L)
-		return (fill_redir(cmd, token, REDIR_IN));
+		return (fill_redir(cmd, token, REDIR_IN, recursion_level));
 	else if (token_id == TOKEN_D_ANG_BR_L)
-		return (fill_redir(cmd, token, REDIR_HEREDOC));
+		return (fill_redir(cmd, token, REDIR_HEREDOC, recursion_level));
 	else if (token_id == TOKEN_ANG_BR_R)
-		return (fill_redir(cmd, token, REDIR_OUT));
+		return (fill_redir(cmd, token, REDIR_OUT, recursion_level));
 	else if (token_id == TOKEN_D_ANG_BR_R)
-		return (fill_redir(cmd, token, REDIR_OUT_APPEND));
+		return (fill_redir(cmd, token, REDIR_OUT_APPEND, recursion_level));
 	else if (token_id == TOKEN_PAR_L && cmd->argv->length == 0)
-		return (fill_subshell(cmd, token));
-	else if (token_id == TOKEN_WORD)
+		return (fill_subshell(cmd, token, recursion_level));
+	else if (token_id == TOKEN_WORD && cmd->is_subshell == false)
 		return (fill_argv(cmd, token));
 	else
 	{
-		write_unexpected_token_error(token_id);
+		write_unexpected_token_error((*token)->content, *recursion_level);
 		return (FAIL);
 	}
 }
@@ -60,7 +60,7 @@ void	destroy_cmd(void *cmd)
 	ft_lstclear(&((t_cmd *)cmd)->redir_list, destroy_redir);
 }
 
-t_cmd	*get_next_cmd(t_token_list **token)
+t_cmd	*get_next_cmd(t_token_list **token, size_t *recursion_level)
 {
 	t_cmd			*cmd;
 	t_token_id		token_id;
@@ -74,7 +74,7 @@ t_cmd	*get_next_cmd(t_token_list **token)
 	while (token_id != TOKEN_PIPE && token_id != TOKEN_AND
 		&& token_id != TOKEN_OR && token_id != TOKEN_NEW_LINE)
 	{
-		if (!fill_cmd(cmd, token))
+		if (!fill_cmd(cmd, token, recursion_level))
 			return (NULL);
 		token_id = ((t_token *)((*token)->content))->id;
 	}

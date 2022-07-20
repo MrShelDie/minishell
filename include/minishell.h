@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 12:52:13 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:07:51 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_shell_data
 {
 	t_map		*env_map;
 	t_vector	*env_vector;
+
 	char		*program_name;
 }	t_shell_data;
 

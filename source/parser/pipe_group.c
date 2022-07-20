@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:39:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 20:41:25 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:11:26 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	destroy_pipe_group(void *pipe_group)
 	ft_lstclear((t_list **)&pipe_group, destroy_cmd);
 }
 
-static t_cmd_list	*get_next_cmd_list_node(t_token_list **token)
+static t_cmd_list	*get_next_cmd_list_node(
+	t_token_list **token, size_t *recursion_level)
 {
 	t_cmd		*cmd;
 	t_cmd_list	*cmd_list_node;
 
-	cmd = get_next_cmd(token);
+	cmd = get_next_cmd(token, recursion_level);
 	if (!cmd)
 		return (NULL);
 	cmd_list_node = ft_lstnew(cmd);
@@ -35,7 +36,8 @@ static t_cmd_list	*get_next_cmd_list_node(t_token_list **token)
 	return (cmd_list_node);
 }
 
-static t_cmd_list	*get_next_cmd_list(t_token_list **token)
+static t_cmd_list	*get_next_cmd_list(
+	t_token_list **token, size_t *recursion_level)
 {
 	t_cmd_list	*cmd_list;
 	t_cmd_list	*cmd_list_node;
@@ -45,7 +47,7 @@ static t_cmd_list	*get_next_cmd_list(t_token_list **token)
 		&& ((t_token *)((*token)->content))->id != TOKEN_AND
 		&& ((t_token *)((*token)->content))->id != TOKEN_OR)
 	{
-		cmd_list_node = get_next_cmd_list_node(token);
+		cmd_list_node = get_next_cmd_list_node(token, recursion_level);
 		if (!cmd_list_node)
 		{
 			ft_lstclear(&cmd_list, destroy_cmd);
@@ -55,7 +57,7 @@ static t_cmd_list	*get_next_cmd_list(t_token_list **token)
 		if (((t_token *)((*token)->content))->id == TOKEN_PIPE
 			&& ((t_token *)((*token)->next->content))->id == TOKEN_NEW_LINE)
 		{
-			write_unexpected_token_error(((t_token *)((*token)->next->content))->id);
+			write_unexpected_token_error((*token)->next->content, *recursion_level);
 	 		return (NULL);
 		}
 		if (((t_token *)((*token)->content))->id == TOKEN_PIPE)
@@ -64,7 +66,8 @@ static t_cmd_list	*get_next_cmd_list(t_token_list **token)
 	return (cmd_list);
 }
 
-t_pipe_group_list	*get_next_pipe_group(t_token_list **token)
+t_pipe_group_list	*get_next_pipe_group(
+	t_token_list **token, size_t *recursion_level)
 {
 	t_pipe_group_list	*pipe_group_list_node;
 	t_cmd_list			*cmd_list;
@@ -76,10 +79,10 @@ t_pipe_group_list	*get_next_pipe_group(t_token_list **token)
 	if (token_id == TOKEN_AND || token_id == TOKEN_OR
 		|| token_id == TOKEN_NEW_LINE)
 	{
-		write_unexpected_token_error(token_id);
+		write_unexpected_token_error((*token)->content, *recursion_level);
 		return (NULL);
 	}
-	cmd_list = get_next_cmd_list(token);
+	cmd_list = get_next_cmd_list(token, recursion_level);
 	if (!cmd_list)
 		return (NULL);
 	pipe_group_list_node = ft_lstnew(cmd_list);

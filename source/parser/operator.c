@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:29 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 20:41:25 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:11:48 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_operator_list	*create_operator_list_node(t_operator id)
 	return (operator_list_node);
 }
 
-t_operator_list	*get_next_operator(t_token_list **token)
+t_operator_list	*get_next_operator(t_token_list **token, size_t recursion_level)
 {
 	t_token_id		token_id;
 
@@ -50,6 +50,6 @@ t_operator_list	*get_next_operator(t_token_list **token)
 		*token = (*token)->next;
 		return (create_operator_list_node(OP_NEW_LINE));
 	}
-	write_unexpected_token_error(token_id);
+	write_unexpected_token_error((*token)->content, recursion_level);
 	return (NULL);
 }

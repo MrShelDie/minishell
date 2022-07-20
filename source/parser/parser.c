@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 18:01:45 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:04:13 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,18 @@ int	parse(t_parsed_data *parsed_data, t_token_list *token_list)
 {
 	t_pipe_group_list	*pipe_group;
 	t_operator_list		*operator;
+	static size_t		recursion_level = 0;
 
 	if (!parsed_data || !token_list)
 		return (FAIL);
 	operator = NULL;
 	while (!(operator
-		&& *((t_operator *)(operator->content)) == OP_NEW_LINE))
+			&& *((t_operator *)(operator->content)) == OP_NEW_LINE))
 	{
-		pipe_group = get_next_pipe_group(&token_list);
+		pipe_group = get_next_pipe_group(&token_list, &recursion_level);
 		if (!pipe_group)
 			return (FAIL);
-		operator = get_next_operator(&token_list);
+		operator = get_next_operator(&token_list, recursion_level);
 		if (!operator)
 			return (FAIL);
 		ft_lstadd_back(&parsed_data->pipe_group_list, pipe_group);
