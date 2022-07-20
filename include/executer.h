@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 19:38:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 17:38:46 by medric           ###   ########.fr       */
+/*   Created: 2022/07/20 18:38:17 by gannemar          #+#    #+#             */
+/*   Updated: 2022/07/20 18:41:03 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef EXECUTER_H
+# define EXECUTER_H
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
-{
-	if (!lst || !new)
-		return ;
-	new -> next = *lst;
-	*lst = new;
-}
+# include "minishell.h"
+# include "parser.h"
+
+void	executer(t_shell_data *shell_data, t_parsed_data *parsed_data);
+
+#endif

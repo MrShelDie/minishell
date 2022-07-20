@@ -6,12 +6,13 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 17:07:53 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 18:47:46 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "executer.h"
 
 #include <stdio.h>
 #include <readline/readline.h>
@@ -69,7 +70,6 @@ int	main(int argc, char *argv[], char *envp[])
 		// TODO error handler
 		return (0);
 	}
-	// TODO signal handler
 	while (1)
 	{
 		user_input = shell_readline();
@@ -88,10 +88,8 @@ int	main(int argc, char *argv[], char *envp[])
 			return (0);
 		}
 		init_parsed_data(&parsed_data);
-		
 		if (parse(&parsed_data, token_list))
-			// TODO executer
-
+			executer(&shell_data, &parsed_data);
 		destroy_parsed_data(&parsed_data);
 		ft_lstclear(&token_list, destroy_token);
 	}

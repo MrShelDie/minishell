@@ -15,7 +15,16 @@ SRC = 										\
 	source/parser/cmd/fill_redir.c			\
 	source/parser/cmd/fill_subshell.c		\
 	source/parser/cmd/fill_subshell_utils.c	\
-	source/parser/error.c
+	source/parser/error.c					\
+	source/builtin/cd_utils.c				\
+	source/builtin/cd.c						\
+	source/builtin/echo.c					\
+	source/builtin/ft_env.c					\
+	source/builtin/ft_export.c				\
+	source/builtin/ft_export_ut.c			\
+	source/builtin/ft_unset.c				\
+	source/builtin/pwd.c					\
+	source/executer/executer.c						
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)

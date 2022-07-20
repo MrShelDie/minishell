@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 19:38:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/11 17:38:46 by medric           ###   ########.fr       */
+/*   Created: 2022/07/18 20:59:03 by medric            #+#    #+#             */
+/*   Updated: 2022/07/20 18:14:30 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "builtins.h"
+#include "minishell.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+int	ft_unset(char **av, t_shell_data *data)
 {
-	if (!lst || !new)
-		return ;
-	new -> next = *lst;
-	*lst = new;
+	map_delete(data->env_map, av[1]);
+	if (vector_delete(data->env_vector, av[1]) == FAIL)
+		return (FAIL);
+	return (SUCCESS);
 }
