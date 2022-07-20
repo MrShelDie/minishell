@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 13:20:42 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 15:12:26 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:46:19 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,35 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static t_token_list	*add_token(t_token_list **list, t_token_id token_id)
+static t_token	*create_token(t_token_id id, char *value)
+{
+	t_token	*new_token;
+
+	new_token = (t_token *)malloc(sizeof(t_token));
+	if (!new_token)
+		return (NULL);
+	new_token->id = id;
+	new_token->value = ft_strdup(value);
+	if (!new_token->value)
+	{
+		free(new_token);
+		return (NULL);
+	}
+	return (new_token);
+}
+
+static t_token_list	*append_new_token(
+	t_token_list **list, t_token_id token_id, char *value)
 {
 	t_token_list	*new_node;
 	t_token			*new_token;
 
-	new_token = (t_token *)malloc(sizeof(t_token));
+	new_token = create_token(token_id, value);
 	if (!new_token)
 	{
 		ft_lstclear(list, destroy_token);
 		return (NULL);
 	}
-	new_token->id = token_id;
-	new_token->value = NULL;
 	new_node = ft_lstnew(new_token);
 	if (!new_node)
 	{
@@ -53,11 +69,12 @@ static t_token_list	*copy_sublist(
 	current = begin;
 	while (current != end)
 	{
-		if (!add_token(&list, ((t_token *)current->content)->id))
+		if (!append_new_token(&list, ((t_token *)current->content)->id,
+			((t_token *)current->content)->value))
 			return (NULL);
 		current = current->next;
 	}
-	return (add_token(&list, TOKEN_NEW_LINE));
+	return (append_new_token(&list, TOKEN_NEW_LINE, ""));
 }
 
 static t_token_list	*get_token_sublist(

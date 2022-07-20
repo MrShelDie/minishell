@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 12:48:20 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 15:12:33 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:49:39 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int	fill_redir(t_cmd *cmd, t_token_list **token,
 
 	(*token) = (*token)->next;
 	if (((t_token *)((*token)->content))->id != TOKEN_WORD)
+	{
 		write_unexpected_token_error((*token)->content, *recursion_level);
+		return (FAIL);
+	}
 	redir = create_redir(redir_id, ((t_token *)((*token)->content))->value);
 	if (!redir)
 		return (FAIL);
