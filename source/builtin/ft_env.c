@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/10 16:51:13 by medric            #+#    #+#             */
-/*   Updated: 2022/07/20 17:40:24 by medric           ###   ########.fr       */
+/*   Created: 2022/07/16 20:35:43 by medric            #+#    #+#             */
+/*   Updated: 2022/07/20 17:39:51 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 #include "../../include/builtins.h"
 #include "../../include/minishell.h"
 
-int	ft_pwd(void)
+int	ft_env(t_map_node *map)
 {
-	char	cmd[PATH_MAX];
-
-	getcwd(cmd, PATH_MAX);
-	if (cmd != NULL)
+	while (map)
 	{
-		ft_putstr_fd(cmd, 1);
-		return (SUCCESS);
+		ft_putstr_fd(map->key, 1);
+		if (map->key && map->value == NULL)
+			return (FAIL);
+		ft_putstr_fd("=", 1);
+		ft_putstr_fd(map->value, 1);
+		ft_putstr_fd("\n", 1);
+		map = map->next;
 	}
-	else
-		return (FAIL);
+	return (SUCCESS);
 }

@@ -6,12 +6,14 @@
 /*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 15:09:27 by medric            #+#    #+#             */
-/*   Updated: 2022/07/11 19:21:03 by medric           ###   ########.fr       */
+/*   Updated: 2022/07/20 17:39:59 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../include/libft.h"
-# include <stdio.h>
+#include "../../include/libft.h"
+#include "../../include/builtins.h"
+#include "../../include/minishell.h"
+#include <stdio.h>
 
 static int	num_args(char **argv)
 {
