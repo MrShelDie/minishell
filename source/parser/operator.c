@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:29 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 15:11:48 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:31:57 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ t_operator_list	*get_next_operator(t_token_list **token, size_t recursion_level)
 		*token = (*token)->next;
 		return (create_operator_list_node(OP_NEW_LINE));
 	}
-	write_unexpected_token_error((*token)->content, recursion_level);
+	unexpected_token_error((*token)->content, recursion_level);
 	return (NULL);
 }

@@ -6,53 +6,12 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 13:20:42 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 16:46:19 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:36:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser_private.h"
-#include "libft.h"
 #include <stdlib.h>
-
-static t_token	*create_token(t_token_id id, char *value)
-{
-	t_token	*new_token;
-
-	new_token = (t_token *)malloc(sizeof(t_token));
-	if (!new_token)
-		return (NULL);
-	new_token->id = id;
-	new_token->value = ft_strdup(value);
-	if (!new_token->value)
-	{
-		free(new_token);
-		return (NULL);
-	}
-	return (new_token);
-}
-
-static t_token_list	*append_new_token(
-	t_token_list **list, t_token_id token_id, char *value)
-{
-	t_token_list	*new_node;
-	t_token			*new_token;
-
-	new_token = create_token(token_id, value);
-	if (!new_token)
-	{
-		ft_lstclear(list, destroy_token);
-		return (NULL);
-	}
-	new_node = ft_lstnew(new_token);
-	if (!new_node)
-	{
-		destroy_token(new_token);
-		ft_lstclear(list, destroy_token);
-		return (NULL);
-	}
-	ft_lstadd_back(list, new_node);
-	return (*list);
-}
 
 static t_token_list	*copy_sublist(
 			t_token_list *begin, t_token_list *end, size_t recursion_level)
@@ -62,7 +21,7 @@ static t_token_list	*copy_sublist(
 
 	if (begin == end)
 	{
-		write_unexpected_token_error(end->content, recursion_level);
+		unexpected_token_error(end->content, recursion_level);
 		return (NULL);
 	}
 	list = NULL;
@@ -70,7 +29,7 @@ static t_token_list	*copy_sublist(
 	while (current != end)
 	{
 		if (!append_new_token(&list, ((t_token *)current->content)->id,
-			((t_token *)current->content)->value))
+				((t_token *)current->content)->value))
 			return (NULL);
 		current = current->next;
 	}
@@ -90,7 +49,7 @@ static t_token_list	*get_token_sublist(
 	{
 		if (((t_token *)(token->content))->id == TOKEN_NEW_LINE)
 		{
-			write_unexpected_token_error(token->content, recursion_level);
+			unexpected_token_error(token->content, recursion_level);
 			return (NULL);
 		}
 		else if (((t_token *)(token->next->content))->id == TOKEN_PAR_L)

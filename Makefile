@@ -1,19 +1,20 @@
-SRC = 									\
-	source/main/main.c					\
-	source/main/shell_data.c			\
-	source/map/map.c					\
-	source/map/map_private.c			\
-	source/vector/vector.c				\
-	source/vector/vector_private.c		\
-	source/lexer/lexer.c				\
-	source/lexer/lexer_utils.c			\
-	source/parser/parser.c				\
-	source/parser/pipe_group.c			\
-	source/parser/operator.c			\
-	source/parser/cmd/cmd.c				\
-	source/parser/cmd/fill_argv.c		\
-	source/parser/cmd/fill_redir.c		\
-	source/parser/cmd/fill_subshell.c	\
+SRC = 										\
+	source/main/main.c						\
+	source/main/shell_data.c				\
+	source/map/map.c						\
+	source/map/map_private.c				\
+	source/vector/vector.c					\
+	source/vector/vector_private.c			\
+	source/lexer/lexer.c					\
+	source/lexer/lexer_utils.c				\
+	source/parser/parser.c					\
+	source/parser/pipe_group.c				\
+	source/parser/operator.c				\
+	source/parser/cmd/cmd.c					\
+	source/parser/cmd/fill_argv.c			\
+	source/parser/cmd/fill_redir.c			\
+	source/parser/cmd/fill_subshell.c		\
+	source/parser/cmd/fill_subshell_utils.c	\
 	source/parser/error.c
 
 OBJ = $(SRC:.c=.o)

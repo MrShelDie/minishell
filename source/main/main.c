@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 14:30:15 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:07:53 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,67 +55,6 @@ static char	*shell_readline(void)
 	return (user_input);
 }
 
-
-// -------------------------------------TEST-BEGIN------------------------------------
-
-void print_redir(void *redir)
-{
-	const char	*id;
-
-	switch (((t_redir *)redir)->id)
-	{
-	case REDIR_IN: id = "<";
-		break;
-	case REDIR_OUT: id = ">";
-		break;
-	case REDIR_OUT_APPEND: id = ">>";
-		break;
-	case REDIR_HEREDOC: id = "<<";
-	}
-	printf("[%s %s] ", id, ((t_redir *)redir)->value);
-}
-
-void print_cmd(void *cmd)
-{
-	printf("\t\tCMD:\n");
-	printf("\t\t\tIs subshell:\t%s\n", ((t_cmd *)cmd)->is_subshell ? "true" : "false");
-	printf("\t\t\tArgv:\t\t");
-	for (size_t i = 0; i < ((t_cmd *)cmd)->argv->length; i++)
-		printf("[%s] ", ((t_cmd *)cmd)->argv->data[i]);
-	printf("\n");
-	printf("\t\t\tRedir:\t\t");
-	ft_lstiter(((t_cmd *)cmd)->redir_list, print_redir);
-	printf("\n");
-}
-
-void print_cmd_list(void *cmd_list)
-{
-	printf("\tCMD LIST:\n");
-	ft_lstiter(cmd_list , print_cmd);
-}
-
-void print_operator(void *op)
-{
-	if (*(t_operator *)op == OP_AND)
-		printf("\tAND\n");
-	else if (*(t_operator *)op == OP_OR)
-		printf("\tOR\n");
-	else
-		printf("\tNEW_LINE\n");
-}
-
-void print_parsed_data(t_parsed_data *parsed_data)
-{
-	printf("-----------------------------------------------------------------\n");
-	printf("PIPE GROUP LIST:\n");
-	ft_lstiter(parsed_data->pipe_group_list, print_cmd_list);
-	printf("OPERATOR LIST:\n");
-	ft_lstiter(parsed_data->operator_list, print_operator);
-	printf("-----------------------------------------------------------------\n");
-}
-
-// -------------------------------------TEST-END------------------------------------
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_shell_data	shell_data;
@@ -151,14 +90,11 @@ int	main(int argc, char *argv[], char *envp[])
 		init_parsed_data(&parsed_data);
 		
 		if (parse(&parsed_data, token_list))
-			print_parsed_data(&parsed_data);
-		// TODO executer
+			// TODO executer
 
 		destroy_parsed_data(&parsed_data);
 		ft_lstclear(&token_list, destroy_token);
-
-		// ! NEED FIX
-		clear_history();
 	}
+	clear_history();
 	return (0);
 }

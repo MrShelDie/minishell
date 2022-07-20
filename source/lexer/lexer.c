@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 14:13:42 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:30:09 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,8 @@ t_token_list	*get_token_list(const char *str)
 		return (NULL);
 	p_current_char = str;
 	token_list = NULL;
-	while (!token_list || ((t_token *)(new_token->content))->id != TOKEN_NEW_LINE)
+	while (!token_list
+		|| ((t_token *)(new_token->content))->id != TOKEN_NEW_LINE)
 	{
 		new_token = get_next_token(&p_current_char);
 		if (!new_token)

@@ -6,14 +6,14 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 01:19:49 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 15:13:20 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:31:57 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_private.h"
 #include <stdio.h>
 
-void	write_unexpected_token_error(t_token *token, size_t recursion_level)
+void	unexpected_token_error(t_token *token, size_t recursion_level)
 {
 	// TODO add program name
 	printf("syntax error near unexpected token ");
