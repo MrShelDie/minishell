@@ -15,6 +15,9 @@
 #include "minishell.h"
 #include "parser.h"
 #include <stdio.h>
+#include <fcntl.h>
+#include <readline/readline.h>
+#include <stdlib.h>
 
 int	builtins(t_shell_data *shell_data, t_vector *cmd)
 {
@@ -59,18 +62,93 @@ int	builtins(t_shell_data *shell_data, t_vector *cmd)
 	return (SUCCESS);
 }
 
-// int	execute_pipe_group(t_shell_data *shell_data, t_cmd *cmd)
+// int	execute_pipe_group(t_shell_data *shell_data, t_cmd_list *cmd_list)
 // {
-// 	if (!builtins(shell_data, cmd))
+// 	if (!create_heredoc(shell_data, ((t_cmd *)(cmd_list->content))->argv))
 // 		return (FAIL);
-// 	exit(1);
+// 	if (!builtins(shell_data, ((t_cmd *)(cmd_list->content))->argv))
+// 		return (FAIL);
 // 	return (SUCCESS);
 // }
 
-int	execute_pipe_group(t_shell_data *shell_data, t_cmd_list *cmd_list)
+void	delete_buff_here(char **av)
 {
-	if (!builtins(shell_data, ((t_cmd *)(cmd_list->content))->argv))
+	int	i;
+
+	i = 0;
+	while (av[i])
+	{
+		free(av[i]);
+		i++;
+	}
+	av = NULL;
+}
+
+int	create_heredoc(t_map *env, const char *stop_word)
+{
+	char	*input_here;
+	char	**buff;
+	char	**path;
+	int		fd;
+	int		flg;
+	int		i;
+
+	flg = true;
+	buff = NULL;
+	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
+	if (fd == -1)
+			return (-1);
+	while (flg == true)
+	{
+		input_here = readline("> ");
+		buff = ft_split(input_here, ' ');
+		while (*buff)
+		{
+			i = 0;
+			if (ft_strcmp(*buff, stop_word) == 0)
+			{
+				flg = false;
+				break ;
+			}
+			while ((*buff)[i])
+			{
+				if ((*buff)[i] == '$')
+				{
+					path = ft_split(*buff, '$');
+					if (i != 0 && path[1] != NULL)
+					{
+						write(fd, map_get(env, path[1]), ft_strlen(map_get(env, path[1])));
+						delete_buff_here(path);
+					}
+					else if (path[0] != NULL && i == 0)
+					{
+						write(fd, map_get(env, path[0]), ft_strlen(map_get(env, path[0])));
+						delete_buff_here(path);
+					}
+					break ;
+				}
+				else
+					write(fd, &(*buff)[i], 1);
+				i++;
+			}
+			buff++;
+			if ((*buff) == NULL)
+				write(fd, "\n", 1);
+		}
+		delete_buff_here(buff);
+	}
+	close(fd);
+	return (fd);
+}
+
+int test_heredoc(t_shell_data *shell_data, t_cmd *cmd)
+{
+	int	heredoc_fd;
+
+	heredoc_fd = create_heredoc(shell_data->env_map, ((t_redir *)cmd->redir_list->content)->value);
+	if (heredoc_fd < 0)
 		return (FAIL);
+	// heredoc_fd = open(".heredoc_tmp", O_RDONLY);
 	return (SUCCESS);
 }
 
@@ -85,8 +163,11 @@ void	executer(t_shell_data *shell_data, t_parsed_data *parsed_data)
 	while (true)
 	{
 		// TODO PIPE GROUP PREPARE
-		exit_status = execute_pipe_group(
-				shell_data, (t_cmd_list *)pipe_group->content);
+
+		//// exit_status = execute_pipe_group(
+		//// 		shell_data, (t_cmd_list *)pipe_group->content);
+		test_heredoc(shell_data, ((t_cmd_list *)pipe_group->content)->content);
+		exit_status = 1;
 		pipe_group = pipe_group->next;
 		if ((*(t_operator *)operator->content == OP_AND && exit_status != 0)
 			|| (*(t_operator *)operator->content == OP_OR && exit_status == 0))
