@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/18 19:29:36 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/21 14:11:18 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft.h"
 # include "lexer.h"
+
+# define SYNTAX_ERR_MSG "syntax error near unexpected token "
 
 typedef t_list	t_pipe_group_list;
 typedef t_list	t_operator_list;

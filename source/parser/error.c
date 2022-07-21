@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 01:19:49 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 17:31:57 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/21 14:09:41 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	unexpected_token_error(t_token *token, size_t recursion_level)
 {
 	// TODO add program name
-	printf("syntax error near unexpected token ");
+	printf(SYNTAX_ERR_MSG);
 	if (token->id == TOKEN_PIPE)
 		printf("'|'\n");
 	else if (token->id == TOKEN_ANG_BR_L)

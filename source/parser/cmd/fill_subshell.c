@@ -6,12 +6,13 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 13:20:42 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 17:36:25 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/21 13:55:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser_private.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 static t_token_list	*copy_sublist(
 			t_token_list *begin, t_token_list *end, size_t recursion_level)

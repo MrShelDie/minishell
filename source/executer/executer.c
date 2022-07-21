@@ -6,17 +6,15 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/20 18:55:52 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/21 12:55:18 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parser.h"
 #include "builtins.h"
 #include "minishell.h"
-#include "parser.h"
-#include <stdio.h>
 
-int	builtins(t_shell_data *shell_data, t_vector *cmd)
+static int	builtins(t_shell_data *shell_data, t_vector *cmd)
 {
 	int	i;
 
@@ -59,21 +57,19 @@ int	builtins(t_shell_data *shell_data, t_vector *cmd)
 	return (SUCCESS);
 }
 
-// int	execute_pipe_group(t_shell_data *shell_data, t_cmd *cmd)
-// {
-// 	if (!builtins(shell_data, cmd))
-// 		return (FAIL);
-// 	exit(1);
-// 	return (SUCCESS);
-// }
-
-int	execute_pipe_group(t_shell_data *shell_data, t_cmd_list *cmd_list)
+static int	execute_pipe_group(t_shell_data *shell_data, t_cmd_list *cmd_list)
 {
 	if (!builtins(shell_data, ((t_cmd *)(cmd_list->content))->argv))
 		return (FAIL);
 	return (SUCCESS);
 }
 
+/**
+ * @brief Executes the parsed string entered by the user.
+ * 
+ * @param shell_data General shell data.
+ * @param parsed_data  Parsed string entered by the user.
+ */
 void	executer(t_shell_data *shell_data, t_parsed_data *parsed_data)
 {
 	t_pipe_group_list	*pipe_group;
