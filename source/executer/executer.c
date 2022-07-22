@@ -84,14 +84,80 @@ void	delete_buff_here(char **av)
 	av = NULL;
 }
 
+void	exec_case_here(t_map *env, char *buff, int *i, int fd, char **path)
+{
+	char	**new_path;
+	int		j;
+
+	new_path = NULL;
+	j = (*i);
+	while (buff[j])
+	{
+		if (buff[j] == '"' || buff[j] == ')')
+			new_path = ft_split(path[1], buff[j]);
+		j++;
+	}
+	if (new_path == NULL)
+	{
+		(*i) += ft_strlen(path[1]);
+		if (map_get(env, path[1]) != NULL)
+		{
+			write(fd, map_get(env, path[1]), ft_strlen(map_get(env, path[1])));
+			delete_buff_here(path);
+		}
+	}
+	else
+	{
+		(*i) += ft_strlen(new_path[0]);
+		if (map_get(env, new_path[0]) != NULL)
+		{
+			write(fd, map_get(env, new_path[0]), ft_strlen(map_get(env, new_path[0])));
+			delete_buff_here(new_path);
+			delete_buff_here(path);
+		}
+	}
+}
+
+
+void	exec_write_here(t_map *env, const char *stop_word, char *buff, int *flg, int fd)
+{
+	int		i;
+	char	**path;
+	char	**new_path;
+
+	i = 0;
+	path = NULL;
+	new_path = NULL;
+	if (ft_strcmp(buff, stop_word) == 0)
+		(*flg) = false;
+	while (buff[i])
+	{
+		if ((*flg) == false)
+			break ;
+		if (buff[i] == '$')
+		{
+			path = ft_split(buff, '$');
+			if (i != 0 && path[1] != NULL)
+				exec_case_here(env, buff, &i, fd, path);
+			else if (path[0] != NULL && i == 0)
+			{
+				i += ft_strlen(path[0]);
+				write(fd, map_get(env, path[0]), ft_strlen(map_get(env, path[0])));
+				delete_buff_here(path);
+			}
+		}
+		else
+			write(fd, &buff[i], 1);
+		i++;
+	}
+}
+
 int	create_heredoc(t_map *env, const char *stop_word)
 {
 	char	*input_here;
 	char	**buff;
-	char	**path;
 	int		fd;
 	int		flg;
-	int		i;
 
 	flg = true;
 	buff = NULL;
@@ -104,33 +170,7 @@ int	create_heredoc(t_map *env, const char *stop_word)
 		buff = ft_split(input_here, ' ');
 		while (*buff)
 		{
-			i = 0;
-			if (ft_strcmp(*buff, stop_word) == 0)
-			{
-				flg = false;
-				break ;
-			}
-			while ((*buff)[i])
-			{
-				if ((*buff)[i] == '$')
-				{
-					path = ft_split(*buff, '$');
-					if (i != 0 && path[1] != NULL)
-					{
-						write(fd, map_get(env, path[1]), ft_strlen(map_get(env, path[1])));
-						delete_buff_here(path);
-					}
-					else if (path[0] != NULL && i == 0)
-					{
-						write(fd, map_get(env, path[0]), ft_strlen(map_get(env, path[0])));
-						delete_buff_here(path);
-					}
-					break ;
-				}
-				else
-					write(fd, &(*buff)[i], 1);
-				i++;
-			}
+			exec_write_here(env, stop_word, (*buff), &flg, fd);
 			buff++;
 			if ((*buff) == NULL)
 				write(fd, "\n", 1);
@@ -148,7 +188,6 @@ int test_heredoc(t_shell_data *shell_data, t_cmd *cmd)
 	heredoc_fd = create_heredoc(shell_data->env_map, ((t_redir *)cmd->redir_list->content)->value);
 	if (heredoc_fd < 0)
 		return (FAIL);
-	// heredoc_fd = open(".heredoc_tmp", O_RDONLY);
 	return (SUCCESS);
 }
 
