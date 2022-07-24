@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:40:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 17:31:57 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/24 13:41:30 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ static t_cmd	*create_cmd(void)
 		return (NULL);
 	ft_bzero(cmd, sizeof(t_cmd));
 	cmd->argv = vector_create();
-	if (!cmd->argv)
-	{
-		free(cmd);
-		return (NULL);
-	}
 	return (cmd);
 }
 
