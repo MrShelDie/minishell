@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 15:07:51 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/24 13:10:53 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_shell_data
 }	t_shell_data;
 
 typedef t_list	t_redir_list;
+typedef t_list	t_arg_list;
 
 typedef enum e_redir_id
 {
@@ -51,6 +52,7 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	t_vector		*argv;
+	t_arg_list		*arg_list;
 	t_redir_list	*redir_list;
 	bool			is_subshell;
 }	t_cmd;

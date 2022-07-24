@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 14:30:15 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/24 13:37:58 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,17 @@ void print_redir(void *redir)
 	printf("[%s %s] ", id, ((t_redir *)redir)->value);
 }
 
+void print_arg_list(void *value)
+{
+	printf("[%s] ", (char *)value);
+}
+
 void print_cmd(void *cmd)
 {
 	printf("\t\tCMD:\n");
 	printf("\t\t\tIs subshell:\t%s\n", ((t_cmd *)cmd)->is_subshell ? "true" : "false");
 	printf("\t\t\tArgv:\t\t");
-	for (size_t i = 0; i < ((t_cmd *)cmd)->argv->length; i++)
-		printf("[%s] ", ((t_cmd *)cmd)->argv->data[i]);
+	ft_lstiter(((t_cmd *)cmd)->arg_list, print_arg_list);
 	printf("\n");
 	printf("\t\t\tRedir:\t\t");
 	ft_lstiter(((t_cmd *)cmd)->redir_list, print_redir);
