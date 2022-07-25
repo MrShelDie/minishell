@@ -26,6 +26,8 @@ int	infile(t_pipe *pipex, t_redir *redir)
         pipex->in = open(redir->value, O_RDONLY);
         if (pipex->in < 0)
             return (1);
+        // TODO ERROR HANDLER
+        dup2(pipex->in, STDIN_FILENO);
         return (0);
     }
     return (1);
@@ -38,6 +40,8 @@ int	outfile(t_pipe *pipex, t_redir *redir)
 		pipex->out = open(redir->value, O_TRUNC | O_CREAT | O_RDWR, 0666);
 	    if (pipex->out < 0)
 		    return (1);
+        // TODO ERROR HANDLER
+        dup2(pipex->out, STDOUT_FILENO);
         return (0);
     }
     return (1);
@@ -45,7 +49,7 @@ int	outfile(t_pipe *pipex, t_redir *redir)
 
 int	create_pipes(t_pipe *pipex)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	pipex->tube = (int **)malloc(sizeof(int *) * (pipex->len));
@@ -74,7 +78,8 @@ int    start_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list)
     pipex->pid = malloc(sizeof(pid_t) * (pipex->len + 1));
     if (!pipex->pid)
         return (1);
-    pipex->path = map_get(data->env_map, "PATH");
+    pipex->path = (char *)map_get(data->env_map, "PATH");
+    ///NOT DELETE!!!!!!!!!!!!!!!!!!!! path
     if (!pipex->path)
         return (1);
     pipex->cmd_path = ft_split(pipex->path, ':');
@@ -85,22 +90,22 @@ int    start_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list)
     return (0);
 }
 
-int dup_pipe(t_pipe *pipex, int i)
+int dup_pipe(t_pipe *pipex, size_t i)
 {
     if (i == 0)
     {
-        if (dup2(STDOUT_FILENO, pipex->tube[i][1]) == -1)
+        if (dup2(pipex->tube[i][1], STDOUT_FILENO) == -1)
             return (1);
     }
     else if (i == pipex->len - 1)
     {
-        if (dup2(STDIN_FILENO, pipex->tube[i][0]) == -1)
+        if (dup2(pipex->tube[i][0], STDIN_FILENO) == -1)
             return (1);
     }
     else
     {
-        if (dup2(STDIN_FILENO, pipex->tube[i - 1][0]) == -1
-            || dup2(STDOUT_FILENO, pipex->tube[i][1]) == -1)
+        if (dup2(pipex->tube[i - 1][0], STDIN_FILENO) == -1
+            || dup2(pipex->tube[i][1], STDOUT_FILENO) == -1)
             return (1);
     }
     return (0);
@@ -110,15 +115,68 @@ int dup_redir(t_pipe *pipex, t_redir_list *redir_list)
 {
     while (redir_list)
     {
-        // TODO
+        write(1, "A", 1);
+        if (((t_redir *)redir_list->content)->id == REDIR_IN)
+        {
+            if (infile(pipex, ((t_redir *)redir_list->content)) == 1)
+                return (1);
+        }
+        else if (((t_redir *)redir_list->content)->id == REDIR_OUT)
+        {
+            if (outfile(pipex, ((t_redir *)redir_list->content)) == 1)
+                 return (1);
+        }
+        // TODO HEREDOC, WRITE_APPEND
         redir_list = redir_list->next;
     }
+    //write(1, "A", 1);
     return (0);
+}
+
+void	ft_strdel(char **as)
+{
+	if (as != NULL)
+	{
+		free(*as);
+		*as = NULL;
+	}
+}
+
+char	*get_cmd(char **paths, char *cmd)
+{
+	char	*tmp;
+	char	*command;
+
+	while (*paths)
+	{
+		tmp = ft_strjoin(*paths, "/");
+		command = ft_strjoin(tmp, cmd);
+		ft_strdel(&tmp);
+		if (access(command, 0) == 0)
+			return (command);
+		//ft_strdel(&command);
+		paths++;
+	}
+	return (NULL);
+}
+
+void	close_tube(t_pipe *pipex)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < (pipex->len))
+	{
+		close(pipex->tube[i][0]);
+		close(pipex->tube[i][1]);
+		i++;
+	}
 }
 
 void    child(
     t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list, int i)
 {
+    write(1, "B", 1);
     if (pipex->len > 0 && dup_pipe(pipex, i) == 1)
     {
         // TODO ERROR HANDLE
@@ -127,28 +185,31 @@ void    child(
     {
         // TODO ERROR HANDLE
     }
+    close_tube(pipex);
+    pipex->cmd = get_cmd(pipex->cmd_path, ((t_vector *)((t_cmd *)cmd_list->content)->argv)->data[0]);
+    execve(pipex->cmd, ((t_vector *)((t_cmd *)cmd_list->content)->argv)->data, data->env_vector->data);
+		//TODO handel error
+    //     return (1);
+    // return (0);
 }
 
 int pipex_part(t_shell_data *data, t_cmd_list *cmd_list)
 {
     t_pipe  pipex;
-    int  i;
+    size_t  i;
 
     i = 0;
     if (start_pipex(&pipex, data, cmd_list) == 1)
         return (1);
     while (cmd_list && i < pipex.len)
     {
-        // if (infile(&pipex, ((t_cmd *)(cmd_list->content))->redir_list->content) == 1)
-        //     return (1);
-        // if (outfile(&pipex, ((t_cmd *)(cmd_list->content))->redir_list->content) == 1)
-        //     return (1);
         pipex.pid[i] = fork();
         if (pipex.pid[i] == -1)
             return (1);
         if (pipex.pid[i] == 0)
-            child(&pipex, data, i);
+            child(&pipex, data, cmd_list, i);
         cmd_list = cmd_list -> next;
         i++;
     }
+    return (0);
 }

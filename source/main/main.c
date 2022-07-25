@@ -146,8 +146,8 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		init_parsed_data(&parsed_data);
 		if (parse(&parsed_data, token_list))
-			print_parsed_data(&parsed_data);
-			//executer(&shell_data, &parsed_data);
+			// print_parsed_data(&parsed_data);
+			executer(&shell_data, &parsed_data);
 		destroy_parsed_data(&parsed_data);
 		ft_lstclear(&token_list, destroy_token);
 	}

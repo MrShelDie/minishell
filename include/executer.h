@@ -24,10 +24,12 @@ typedef struct s_pipe
     size_t  len;
     int     in;
     char    *path;
+    char    *cmd;
     char    **cmd_path;
 }               t_pipe;
 
 void	executer(t_shell_data *shell_data, t_parsed_data *parsed_data);
 int	    create_heredoc(t_map *env, const char *stop_word);
+int     pipex_part(t_shell_data *data, t_cmd_list *cmd_list);
 
 #endif

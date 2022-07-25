@@ -25,6 +25,7 @@ SRC = 										\
 	source/builtin/ft_unset.c				\
 	source/builtin/pwd.c					\
 	source/executer/ft_heredoc.c			\
+	source/executer/pipex_part.c			\
 	source/executer/executer.c						
 
 OBJ = $(SRC:.c=.o)

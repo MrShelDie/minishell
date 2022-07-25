@@ -82,9 +82,11 @@ int	heredoc(t_shell_data *data, t_redir *redir)
 
 int	execute_pipe_group(t_shell_data *shell_data, t_cmd_list *cmd_list)
 {
-	if (builtins(shell_data, ((t_cmd *)(cmd_list->content))->argv) == SUCCESS)
-		return (0);
-	if (heredoc(shell_data, ((t_cmd *)(cmd_list->content))->redir_list->content) == SUCCESS)
+	// if (builtins(shell_data, ((t_cmd *)(cmd_list->content))->argv) == SUCCESS)
+	// 	return (0);
+	// if (heredoc(shell_data, ((t_cmd *)(cmd_list->content))->redir_list->content) == SUCCESS)
+	// 	return (0);
+	if (pipex_part(shell_data, cmd_list) == SUCCESS)
 		return (0);
 	return (1);
 }
