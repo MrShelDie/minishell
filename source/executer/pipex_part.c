@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
+/*   pipex_part.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/20 18:55:52 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/25 20:31:52 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <stdlib.h>
+
+#include <sys/types.h>
+#include <sys/wait.h>
 
 int	infile(t_pipe *pipex, t_redir *redir)
 {
@@ -97,9 +100,10 @@ int dup_pipe(t_pipe *pipex, size_t i)
         if (dup2(pipex->tube[i][1], STDOUT_FILENO) == -1)
             return (1);
     }
-    else if (i == pipex->len - 1)
+    else if (i == pipex->len)
     {
-        if (dup2(pipex->tube[i][0], STDIN_FILENO) == -1)
+		//write(2, "b", 1);
+        if (dup2(pipex->tube[i - 1][0], STDIN_FILENO) == -1)
             return (1);
     }
     else
@@ -115,7 +119,6 @@ int dup_redir(t_pipe *pipex, t_redir_list *redir_list)
 {
     while (redir_list)
     {
-        write(1, "A", 1);
         if (((t_redir *)redir_list->content)->id == REDIR_IN)
         {
             if (infile(pipex, ((t_redir *)redir_list->content)) == 1)
@@ -129,7 +132,6 @@ int dup_redir(t_pipe *pipex, t_redir_list *redir_list)
         // TODO HEREDOC, WRITE_APPEND
         redir_list = redir_list->next;
     }
-    //write(1, "A", 1);
     return (0);
 }
 
@@ -176,15 +178,20 @@ void	close_tube(t_pipe *pipex)
 void    child(
     t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list, int i)
 {
-    write(1, "B", 1);
-    if (pipex->len > 0 && dup_pipe(pipex, i) == 1)
+	// write(2, "a", 1);
+    if (pipex->len > 0)
     {
+		// write(2, "ccc", 3);
+		dup_pipe(pipex, i);
         // TODO ERROR HANDLE
     }
     if (dup_redir(pipex, ((t_cmd *)(cmd_list->content))->redir_list) == 1)
     {
+		// TODO DELETE
+		write(2, "b", 1);
         // TODO ERROR HANDLE
     }
+	// write(2, "AAA", 3);
     close_tube(pipex);
     pipex->cmd = get_cmd(pipex->cmd_path, ((t_vector *)((t_cmd *)cmd_list->content)->argv)->data[0]);
     execve(pipex->cmd, ((t_vector *)((t_cmd *)cmd_list->content)->argv)->data, data->env_vector->data);
@@ -201,7 +208,7 @@ int pipex_part(t_shell_data *data, t_cmd_list *cmd_list)
     i = 0;
     if (start_pipex(&pipex, data, cmd_list) == 1)
         return (1);
-    while (cmd_list && i < pipex.len)
+    while (cmd_list)
     {
         pipex.pid[i] = fork();
         if (pipex.pid[i] == -1)
@@ -211,5 +218,9 @@ int pipex_part(t_shell_data *data, t_cmd_list *cmd_list)
         cmd_list = cmd_list -> next;
         i++;
     }
+	// ВРЕМЕМЕННОЕ РЕШЕНИЕ
+	// waitpid(pipex.pid[i - 2], NULL, 0);
+	close_tube(&pipex);
+	waitpid(pipex.pid[i - 1], NULL, 0);
     return (0);
 }
