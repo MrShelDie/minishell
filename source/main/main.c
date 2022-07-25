@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/24 13:40:34 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/24 14:48:27 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,31 @@ static int	is_space_string(const char *str)
 		++str;
 	}
 	return (1);
+}
+
+static bool	check_closing_quotes(const char *str)
+{
+	while (*str)
+	{
+		if (*str == '\'')
+		{
+			++str;
+			while (*str && *str != '\'')
+				++str;
+			if (!*str)
+				return (false);
+		}
+		else if (*str == '\"')
+		{
+			++str;
+			while (*str && *str != '\"')
+				++str;
+			if (!*str)
+				return (false);
+		}
+		++str;
+	}
+	return (true);
 }
 
 /**
@@ -80,6 +105,12 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		if (user_input[0] == '\0')
 			continue ;
+		if (!check_closing_quotes(user_input))
+		{
+			printf(SYNTAX_ERR_MSG);
+			printf("'newline\n'");
+			continue ;
+		}
 		token_list = get_token_list(user_input);
 		if (!token_list)
 		{
