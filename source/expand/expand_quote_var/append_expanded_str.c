@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:42:17 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/25 16:43:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/26 21:05:47 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*cut_key(const t_map *env_map, const char *str, size_t *i)
 {
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 		++(*i);
-	return (ft_strldup(str, i));
+	return (ft_strldup(str, *i));
 }
 
 static int	append_expanded_dolar(
@@ -58,7 +58,8 @@ static int	append_expanded_double_quotes_str(
 	++(*src);
 	while ((*src)[i] != '\"')
 	{
-		while ((*src)[i] != '\"' && !((*src)[i] == '$' && (*src)[i + 1]))
+		while ((*src)[i] != '\"' && !((*src)[i] == '$'
+				&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
 			++i;
 		if (!append_regular_str(dst, src))
 			return (FAIL);
@@ -98,7 +99,8 @@ int	append_expanded_str(
 		return (FAIL);
 	else if (**src == '\"' && !append_expanded_double_quotes_str(env_map, dst, src))
 		return (FAIL);
-	else if (**src == '$' && *(*src + 1) && !append_expanded_dolar(env_map, dst, src))
+	else if (**src == '$' && (ft_isalnum(src[1]) || src[1] == '_')
+		&& !append_expanded_dolar(env_map, dst, src))
 		return (FAIL);
 	return (SUCCESS);
 }

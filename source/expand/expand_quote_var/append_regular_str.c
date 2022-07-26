@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:46:59 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/25 16:47:29 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/26 20:20:28 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	append_regular_str(char **dst, const char **src)
 	
 	i = 0;
 	while ((*src)[i] && (*src)[i] != '\'' && (*src)[i] != '\"'
-		&& !((*src)[i] == '$' && (*src)[i + 1]))
+		&& !((*src)[i] == '$'
+			&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
 		++i;
 	new_substr = ft_strjoin(*dst, ft_strldup(*src, i));
 	free(*dst);

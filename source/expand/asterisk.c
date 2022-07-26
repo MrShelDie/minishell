@@ -6,12 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:02:19 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/25 17:10:24 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/26 22:22:46 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand_private.h"
-#include "libft.h"
 #include <stdlib.h>
 
 static size_t	get_asterisk_count(const char *str)
@@ -23,6 +22,7 @@ static size_t	get_asterisk_count(const char *str)
 	{
 		if (*str == '*')
 			++asterisk_count;
+		++str;
 	}
 	return (asterisk_count);
 }

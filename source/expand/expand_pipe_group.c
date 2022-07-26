@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:54:19 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/25 17:01:22 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/26 21:20:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "expand_private.h"
 #include <stdlib.h>
 
-static int	expand_arg_list(const t_shell_data *shell_data, t_arg_list **arg_list)
+static int	expand_arg_list(const t_map *env_map, t_arg_list **arg_list)
 {
 	t_arg_list		**current;
 	t_arg_list		*next;
@@ -27,10 +27,10 @@ static int	expand_arg_list(const t_shell_data *shell_data, t_arg_list **arg_list
 		if (!fill_asterisk_map(&asterisk_map, (*current)->content))
 			return (FAIL);
 		if (check_expansion((*current)->content)
-			&& !replace_with_expanded_str(shell_data->env_map, &(*current)->content))
+			&& !replace_with_expanded_str(env_map, &(*current)->content))
 			return (FAIL);
 		if (asterisk_map.contains_wildcard
-			&& !insert_matched_wildcard_arg_list(shell_data, current, next))
+			&& !insert_matched_wildcard_arg_list(current, next))
 			return (FAIL);
 		free_asterisk_map(&asterisk_map);
 		current = &(*current)->next;
@@ -61,7 +61,7 @@ static int	expand_redir_list(const t_shell_data *shell_data, t_redir_list *redir
 
 static int	expand_cmd(const t_shell_data *shell_data, t_cmd *cmd)
 {
-	if (!expand_arg_list(shell_data->env_map, cmd->arg_list)
+	if (!expand_arg_list(shell_data->env_map, &cmd->arg_list)
 		|| !expand_redir_list(shell_data, cmd->redir_list)
 	)
 		return (FAIL);
