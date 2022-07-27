@@ -6,11 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:42:17 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/26 21:05:47 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:54:03 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_private.h"
+#include "../expand_private.h"
 #include <stdlib.h>
 
 static char	*cut_key(const t_map *env_map, const char *str, size_t *i)

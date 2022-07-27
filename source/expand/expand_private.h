@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 13:59:27 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/26 22:23:32 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/27 20:59:06 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct	s_matched
 	size_t	count;
 }	t_matched;
 
+typedef struct dirent	t_dirent;
+
 int		fill_asterisk_map(t_asterisk_map *asterisk_map, const char *str);
 void	free_asterisk_map(t_asterisk_map *asterisk_map);
 
@@ -50,6 +52,7 @@ int		insert_matched_wildcard_arg_list(t_arg_list **current, t_arg_list *next);
 int		replace_matched_redir(
 			const t_shell_data *shell_data, const char **pattern);
 
-void	destroy_matched(t_matched *matched);
+int		*get_matched_dir_name_list(
+			t_list **matched_dir_list, const char *pattern);
 
 #endif

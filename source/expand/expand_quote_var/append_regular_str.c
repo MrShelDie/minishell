@@ -6,11 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:46:59 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/26 20:20:28 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:53:57 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_private.h"
+#include "../expand_private.h"
 #include <stdlib.h>
 
 int	append_regular_str(char **dst, const char **src)

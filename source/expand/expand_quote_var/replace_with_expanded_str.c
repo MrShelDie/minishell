@@ -6,11 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:54:24 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/25 16:54:48 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:53:48 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_private.h"
+#include "../expand_private.h"
 #include <stdlib.h>
 
 int	replace_with_expanded_str(

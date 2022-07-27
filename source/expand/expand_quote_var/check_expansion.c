@@ -6,11 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:56:57 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/26 20:16:45 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:53:53 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_private.h"
+#include "../expand_private.h"
 #include "libft.h"
 
 bool	check_expansion(const char *str)
