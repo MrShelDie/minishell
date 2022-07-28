@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:02:19 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/26 22:22:46 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:23:16 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static size_t	get_asterisk_count(const char *str)
 	return (asterisk_count);
 }
 
-static int	init_asterisk_map(t_asterisk_map *asterisk_map, const char *str)
+static int	init_asterisk_map(t_asterisk *asterisk_map, const char *str)
 {
-	ft_bzero(asterisk_map, sizeof(t_asterisk_map));
+	ft_bzero(asterisk_map, sizeof(t_asterisk));
 	asterisk_map->size = get_asterisk_count(str);
 	if (asterisk_map->size == 0)
 		return (SUCCESS);
@@ -40,14 +40,14 @@ static int	init_asterisk_map(t_asterisk_map *asterisk_map, const char *str)
 	return (SUCCESS);
 }
 
-void	free_asterisk_map(t_asterisk_map *asterisk_map)
+void	free_asterisk_map(t_asterisk *asterisk_map)
 {
 	if (asterisk_map->array)
 		free(asterisk_map->array);
-	ft_bzero(asterisk_map, sizeof(t_asterisk_map));
+	ft_bzero(asterisk_map, sizeof(t_asterisk));
 }
 
-int	fill_asterisk_map(t_asterisk_map *asterisk_map, const char *str)
+int	fill_asterisk_map(t_asterisk *asterisk_map, const char *str)
 {
 	t_quote			quote;
 	size_t			asterisk_idx;

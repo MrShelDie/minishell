@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 23:56:43 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 15:58:59 by medric           ###   ########.fr       */
+/*   Updated: 2022/07/28 20:40:59 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	map_delete(t_map *map, const char *key)
  * 		   In case the key could not be found in the map,
  * 		   the NULL value is returned.
  */
-const char	*map_get(t_map *map, const char *key)
+const char	*map_get(const t_map *map, const char *key)
 {
 	t_map_node	*current;
 	size_t		key_length;

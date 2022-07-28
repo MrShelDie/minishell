@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 13:59:27 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/27 20:59:06 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/28 20:50:21 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include "minishell.h"
 
-typedef	struct	s_asterisk_map
+typedef	struct	s_asterisk
 {
 	bool	*array;
 	bool	contains_wildcard;
 	size_t	size;
-}	t_asterisk_map;
+}	t_asterisk;
 
 typedef struct	s_quote
 {
@@ -34,25 +34,44 @@ typedef struct	s_matched
 	size_t	count;
 }	t_matched;
 
+typedef struct	s_matrix
+{
+	bool	**array;
+	char	*str;
+	char	*pattern;
+	size_t	str_len;
+	size_t	pattern_len;
+	bool	*asterisk_map;
+}	t_matrix;
+
 typedef struct dirent	t_dirent;
 
-int		fill_asterisk_map(t_asterisk_map *asterisk_map, const char *str);
-void	free_asterisk_map(t_asterisk_map *asterisk_map);
+int		fill_asterisk_map(t_asterisk *asterisk_map, const char *str);
+void	free_asterisk_map(t_asterisk *asterisk_map);
 
 bool	check_expansion(const char *str);
 
 int		replace_with_expanded_str(
-			const t_map *env_map, const char **str);
+			const t_map *env_map, void **str);
 
-int		append_regular_str(char **dst, const char **src);
+int		append_regular_str(char **dst, char **src);
 int		append_expanded_str(
-			const t_map *env_map, char **dst, const char **src);
+			const t_map *env_map, char **dst, char **src);
 
-int		insert_matched_wildcard_arg_list(t_arg_list **current, t_arg_list *next);
-int		replace_matched_redir(
-			const t_shell_data *shell_data, const char **pattern);
+int		insert_matched_wildcard_arg_list(
+			t_arg_list **current, t_arg_list *next, bool *asterisk_map);
+int		replace_matched_redir(const t_shell_data *shell_data,
+			void **redir_value, bool *asterisk_map);
 
-int		*get_matched_dir_name_list(
-			t_list **matched_dir_list, const char *pattern);
+int		get_matched_dir_name_list(t_list **matched_dir_list,
+			const char *pattern, bool *asterisk_map);
+
+bool	is_matched(const char *str, const char *pattern,
+			bool *asterisk, int *err);
+
+int		init_matrix(t_matrix *matrix, const char *str,
+			const char *pattern, bool *asterisk_map);
+void	fill_matrix(t_matrix matrix);
+void	destroy_matrix(t_matrix *matrix);
 
 #endif

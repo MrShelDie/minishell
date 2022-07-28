@@ -6,11 +6,12 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/21 12:55:18 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/28 20:07:52 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "expand.h"
 #include "builtins.h"
 #include "minishell.h"
 
@@ -80,7 +81,11 @@ void	executer(t_shell_data *shell_data, t_parsed_data *parsed_data)
 	operator = parsed_data->operator_list;
 	while (true)
 	{
-		// TODO PIPE GROUP PREPARE
+		if (!expand_pipe_group(shell_data, (t_cmd_list *)pipe_group->content))
+		{
+			// TODO handle error
+			return ;
+		}
 		exit_status = execute_pipe_group(
 				shell_data, (t_cmd_list *)pipe_group->content);
 		pipe_group = pipe_group->next;

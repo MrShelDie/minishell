@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 23:56:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/08 17:31:51 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/28 20:41:21 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void		map_destroy(t_map *map);
 int			map_add(t_map *map, const char *key, const char *value);
 void		map_delete(t_map *map, const char *key);
 
-const char	*map_get(t_map *map, const char *key);
+const char	*map_get(const t_map *map, const char *key);
 
 #endif // !MAP_H

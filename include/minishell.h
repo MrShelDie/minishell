@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/24 13:40:42 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/28 20:32:11 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef enum e_redir_id
 
 typedef struct s_redir
 {
-	char		*value;
+	void		*value;
 	t_redir_id	id;
 }	t_redir;
 

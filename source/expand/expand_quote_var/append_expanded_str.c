@@ -6,14 +6,14 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:42:17 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/27 14:54:03 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/28 20:40:48 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../expand_private.h"
 #include <stdlib.h>
 
-static char	*cut_key(const t_map *env_map, const char *str, size_t *i)
+static char	*cut_key(char *str, size_t *i)
 {
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 		++(*i);
@@ -21,16 +21,16 @@ static char	*cut_key(const t_map *env_map, const char *str, size_t *i)
 }
 
 static int	append_expanded_dolar(
-	const t_map *env_map, char **dst, const char **src)
+	const t_map *env_map, char **dst, char **src)
 {
-	size_t	i;
-	char	*new_substr;
-	char	*key;
-	char	*value;
+	size_t		i;
+	char		*new_substr;
+	char		*key;
+	const char	*value;
 
 	i = 0;
 	++(*src);
-	key = cut_key(env_map, *src, &i);
+	key = cut_key(*src, &i);
 	if (!key)
 	{
 		free(*dst);
@@ -50,7 +50,7 @@ static int	append_expanded_dolar(
 }
 
 static int	append_expanded_double_quotes_str(
-	const t_map *env_map, char **dst, const char **src)
+	const t_map *env_map, char **dst, char **src)
 {
 	size_t	i;
 
@@ -74,7 +74,7 @@ static int	append_expanded_double_quotes_str(
 	return (SUCCESS);
 }
 
-static int	append_expanded_quotes_str(char **dst, const char **src)
+static int	append_expanded_quotes_str(char **dst, char **src)
 {
 	size_t	i;
 	char	*new_substr;
@@ -93,13 +93,14 @@ static int	append_expanded_quotes_str(char **dst, const char **src)
 }
 
 int	append_expanded_str(
-	const t_map *env_map, char **dst, const char **src)
+	const t_map *env_map, char **dst, char **src)
 {
 	if (**src == '\'' && !append_expanded_quotes_str(dst, src))
 		return (FAIL);
-	else if (**src == '\"' && !append_expanded_double_quotes_str(env_map, dst, src))
+	else if (**src == '\"'
+		&& !append_expanded_double_quotes_str(env_map, dst, src))
 		return (FAIL);
-	else if (**src == '$' && (ft_isalnum(src[1]) || src[1] == '_')
+	else if (**src == '$' && (ft_isalnum((*src)[1]) || (*src)[1] == '_')
 		&& !append_expanded_dolar(env_map, dst, src))
 		return (FAIL);
 	return (SUCCESS);
