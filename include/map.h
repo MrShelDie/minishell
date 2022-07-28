@@ -37,6 +37,6 @@ void		map_destroy(t_map *map);
 int			map_add(t_map *map, const char *key, const char *value);
 void		map_delete(t_map *map, const char *key);
 
-const char	*map_get(t_map *map, const char *key);
+const char	*map_get(const t_map *map, const char *key);
 
 #endif // !MAP_H

@@ -125,7 +125,7 @@ void	map_delete(t_map *map, const char *key)
  * 		   In case the key could not be found in the map,
  * 		   the NULL value is returned.
  */
-const char	*map_get(t_map *map, const char *key)
+const char	*map_get(const t_map *map, const char *key)
 {
 	t_map_node	*current;
 	size_t		key_length;
