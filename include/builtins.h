@@ -17,7 +17,7 @@
 # include "executer.h"
 
 int		ft_pwd(void);
-int		ft_echo(char **argv, int iter);
+int		ft_echo(char **argv, int iter, int fd);
 int		ft_env(t_map_node *map);
 int		ft_cd(char **av, t_shell_data *shell_data);
 int		ft_unset(char **av, t_shell_data *data);

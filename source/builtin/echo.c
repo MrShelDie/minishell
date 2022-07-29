@@ -24,13 +24,15 @@ static int	num_args(char **argv)
 	return (size);
 }	
 
-int	ft_echo(char **argv, int iter)
+int	ft_echo(char **argv, int iter, int fd)
 {
 	int	i;
 	int	n_option;
 
 	i = iter;
 	n_option = 0;
+	if (fd == 0)
+		fd = 1;
 	if (num_args(argv) > 1)
 	{
 		if (argv[i] && ft_strncmp(argv[i], "-n", 2) == 0)
@@ -40,14 +42,16 @@ int	ft_echo(char **argv, int iter)
 		}
 		while (argv[i])
 		{
-			ft_putstr_fd(argv[i], 1);
+			ft_putstr_fd(argv[i], fd);
 			if (argv[i + 1] && argv[i][0] != '\0')
-				write(1, " ", 1);
+				write(fd, " ", 1);
 			i++;
 		}
 		if (n_option == 0)
-			write(1, "\n", 1);
+			write(fd, "\n", 1);
 		return (SUCCESS);
 	}
+	if (fd > 2)
+		close(fd);
 	return (FAIL);
 }

@@ -26,6 +26,14 @@ SRC = 															\
 	source/builtin/ft_unset.c									\
 	source/builtin/pwd.c										\
 	source/executer/executer.c									\
+	source/executer/ft_heredoc.c								\
+	source/executer/ft_heredoc_utils.c							\
+	source/executer/pipex_part.c								\
+	source/executer/pipex_part_utils1.c							\
+	source/executer/pipex_part2.c								\
+	source/executer/pipex_part_utils2.c							\
+	get_next_line/get_next_line.c								\
+	get_next_line/get_next_line_utils.c							\
 	source/expand/asterisk.c									\
 	source/expand/expand_pipe_group.c							\
 	source/expand/expand_quote_var/append_expanded_str.c		\
@@ -46,7 +54,7 @@ DEP = $(SRC:.c=.d)
 NAME 		= minishell
 LIBFT		= source/libft/libft.a
 LIBFTDIR	= source/libft
-CFLAGS 		= -Wall -Werror -Wextra -g
+CFLAGS 		= -g
 CPPFLAGS 	= -MMD -I./include
 
 all:		$(LIBFT) $(NAME) Makefile
