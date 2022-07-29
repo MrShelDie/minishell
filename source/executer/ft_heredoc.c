@@ -3,24 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/28 20:22:14 by medric           ###   ########.fr       */
+/*   Updated: 2022/07/29 19:52:48 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "builtins.h"
 #include "minishell.h"
-#include "parser.h"
+#include "get_next_line.h"
+#include "executer_private.h"
 #include <stdio.h>
 #include <fcntl.h>
-#include <readline/readline.h>
 #include <stdlib.h>
-#include "get_next_line.h"
+#include <readline/readline.h>
 
-int	replace_names_in_heredoc(t_map *env, char **file_name)
+/**
+ * @brief In this function we delete buffers in our heredoc function, which we create
+ * @param av buffer, which we want to destroy
+ */
+static void	delete_buff_here(char **av)
+{
+	int	i;
+
+	i = 0;
+	while (av[i])
+	{
+		free(av[i]);
+		i++;
+	}
+	av = NULL;
+}
+
+int	replace_names_in_heredoc(t_map *env, void **file_name)
 {
 	char	*input_here;
 	char	**stop_word;
@@ -44,7 +60,7 @@ int	replace_names_in_heredoc(t_map *env, char **file_name)
 			return (1);
 		if (ft_strcmp(input_here, stop_word[0]) == 0)
 			break ;
-		if (!replace_with_expanded_str(env, &input_here))
+		if (!replace_expanded_str(env, &input_here))
 		{
 			// free data
 			return (1);
@@ -63,7 +79,7 @@ int	replace_names_in_heredoc(t_map *env, char **file_name)
  * @param stop_word 
  * @return int file fd 
  */
-int	create_heredoc(char **stop_word)
+int	create_heredoc(void **stop_word)
 {
 	static int	i = 0;
 	char		*input_here;

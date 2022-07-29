@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/24 14:48:27 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 19:06:03 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,61 +82,61 @@ static char	*shell_readline(void)
 }
 
 
-void print_redir(void *redir)
-{
-	const char	*id;
+// void print_redir(void *redir)
+// {
+// 	const char	*id;
 
-	switch (((t_redir *)redir)->id)
-	{
-	case REDIR_IN: id = "<";
-		break;
-	case REDIR_OUT: id = ">";
-		break;
-	case REDIR_OUT_APPEND: id = ">>";
-		break;
-	case REDIR_HEREDOC: id = "<<";
-	}
-	printf("[%s %s] ", id, ((t_redir *)redir)->value);
-}
+// 	switch (((t_redir *)redir)->id)
+// 	{
+// 	case REDIR_IN: id = "<";
+// 		break;
+// 	case REDIR_OUT: id = ">";
+// 		break;
+// 	case REDIR_OUT_APPEND: id = ">>";
+// 		break;
+// 	case REDIR_HEREDOC: id = "<<";
+// 	}
+// 	printf("[%s %s] ", id, ((t_redir *)redir)->value);
+// }
 
-void print_cmd(void *cmd)
-{
-	printf("\t\tCMD:\n");
-	printf("\t\t\tIs subshell:\t%s\n", ((t_cmd *)cmd)->is_subshell ? "true" : "false");
-	printf("\t\t\tArgv:\t\t");
-	for (size_t i = 0; i < ((t_cmd *)cmd)->argv->length; i++)
-		printf("[%s] ", ((t_cmd *)cmd)->argv->data[i]);
-	printf("\n");
-	printf("\t\t\tRedir:\t\t");
-	ft_lstiter(((t_cmd *)cmd)->redir_list, print_redir);
-	printf("\n");
-}
+// void print_cmd(void *cmd)
+// {
+// 	printf("\t\tCMD:\n");
+// 	printf("\t\t\tIs subshell:\t%s\n", ((t_cmd *)cmd)->is_subshell ? "true" : "false");
+// 	printf("\t\t\tArgv:\t\t");
+// 	for (size_t i = 0; i < ((t_cmd *)cmd)->argv->length; i++)
+// 		printf("[%s] ", ((t_cmd *)cmd)->argv->data[i]);
+// 	printf("\n");
+// 	printf("\t\t\tRedir:\t\t");
+// 	ft_lstiter(((t_cmd *)cmd)->redir_list, print_redir);
+// 	printf("\n");
+// }
 
-void print_cmd_list(void *cmd_list)
-{
-	printf("\tCMD LIST:\n");
-	ft_lstiter(cmd_list , print_cmd);
-}
+// void print_cmd_list(void *cmd_list)
+// {
+// 	printf("\tCMD LIST:\n");
+// 	ft_lstiter(cmd_list , print_cmd);
+// }
 
-void print_operator(void *op)
-{
-	if (*(t_operator *)op == OP_AND)
-		printf("\tAND\n");
-	else if (*(t_operator *)op == OP_OR)
-		printf("\tOR\n");
-	else
-		printf("\tNEW_LINE\n");
-}
+// void print_operator(void *op)
+// {
+// 	if (*(t_operator *)op == OP_AND)
+// 		printf("\tAND\n");
+// 	else if (*(t_operator *)op == OP_OR)
+// 		printf("\tOR\n");
+// 	else
+// 		printf("\tNEW_LINE\n");
+// }
 
-void print_parsed_data(t_parsed_data *parsed_data)
-{
-	printf("-----------------------------------------------------------------\n");
-	printf("PIPE GROUP LIST:\n");
-	ft_lstiter(parsed_data->pipe_group_list, print_cmd_list);
-	printf("OPERATOR LIST:\n");
-	ft_lstiter(parsed_data->operator_list, print_operator);
-	printf("-----------------------------------------------------------------\n");
-}
+// void print_parsed_data(t_parsed_data *parsed_data)
+// {
+// 	printf("-----------------------------------------------------------------\n");
+// 	printf("PIPE GROUP LIST:\n");
+// 	ft_lstiter(parsed_data->pipe_group_list, print_cmd_list);
+// 	printf("OPERATOR LIST:\n");
+// 	ft_lstiter(parsed_data->operator_list, print_operator);
+// 	printf("-----------------------------------------------------------------\n");
+// }
 
 int	main(int argc, char *argv[], char *envp[])
 {

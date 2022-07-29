@@ -3,58 +3,109 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:21:17 by medric            #+#    #+#             */
-/*   Updated: 2022/07/28 20:22:19 by medric           ###   ########.fr       */
+/*   Updated: 2022/07/29 19:53:01 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "builtins.h"
 #include "minishell.h"
-#include "parser.h"
-#include <stdio.h>
-#include <fcntl.h>
-#include <readline/readline.h>
+#include "executer_private.h"
 #include <stdlib.h>
-#include "get_next_line.h"
 
-/**
- * @brief In this function we delete buffers in our heredoc function, which we create
- * @param av buffer, which we want to destroy
- */
-void	delete_buff_here(char **av)
+// static char	*cut_key(const t_map *env_map, const char *str, size_t *i)
+// {
+// 	while (ft_isalnum(str[*i]) || str[*i] == '_')
+// 		++(*i);
+// 	return (ft_strldup(str, *i));
+// }
+
+// static int	append_expanded_dolar(
+// 	const t_map *env_map, char **dst, char **src)
+// {
+// 	size_t		i;
+// 	char		*new_substr;
+// 	char		*key;
+// 	const char	*value;
+
+// 	i = 0;
+// 	++(*src);
+// 	key = cut_key(env_map, *src, &i);
+// 	if (!key)
+// 	{
+// 		free(*dst);
+// 		return (FAIL);
+// 	}
+// 	value = map_get(env_map, key);
+// 	free(key);
+// 	*src += i;
+// 	if (!value)
+// 		return (SUCCESS);
+// 	new_substr = ft_strjoin(*dst, value);
+// 	free(*dst);
+// 	if (!new_substr)
+// 		return (FAIL);
+// 	*dst = new_substr;
+// 	return (SUCCESS);
+// }
+
+// int	append_regular_str(char **dst, char **src)
+// {
+// 	size_t	i;
+// 	char	*new_substr;
+	
+// 	i = 0;
+// 	while ((*src)[i] && !((*src)[i] == '$'
+// 			&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
+// 		++i;
+// 	new_substr = ft_strjoin(*dst, ft_strldup(*src, i));
+// 	free(*dst);
+// 	if (!new_substr)
+// 		return (FAIL);
+// 	*dst = new_substr;
+// 	*src += i;
+// 	return (SUCCESS);
+// }
+
+static int	append_substr(char **dst, const char *src, size_t len)
 {
-	int	i;
+	char	*new_dst;
+	char	*substr;
 
-	i = 0;
-	while (av[i])
+	substr = ft_substr(src, 0, len);
+	if (!substr)
 	{
-		free(av[i]);
-		i++;
+		free(*dst);
+		return (FAIL);
 	}
-	av = NULL;
+	new_dst = ft_strjoin(*dst, substr);
+	free(*dst);
+	free(substr);
+	*dst = new_dst;
+	if (!new_dst)
+		return (FAIL);
+	return (SUCCESS);
 }
 
-static char	*cut_key(const t_map *env_map, const char *str, size_t *i)
+static char	*cut_key(char *str, size_t *i)
 {
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 		++(*i);
-	return (ft_strldup(str, *i));
+	return (ft_substr(str, 0, *i));
 }
 
 static int	append_expanded_dolar(
 	const t_map *env_map, char **dst, char **src)
 {
 	size_t		i;
-	char		*new_substr;
 	char		*key;
 	const char	*value;
 
 	i = 0;
 	++(*src);
-	key = cut_key(env_map, *src, &i);
+	key = cut_key(*src, &i);
 	if (!key)
 	{
 		free(*dst);
@@ -62,36 +113,32 @@ static int	append_expanded_dolar(
 	}
 	value = map_get(env_map, key);
 	free(key);
-	*src += i;
 	if (!value)
+	{
+		*src += i;
 		return (SUCCESS);
-	new_substr = ft_strjoin(*dst, value);
-	free(*dst);
-	if (!new_substr)
+	}
+	if (!append_substr(dst, value, ft_strlen(value)))
 		return (FAIL);
-	*dst = new_substr;
+	*src += i;
 	return (SUCCESS);
 }
 
-int	append_regular_str(char **dst, char **src)
+static int	append_regular_str(char **dst, char **src)
 {
 	size_t	i;
-	char	*new_substr;
 	
 	i = 0;
 	while ((*src)[i] && !((*src)[i] == '$'
-			&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
+ 			&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
 		++i;
-	new_substr = ft_strjoin(*dst, ft_strldup(*src, i));
-	free(*dst);
-	if (!new_substr)
+	if (!append_substr(dst, *src, i))
 		return (FAIL);
-	*dst = new_substr;
 	*src += i;
 	return (SUCCESS);
 }
 
-int	replace_with_expanded_str(
+int	replace_expanded_str(
 	const t_map *env_map, char **str)
 {
 	char	*expanded;

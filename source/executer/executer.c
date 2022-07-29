@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/29 19:03:08 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 19:36:45 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 #include "expand.h"
 #include "builtins.h"
 #include "minishell.h"
-#include "parser.h"
-#include <stdio.h>
-#include <fcntl.h>
-#include <readline/readline.h>
-#include <stdlib.h>
+#include "executer_private.h"
 
 int	builtins(t_shell_data *shell_data, t_vector *cmd, t_pipe *pipex)
 {

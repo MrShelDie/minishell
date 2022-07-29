@@ -3,22 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_part.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/28 20:21:43 by medric           ###   ########.fr       */
+/*   Updated: 2022/07/29 19:43:49 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "builtins.h"
 #include "minishell.h"
-#include "parser.h"
-#include <stdio.h>
-#include <fcntl.h>
-#include <readline/readline.h>
+#include "executer_private.h"
 #include <stdlib.h>
-#include <sys/types.h>
 #include <sys/wait.h>
 
 char	*get_cmd(char **paths, char *cmd)
