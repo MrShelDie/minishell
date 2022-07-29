@@ -6,12 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 14:18:37 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/09 21:16:06 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 14:33:37 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector_private.h"
-#include "libft.h"
 #include <stdlib.h>
 
 /**

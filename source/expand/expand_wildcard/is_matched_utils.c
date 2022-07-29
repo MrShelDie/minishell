@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 19:48:57 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/28 20:46:48 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 18:51:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,23 @@ void	fill_matrix(t_matrix matrix)
 
 	aster_idx = 0;
 	matrix.array[0][0] = true;
+	j = 1;
+	while (j < matrix.pattern_len && matrix.pattern[j] == '*'
+		&& matrix.asterisk_map[j - 1])
+		matrix.array[0][j++] = true;	
 	i = 0;
 	while (++i < matrix.str_len)
 	{
+		aster_idx = 0;
 		j = 0;
 		while (++j < matrix.pattern_len)
 		{
-			if (matrix.str[i - 1] == matrix.pattern[j - 1])
+			if (matrix.str[i] == matrix.pattern[j])
 				matrix.array[i][j] = matrix.array[i - 1][j - 1];
-			else if (matrix.pattern[j - 1] == '*'
-				&& matrix.asterisk_map[aster_idx])
+			else if (matrix.pattern[j] == '*'
+				&& matrix.asterisk_map[aster_idx++])
 				matrix.array[i][j] =
-					matrix.array[i - 1][j] || matrix.array[i][j - 1]; 
+					matrix.array[i - 1][j] || matrix.array[i][j - 1];
 		}
 	}
 }

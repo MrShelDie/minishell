@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 13:59:27 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/28 20:50:21 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 17:46:51 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define EXPAND_PRIVATE_H
 
 # include "minishell.h"
+# include <dirent.h>
+# include <sys/types.h>
 
 typedef	struct	s_asterisk
 {
@@ -58,6 +60,8 @@ int		append_regular_str(char **dst, char **src);
 int		append_expanded_str(
 			const t_map *env_map, char **dst, char **src);
 
+int		append_substr(char **dst, const char *src, size_t len);
+
 int		insert_matched_wildcard_arg_list(
 			t_arg_list **current, t_arg_list *next, bool *asterisk_map);
 int		replace_matched_redir(const t_shell_data *shell_data,
@@ -65,6 +69,11 @@ int		replace_matched_redir(const t_shell_data *shell_data,
 
 int		get_matched_dir_name_list(t_list **matched_dir_list,
 			const char *pattern, bool *asterisk_map);
+
+int 	append_exposed_dir_name_to_list(
+			t_list **matched_dir_list, DIR *dir, const t_dirent *dirent);
+int		append_hidden_dir_name_to_list(
+			t_list **matched_dir_list, DIR *dir, const t_dirent *dirent);
 
 bool	is_matched(const char *str, const char *pattern,
 			bool *asterisk, int *err);

@@ -4,6 +4,7 @@ SRC = 															\
 	source/map/map.c											\
 	source/map/map_private.c									\
 	source/vector/vector.c										\
+	source/vector/vector_create_from.c							\
 	source/vector/vector_private.c								\
 	source/lexer/lexer.c										\
 	source/lexer/lexer_utils.c									\
@@ -29,8 +30,10 @@ SRC = 															\
 	source/expand/expand_pipe_group.c							\
 	source/expand/expand_quote_var/append_expanded_str.c		\
 	source/expand/expand_quote_var/append_regular_str.c			\
+	source/expand/expand_quote_var/append_substr.c				\
 	source/expand/expand_quote_var/check_expansion.c			\
 	source/expand/expand_quote_var/replace_with_expanded_str.c	\
+	source/expand/expand_wildcard/append_dir_name_to_list.c		\
 	source/expand/expand_wildcard/get_matched_dir_name_list.c	\
 	source/expand/expand_wildcard/is_matched_utils.c			\
 	source/expand/expand_wildcard/is_matched.c					\

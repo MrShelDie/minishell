@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/28 20:07:52 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 14:53:42 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,68 @@ static int	execute_pipe_group(t_shell_data *shell_data, t_cmd_list *cmd_list)
 	return (SUCCESS);
 }
 
+// -------------------------------------TEST-BEGIN------------------------------------
+
+#include <stdio.h>
+
+void print_redir(void *redir)
+{
+	const char	*id;
+
+	switch (((t_redir *)redir)->id)
+	{
+	case REDIR_IN: id = "<";
+		break;
+	case REDIR_OUT: id = ">";
+		break;
+	case REDIR_OUT_APPEND: id = ">>";
+		break;
+	case REDIR_HEREDOC: id = "<<";
+	}
+	printf("[%s %s] ", id, (char *)((t_redir *)redir)->value);
+}
+
+void print_cmd(void *cmd)
+{
+	printf("\t\tCMD:\n");
+	printf("\t\t\tIs subshell:\t%s\n", ((t_cmd *)cmd)->is_subshell ? "true" : "false");
+	printf("\t\t\tArgv:\t\t");
+	for (size_t i = 0; i < ((t_cmd *)cmd)->argv->length; i++)
+		printf("[%s] ", ((t_cmd *)cmd)->argv->data[i]);
+	printf("\n");
+	printf("\t\t\tRedir:\t\t");
+	ft_lstiter(((t_cmd *)cmd)->redir_list, print_redir);
+	printf("\n");
+}
+
+void print_cmd_list(void *cmd_list)
+{
+	printf("\tCMD LIST:\n");
+	ft_lstiter(cmd_list , print_cmd);
+}
+
+void print_operator(void *op)
+{
+	if (*(t_operator *)op == OP_AND)
+		printf("\tAND\n");
+	else if (*(t_operator *)op == OP_OR)
+		printf("\tOR\n");
+	else
+		printf("\tNEW_LINE\n");
+}
+
+void print_parsed_data(t_parsed_data *parsed_data)
+{
+	printf("-----------------------------------------------------------------\n");
+	printf("PIPE GROUP LIST:\n");
+	ft_lstiter(parsed_data->pipe_group_list, print_cmd_list);
+	printf("OPERATOR LIST:\n");
+	ft_lstiter(parsed_data->operator_list, print_operator);
+	printf("-----------------------------------------------------------------\n");
+}
+
+// -------------------------------------TEST-END------------------------------------
+
 /**
  * @brief Executes the parsed string entered by the user.
  * 
@@ -83,8 +145,9 @@ void	executer(t_shell_data *shell_data, t_parsed_data *parsed_data)
 	{
 		if (!expand_pipe_group(shell_data, (t_cmd_list *)pipe_group->content))
 		{
+			ft_putstr_fd("ERROR\n", 2);
 			// TODO handle error
-			return ;
+			break ;
 		}
 		exit_status = execute_pipe_group(
 				shell_data, (t_cmd_list *)pipe_group->content);
@@ -93,7 +156,8 @@ void	executer(t_shell_data *shell_data, t_parsed_data *parsed_data)
 			|| (*(t_operator *)operator->content == OP_OR && exit_status == 0))
 			pipe_group = pipe_group->next;
 		if (*(t_operator *)operator->content == OP_NEW_LINE)
-			return ;
+			break; ;
 		operator = operator->next;
 	}
+	print_parsed_data(parsed_data);
 }

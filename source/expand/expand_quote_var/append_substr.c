@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   append_regular_str.c                               :+:      :+:    :+:   */
+/*   append_substr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/25 16:46:59 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 15:26:39 by gannemar         ###   ########.fr       */
+/*   Created: 2022/07/29 15:19:42 by gannemar          #+#    #+#             */
+/*   Updated: 2022/07/29 15:24:03 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../expand_private.h"
 #include <stdlib.h>
 
-int	append_regular_str(char **dst, char **src)
+int	append_substr(char **dst, const char *src, size_t len)
 {
-	size_t	i;
-	
-	i = 0;
-	while ((*src)[i] && (*src)[i] != '\'' && (*src)[i] != '\"'
-		&& !((*src)[i] == '$'
-			&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
-		++i;
-	if (!append_substr(dst, *src, i))
+	char	*new_dst;
+	char	*substr;
+
+	substr = ft_substr(src, 0, len);
+	if (!substr)
+	{
+		free(*dst);
 		return (FAIL);
-	*src += i;
+	}
+	new_dst = ft_strjoin(*dst, substr);
+	free(*dst);
+	free(substr);
+	*dst = new_dst;
+	if (!new_dst)
+		return (FAIL);
 	return (SUCCESS);
 }

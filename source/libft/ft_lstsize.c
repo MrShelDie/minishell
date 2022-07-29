@@ -6,20 +6,20 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 19:40:21 by gannemar          #+#    #+#             */
-/*   Updated: 2021/10/15 19:40:57 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 14:28:43 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+size_t	ft_lstsize(const t_list *lst)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (lst)
 	{
-		lst = lst -> next;
+		lst = lst->next;
 		i++;
 	}
 	return (i);

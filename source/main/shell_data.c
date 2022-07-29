@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 14:11:11 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 15:07:45 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 14:10:27 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_shell_data	*shell_init(t_shell_data *shell_data, char *const *argv,
 	if (!shell_data)
 		return (NULL);
 	ft_bzero(shell_data, sizeof(t_shell_data));
-	shell_data->env_vector = vector_create_copy(envp);
+	shell_data->env_vector = vector_create_from_array(envp);
 	shell_data->env_map = map_create();
 	if (!shell_data->env_vector
 		|| !shell_data->env_map

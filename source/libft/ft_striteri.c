@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 19:41:52 by gannemar          #+#    #+#             */
-/*   Updated: 2021/10/15 19:41:53 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 14:48:50 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ void	ft_striteri(
 	if (!s || !f)
 		return ;
 	i = 0;
-	while (*s)
-		f(i++, s++);
+	while (s[i])
+		f(i++, s);
 }

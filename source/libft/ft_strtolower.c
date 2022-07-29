@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strldup.c                                       :+:      :+:    :+:   */
+/*   ft_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/21 14:46:26 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/21 14:48:36 by gannemar         ###   ########.fr       */
+/*   Created: 2022/07/29 13:42:48 by gannemar          #+#    #+#             */
+/*   Updated: 2022/07/29 14:51:33 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
-char	*ft_strldup(const char *s1, size_t len)
+static void	tolower(unsigned int pos, char *str)
 {
-	char	*res;
+	str[pos] = ft_tolower(str[pos]);
+}
 
-	if (!s1)
-		return (NULL);
-	++len;
-	res = (char *)malloc(sizeof(char) * len);
-	if (!res)
-		return (NULL);
-	ft_strlcpy(res, s1, len);
-	return (res);
+void	ft_strtolower(char *str)
+{
+	ft_striteri(str, tolower);
 }

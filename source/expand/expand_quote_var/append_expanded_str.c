@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:42:17 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/28 20:40:48 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 15:38:06 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ static char	*cut_key(char *str, size_t *i)
 {
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 		++(*i);
-	return (ft_strldup(str, *i));
+	return (ft_substr(str, 0, *i));
 }
 
 static int	append_expanded_dolar(
 	const t_map *env_map, char **dst, char **src)
 {
 	size_t		i;
-	char		*new_substr;
 	char		*key;
 	const char	*value;
 
@@ -38,14 +37,14 @@ static int	append_expanded_dolar(
 	}
 	value = map_get(env_map, key);
 	free(key);
-	*src += i;
 	if (!value)
+	{
+		*src += i;
 		return (SUCCESS);
-	new_substr = ft_strjoin(*dst, value);
-	free(*dst);
-	if (!new_substr)
+	}
+	if (!append_substr(dst, value, ft_strlen(value)))
 		return (FAIL);
-	*dst = new_substr;
+	*src += i;
 	return (SUCCESS);
 }
 
@@ -61,8 +60,9 @@ static int	append_expanded_double_quotes_str(
 		while ((*src)[i] != '\"' && !((*src)[i] == '$'
 				&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
 			++i;
-		if (!append_regular_str(dst, src))
+		if (!append_substr(dst, *src, i))
 			return (FAIL);
+		(*src) += i;
 		if (**src == '$')
 		{
 			if (!append_expanded_dolar(env_map, dst, src))
@@ -77,17 +77,13 @@ static int	append_expanded_double_quotes_str(
 static int	append_expanded_quotes_str(char **dst, char **src)
 {
 	size_t	i;
-	char	*new_substr;
 
 	i = 0;
 	++(*src);
 	while ((*src)[i] != '\'')
 		++i;
-	new_substr = ft_strjoin(*dst, ft_strldup(*src, i));
-	free(*dst);
-	if (!new_substr)
+	if (!append_substr(dst, *src, i))
 		return (FAIL);
-	*dst = new_substr;
 	(*src) += i + 1;
 	return (SUCCESS);
 }

@@ -6,40 +6,15 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:52:01 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/28 20:52:06 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 17:45:07 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../expand_private.h"
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <dirent.h>
 
-static int  append_dir_name_to_list(
-	t_list **matched_dir_list, const t_dirent *dirent)
-{
-	char	*d_name_copy;
-	t_list	*new;
-
-	d_name_copy = ft_strdup(dirent->d_name);
-	if (!d_name_copy)
-	{
-		ft_lstclear(matched_dir_list, free);
-		return (FAIL);
-	}
-	new = ft_lstnew(d_name_copy);
-	if (!new)
-	{
-		free(d_name_copy);
-		ft_lstclear(matched_dir_list, free);
-		return (FAIL);
-	}
-	ft_lstadd_back(matched_dir_list, new);
-	return (SUCCESS);
-}
-
-static int	fill_dir_name_list(t_list **matched_dir_list, const char *cwd)
+static int	fill_dir_name_list(
+	t_list **matched_dir_list, const char *cwd, bool is_hidden)
 {
 	DIR         *dir;
 	t_dirent    *dirent;
@@ -48,15 +23,18 @@ static int	fill_dir_name_list(t_list **matched_dir_list, const char *cwd)
 	if (!dir)
 		return (FAIL);
 	dirent = readdir(dir);
-	while (dirent)
+	if (dirent && !is_hidden
+		&& !append_exposed_dir_name_to_list(matched_dir_list, dir, dirent))
 	{
-		if (!append_dir_name_to_list(matched_dir_list, dirent))
-		{
-			closedir(dir);
-			return (FAIL);
-		}
-		dirent = readdir(dir);
-	}	
+		closedir(dir);
+		return (FAIL);
+	}
+	else if (dirent && is_hidden
+		&& !append_hidden_dir_name_to_list(matched_dir_list, dir, dirent))
+	{
+		closedir(dir);
+		return (FAIL);
+	}
 	closedir(dir);
 	return (SUCCESS);
 }
@@ -98,7 +76,7 @@ int	get_matched_dir_name_list(
 		// TODO handle error
 		return (FAIL);
 	}
-	if (!fill_dir_name_list(matched_dir_list, cwd))
+	if (!fill_dir_name_list(matched_dir_list, cwd, pattern[0] == '.'))
 	{
 		free(cwd);
 		return (FAIL);

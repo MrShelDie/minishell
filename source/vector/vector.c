@@ -6,12 +6,11 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 22:14:06 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/19 14:45:02 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/29 14:33:29 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector_private.h"
-#include "libft.h"
 #include <stdlib.h>
 
 /**
@@ -39,34 +38,6 @@ t_vector	*vector_create(void)
 }
 
 /**
- * @brief Allocates memory and initializes the vector
- * 		  with a copy of the data parameter.
- * 
- * @param data An array of words that ends with a NULL value.
- * @return If successful pointer to the created vector is returned.
- * 		   In case of a memory allocation error or if a NULL pointer
- * 		   to data parameter was passed to the function, the NULL value is returned.
- */
-t_vector	*vector_create_copy(char *const *data)
-{
-	t_vector	*vector;
-
-	if (!data)
-		return (NULL);
-	vector = (t_vector *)malloc(sizeof(t_vector));
-	if (!vector)
-		return (NULL);
-	vector->data = copy_data(data);
-	if (!vector->data)
-	{
-		free(vector);
-		return (NULL);
-	}
-	vector->length = data_length(data);
-	return (vector);
-}
-
-/**
  * @brief Frees up memory allocated for the vector and memory
  * 		  allocated for data stored in the vector.
  * 
@@ -81,7 +52,7 @@ void	vector_destroy(t_vector *vector)
 	if (vector->data)
 	{
 		i = -1;
-		while (++i < vector->length)
+		while (++i < vector->length + 1)
 			free(vector->data[i]);
 		free(vector->data);
 	}
