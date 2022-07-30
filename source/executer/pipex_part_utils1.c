@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_part_utils1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/29 19:43:31 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/30 17:49:32 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ int	create_pipes(t_pipe *pipex)
 	size_t	i;
 
 	i = 0;
-	pipex->tube = (int **)malloc(sizeof(int *) * (pipex->len));
+    if (pipex->len == 0)
+        return (0);
+    pipex->tube = (int **)ft_calloc(pipex->len, sizeof(int *));
 	if (!pipex->tube)
 		return (1);
 	while (i < pipex->len)
@@ -76,8 +78,7 @@ int	create_pipes(t_pipe *pipex)
 
 int    start_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list)
 {
-    pipex->in = 0;
-    pipex->out = 0;
+    ft_bzero(pipex, sizeof(t_pipe));
     pipex->len = ft_lstsize(cmd_list) - 1;
     pipex->pid = malloc(sizeof(pid_t) * (pipex->len + 1));
     if (!pipex->pid)

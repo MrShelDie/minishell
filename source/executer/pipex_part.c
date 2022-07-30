@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_part.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/29 19:43:49 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/30 18:54:15 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ int    child(
 
     if (dup_tube_and_redir(pipex, data, cmd_list, i) == 1)
         return (1);
+    if (((t_cmd *)(cmd_list->content))->is_subshell)
+    {
+        shell(data, ((t_vector *)((t_cmd *)cmd_list->content)->argv)->data[0]);
+        //TODO exit status code
+        exit(0);
+    }
     pipex->cmd = get_cmd(pipex->cmd_path, ((t_vector *)((t_cmd *)cmd_list->content)->argv)->data[0]);
     if (!pipex->cmd)
     {

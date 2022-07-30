@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/28 20:32:11 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/30 18:47:45 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ typedef struct s_cmd
 t_shell_data	*shell_init(t_shell_data *shell_data, char *const *argv,
 					char *const *envp);
 void			shell_destroy(t_shell_data *shell_data);
+void			shell(t_shell_data *shell_data, char *user_input);
 
 #endif // !MINISHELL_H

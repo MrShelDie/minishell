@@ -32,8 +32,8 @@ SRC = 															\
 	source/executer/pipex_part_utils1.c							\
 	source/executer/pipex_part2.c								\
 	source/executer/pipex_part_utils2.c							\
-	get_next_line/get_next_line.c								\
-	get_next_line/get_next_line_utils.c							\
+	source/get_next_line/get_next_line.c						\
+	source/get_next_line/get_next_line_utils.c					\
 	source/expand/asterisk.c									\
 	source/expand/expand_pipe_group.c							\
 	source/expand/expand_quote_var/append_expanded_str.c		\

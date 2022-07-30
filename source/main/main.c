@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/30 17:09:47 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/30 19:10:01 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,38 @@ static char	*shell_readline(void)
 
 // -------------------------------------TEST-END------------------------------------
 
+
+void	shell(t_shell_data *shell_data, char *user_input)
+{
+	t_token_list	*token_list;
+	t_parsed_data	parsed_data;
+	
+	if (!check_closing_quotes(user_input))
+	{
+		printf(SYNTAX_ERR_MSG);
+		printf("'newline\n'");
+		return ;
+	}
+	token_list = get_token_list(user_input);
+	if (!token_list)
+	{
+		// TODO error handler
+		shell_destroy(shell_data);
+		return ;
+	}
+	init_parsed_data(&parsed_data);
+	if (parse(&parsed_data, token_list))
+	{
+		// print_parsed_data(&parsed_data);
+		executer(shell_data, &parsed_data);
+	}
+	destroy_parsed_data(&parsed_data);
+	ft_lstclear(&token_list, destroy_token);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_shell_data	shell_data;
-	t_parsed_data	parsed_data;
-	t_token_list	*token_list;
 	char			*user_input;
 
 	(void)argc;
@@ -173,25 +200,7 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		if (user_input[0] == '\0')
 			continue ;
-		if (!check_closing_quotes(user_input))
-		{
-			printf(SYNTAX_ERR_MSG);
-			printf("'newline\n'");
-			continue ;
-		}
-		token_list = get_token_list(user_input);
-		if (!token_list)
-		{
-			// TODO error handler
-			shell_destroy(&shell_data);
-			return (0);
-		}
-		init_parsed_data(&parsed_data);
-		if (parse(&parsed_data, token_list))
-			// print_parsed_data(&parsed_data);
-			executer(&shell_data, &parsed_data);
-		destroy_parsed_data(&parsed_data);
-		ft_lstclear(&token_list, destroy_token);
+		shell(&shell_data, user_input);
 	}
 	clear_history();
 	return (0);
