@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 13:20:42 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/21 13:55:08 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/30 14:13:52 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,32 +98,52 @@ static char	*str_append_word(char **dst, const char *src)
 	return (*dst);
 }
 
-int	fill_subshell(
-	t_cmd *cmd, t_token_list **pp_token_list_node, size_t *recursion_level)
+static char	*get_subshell_arg(t_token_list **token_list_node)
 {
-	char			*arg;
+	char	*subshell_arg;
+	size_t	par_count;
 
-	if (!check_subshell(*pp_token_list_node, recursion_level))
-		return (FAIL);
-	(*pp_token_list_node) = (*pp_token_list_node)->next;
-	arg = ft_strdup(((t_token *)((*pp_token_list_node)->content))->value);
-	if (!arg)
-		return (FAIL);
-	(*pp_token_list_node) = (*pp_token_list_node)->next;
-	while (((t_token *)((*pp_token_list_node)->content))->id != TOKEN_PAR_R)
+	subshell_arg = ft_strdup("");
+	if (!subshell_arg)
+		return (NULL);
+	par_count = 1;
+	while (par_count > 0)
 	{
-		if (!str_append_word(&arg,
-				((t_token *)((*pp_token_list_node)->content))->value))
+		if (((t_token *)((*token_list_node)->content))->id == TOKEN_PAR_L)
+			++par_count;
+		else if (((t_token *)((*token_list_node)->next->content))->id == TOKEN_PAR_R)
+			--par_count;
+		if (!str_append_word(&subshell_arg,
+				((t_token *)((*token_list_node)->content))->value))
 		{
-			free(arg);
-			return (FAIL);
+			free(subshell_arg);
+			return (NULL);
 		}
-		(*pp_token_list_node) = (*pp_token_list_node)->next;
+		(*token_list_node) = (*token_list_node)->next;
 	}
-	if (!vector_add(cmd->argv, arg))
+	return (subshell_arg);
+}
+
+int	fill_subshell(
+	t_cmd *cmd, t_token_list **token_list_node, size_t *recursion_level)
+{
+	char			*subshell_arg;
+	t_arg_list		*new_arg_list_node;
+
+	if (!check_subshell(*token_list_node, recursion_level))
 		return (FAIL);
+	(*token_list_node) = (*token_list_node)->next;
+	subshell_arg = get_subshell_arg(token_list_node);
+	if (!subshell_arg)
+		return (FAIL);
+	new_arg_list_node = ft_lstnew(subshell_arg);
+	if (!new_arg_list_node)
+	{
+		free(subshell_arg);
+		return (FAIL);	
+	}	
+	ft_lstadd_back(&cmd->arg_list, new_arg_list_node);
 	cmd->is_subshell = true;
-	(*pp_token_list_node) = (*pp_token_list_node)->next;
-	free(arg);
+	(*token_list_node) = (*token_list_node)->next;
 	return (SUCCESS);
 }

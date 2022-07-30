@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 19:06:03 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/30 17:09:47 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ static char	*shell_readline(void)
 	return (user_input);
 }
 
+// // -------------------------------------TEST-BEGIN------------------------------------
+
+// #include <stdio.h>
 
 // void print_redir(void *redir)
 // {
@@ -96,7 +99,12 @@ static char	*shell_readline(void)
 // 		break;
 // 	case REDIR_HEREDOC: id = "<<";
 // 	}
-// 	printf("[%s %s] ", id, ((t_redir *)redir)->value);
+// 	printf("[%s %s] ", id, (char *)((t_redir *)redir)->value);
+// }
+
+// void print_arg(void *arg)
+// {
+// 	printf("[%s] ", (char *)arg);
 // }
 
 // void print_cmd(void *cmd)
@@ -104,8 +112,9 @@ static char	*shell_readline(void)
 // 	printf("\t\tCMD:\n");
 // 	printf("\t\t\tIs subshell:\t%s\n", ((t_cmd *)cmd)->is_subshell ? "true" : "false");
 // 	printf("\t\t\tArgv:\t\t");
-// 	for (size_t i = 0; i < ((t_cmd *)cmd)->argv->length; i++)
-// 		printf("[%s] ", ((t_cmd *)cmd)->argv->data[i]);
+// 	ft_lstiter(((t_cmd *)cmd)->arg_list, print_arg);
+// 	// for (size_t i = 0; i < ((t_cmd *)cmd)->argv->length; i++)
+// 	// 	printf("[%s] ", ((t_cmd *)cmd)->argv->data[i]);
 // 	printf("\n");
 // 	printf("\t\t\tRedir:\t\t");
 // 	ft_lstiter(((t_cmd *)cmd)->redir_list, print_redir);
@@ -137,6 +146,8 @@ static char	*shell_readline(void)
 // 	ft_lstiter(parsed_data->operator_list, print_operator);
 // 	printf("-----------------------------------------------------------------\n");
 // }
+
+// -------------------------------------TEST-END------------------------------------
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -177,7 +188,7 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		init_parsed_data(&parsed_data);
 		if (parse(&parsed_data, token_list))
-			//print_parsed_data(&parsed_data);
+			// print_parsed_data(&parsed_data);
 			executer(&shell_data, &parsed_data);
 		destroy_parsed_data(&parsed_data);
 		ft_lstclear(&token_list, destroy_token);

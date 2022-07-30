@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:40:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/24 13:41:30 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/30 15:54:56 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	fill_cmd(t_cmd *cmd, t_token_list **token, size_t *recursion_level)
 		return (fill_redir(cmd, token, REDIR_OUT, recursion_level));
 	else if (token_id == TOKEN_D_ANG_BR_R)
 		return (fill_redir(cmd, token, REDIR_OUT_APPEND, recursion_level));
-	else if (token_id == TOKEN_PAR_L && cmd->argv->length == 0)
+	else if (token_id == TOKEN_PAR_L && ft_lstsize(cmd->arg_list) == 0)
 		return (fill_subshell(cmd, token, recursion_level));
 	else if (token_id == TOKEN_WORD && cmd->is_subshell == false)
 		return (fill_argv(cmd, token));
