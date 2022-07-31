@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/30 19:10:01 by medric           ###   ########.fr       */
+/*   Updated: 2022/07/31 19:55:21 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "executer.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -150,32 +151,34 @@ static char	*shell_readline(void)
 // -------------------------------------TEST-END------------------------------------
 
 
-void	shell(t_shell_data *shell_data, char *user_input)
+int	shell(t_shell_data *shell_data, char *user_input)
 {
 	t_token_list	*token_list;
 	t_parsed_data	parsed_data;
+	int				exit_status;
 	
 	if (!check_closing_quotes(user_input))
 	{
 		printf(SYNTAX_ERR_MSG);
 		printf("'newline\n'");
-		return ;
+		return (EXIT_FAILURE);
 	}
 	token_list = get_token_list(user_input);
 	if (!token_list)
 	{
 		// TODO error handler
 		shell_destroy(shell_data);
-		return ;
+		return (EXIT_FAILURE);
 	}
 	init_parsed_data(&parsed_data);
 	if (parse(&parsed_data, token_list))
 	{
 		// print_parsed_data(&parsed_data);
-		executer(shell_data, &parsed_data);
+		exit_status = executer(shell_data, &parsed_data);
 	}
 	destroy_parsed_data(&parsed_data);
 	ft_lstclear(&token_list, destroy_token);
+	return (exit_status);
 }
 
 int	main(int argc, char *argv[], char *envp[])

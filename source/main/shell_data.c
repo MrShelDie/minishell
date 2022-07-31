@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 14:11:11 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 14:10:27 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/31 22:19:06 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,16 @@ static int	parse_env_to_map(t_map *map, char *const *envp)
 	return (SUCCESS);
 }
 
+void	set_builtin_array(t_builtin *builtins)
+{
+	builtins[CD] = ft_cd;
+	builtins[ECHO] = ft_echo;
+	builtins[ENV] = ft_env;
+	builtins[EXPORT] = ft_export;
+	builtins[PWD] = ft_pwd;
+	builtins[UNSET] = ft_unset;
+}
+
 /**
  * @brief Initializes the general data structure of the program (shell_data).
  * 
@@ -104,6 +114,7 @@ t_shell_data	*shell_init(t_shell_data *shell_data, char *const *argv,
 		return (NULL);
 	}
 	shell_data->program_name = argv[0];
+	set_builtin_array(shell_data->builtins);
 	return (shell_data);
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_heredoc_utils.c                                 :+:      :+:    :+:   */
+/*   expand_heredoc_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:21:17 by medric            #+#    #+#             */
-/*   Updated: 2022/07/30 17:41:22 by medric           ###   ########.fr       */
+/*   Updated: 2022/07/31 17:00:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	append_regular_str(char **dst, char **src)
 	return (SUCCESS);
 }
 
-int	replace_expanded_str(
+int	replace_expanded_var(
 	const t_map *env_map, char **str)
 {
 	char	*expanded;

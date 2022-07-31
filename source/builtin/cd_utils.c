@@ -6,12 +6,12 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 17:34:50 by medric            #+#    #+#             */
-/*   Updated: 2022/07/20 18:15:29 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/31 21:07:44 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "builtins.h"
+#include "builtin_private.h"
 #include "minishell.h"
 #include <stdlib.h>
 

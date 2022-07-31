@@ -6,12 +6,12 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 22:58:22 by medric            #+#    #+#             */
-/*   Updated: 2022/07/20 18:51:05 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/31 21:07:38 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "builtins.h"
+#include "builtin_private.h"
 #include "minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -77,8 +77,12 @@ int	add_data(t_shell_data *data, t_vector *cmd)
 	return (SUCCESS);
 }
 
-int	ft_export(t_vector *cmd, t_shell_data *data)
+int	ft_export(t_shell_data *data, char **av)
 {
+	t_vector	*cmd;
+
+	(void)av;
+	cmd = data->env_vector;
 	if (cmd->length < 2)
 	{
 		if (print_sort_env(data->env_map) == FAIL)

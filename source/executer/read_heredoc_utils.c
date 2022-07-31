@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   read_heredoc_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/18 20:59:03 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 21:07:41 by gannemar         ###   ########.fr       */
+/*   Created: 2022/07/31 16:01:44 by gannemar          #+#    #+#             */
+/*   Updated: 2022/07/31 16:05:51 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "builtin_private.h"
-#include "minishell.h"
+#include <stdint.h>
+#include <stdlib.h>
 
-int	ft_unset(t_shell_data *data, char **av)
+char	*generate_file_name(char *pattenr, char *stop_word)
 {
-	map_delete(data->env_map, av[1]);
-	if (vector_delete(data->env_vector, av[1]) == FAIL)
-		return (FAIL);
-	return (SUCCESS);
+	char			*tmp1;
+	char			*tmp2;
+	char			*file_name;
+	static uint8_t	i = 0;
+
+	tmp1 = ft_strjoin(pattenr, stop_word);
+	if (!tmp1)
+		return (NULL);
+	tmp2 = ft_strjoin(tmp1, "_");
+	free (tmp1);
+	if (!tmp2)
+		return (NULL);
+	file_name = ft_strjoin(tmp2, ft_itoa(i++));
+	free(tmp2);
+	return (file_name);
 }

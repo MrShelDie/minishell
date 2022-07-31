@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   pipex_part2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/18 20:59:03 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 21:07:41 by gannemar         ###   ########.fr       */
+/*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
+/*   Updated: 2022/07/31 20:02:14 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "builtin_private.h"
 #include "minishell.h"
+#include "executer_private.h"
+#include <fcntl.h>
+#include <stdlib.h>
 
-int	ft_unset(t_shell_data *data, char **av)
+int dup_pipe(t_pipe *pipex, size_t i)
 {
-	map_delete(data->env_map, av[1]);
-	if (vector_delete(data->env_vector, av[1]) == FAIL)
-		return (FAIL);
-	return (SUCCESS);
+	if (i == 0)
+	{
+		if (dup2(pipex->tube[i][1], STDOUT_FILENO) == -1)
+			return (1);
+	}
+	else if (i == pipex->pipe_count)
+	{
+		if (dup2(pipex->tube[i - 1][0], STDIN_FILENO) == -1)
+			return (1);
+	}
+	else
+	{
+		if (dup2(pipex->tube[i - 1][0], STDIN_FILENO) == -1
+			|| dup2(pipex->tube[i][1], STDOUT_FILENO) == -1)
+			return (1);
+	}
+	return (0);
 }

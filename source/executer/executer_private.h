@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 19:26:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 19:53:02 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/31 20:49:17 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,46 @@
 #define EXECUTER_PRIVATE_H
 
 # include "executer.h"
+# include <unistd.h>
 
 # define CMD_PATH 2
 
 typedef struct s_pipe
 {
-    pid_t   *pid;
-    int     **tube;
-    int     out;
-    size_t  len;
-    int     in;
-    int     here_doc;
-    char    *path;
-    char    *cmd;
-    char    **cmd_path;
+	pid_t   *pids;
+	int     **tube;
+	size_t  pipe_count;
+	char    *path;
+	char    *cmd;
+	char    **cmd_path;
 }	t_pipe;
 
-int	    create_heredoc(void **_stop_word);
-int     pipex_part(t_shell_data *data, t_cmd_list *cmd_list);
-int	    replace_names_in_heredoc(t_map *env, void **file_name);
-int	    builtins(t_shell_data *shell_data, t_vector *cmd, t_pipe *pipex);
-int	    infile(t_pipe *pipex, t_redir *redir);
-int	    outfile(t_pipe *pipex, t_redir *redir);
+int     exec_pipe_group(t_shell_data *data, t_cmd_list *cmd_list);
+int	    exec_builtin(t_shell_data *shell_data, t_vector *cmd);
+
+int	    read_all_heredocs(t_pipe_group_list *pipe_group);
+
+char	*generate_file_name(char *pattenr, char *stop_word);
+
+int 	dup_redir(t_redir_list *redir_list, t_shell_data *data);
+
+int     dup_heredoc(t_map *env, t_redir *redir);
+int	    dup_infile(const char *file_name);
+int	    dup_outfile(const char *file_name);
+int	    dup_outfile_append(const char *file_name);
+
+// ---------------------------------------
+
+int	    expand_var_in_heredoc(t_map *env, void **file_name);
 int	    create_pipes(t_pipe *pipex);
-int     start_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list);
+int     init_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list);
 void    ft_strdel(char **as);
-void    ft_strdel_all(char **as);
-void    ft_strdel_all2(int **as);
-char	*get_cmd(char **paths, char *cmd);
+void    ft_strdel_cmd_path(char **as);
+void    ft_strdel_tube(int **as);
 void	close_tube(t_pipe *pipex);
-int     dup_tube_and_redir( t_pipe *pipex, t_shell_data *data, \
-            t_cmd_list *cmd_list, int i);
-int     dup_redir(t_pipe *pipex, t_redir_list *redir_list, t_shell_data *data);
 int     dup_pipe(t_pipe *pipex, size_t i);
-void    delete_all_pipex_struct(t_pipe *pipex);
-int		child(
-        t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list, int i);
-int	    replace_expanded_str(const t_map *env_map, char **str);
+void    destroy_pipex(t_pipe *pipex);
+
+int	    replace_expanded_var(const t_map *env_map, char **str);
 
 #endif

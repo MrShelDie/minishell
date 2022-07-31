@@ -6,12 +6,12 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:13:42 by medric            #+#    #+#             */
-/*   Updated: 2022/07/20 18:17:20 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/31 21:07:18 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "builtins.h"
+#include "builtin_private.h"
 #include "minishell.h"
 #include <limits.h>
 #include <stdlib.h>
@@ -84,7 +84,7 @@ int	next_exec_minus(t_shell_data *data, char *cwd, \
 	return (3);
 }
 
-int	ft_cd(char **av, t_shell_data *shell_data)
+int	ft_cd(t_shell_data *shell_data, char **av)
 {
 	char		cwd[PATH_MAX];
 	char		*new_cwd;

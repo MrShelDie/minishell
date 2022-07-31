@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 15:05:44 by gannemar          #+#    #+#             */
-/*   Updated: 2021/11/13 15:33:01 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/31 11:25:12 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include <stdio.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif
+
+#ifndef OPEN_MAX
+ # define OPEN_MAX FOPEN_MAX 
+#endif // !OPEN_MAX
 
 typedef struct s_buff
 {

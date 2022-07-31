@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_part_utils2.c                                :+:      :+:    :+:   */
+/*   destroy_pipex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/29 19:48:14 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/07/31 20:06:12 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@
 
 void ft_strdel(char **as)
 {
-    if (*as != NULL)
-    {
-        free(*as);
-        *as = NULL;
-    } 
+    free(*as);
+    *as = NULL; 
 }
 
-void ft_strdel_all(char **as)
+void ft_strdel_cmd_path(char **as)
 {
     int i;
 
+    if (!as)
+        return ;
     i = 0;
     while (as[i])
     {
@@ -37,10 +36,12 @@ void ft_strdel_all(char **as)
     as = NULL;
 }
 
-void ft_strdel_all2(int **as)
+void ft_strdel_tube(int **as)
 {
     int i;
 
+    if (!as)
+        return ;
     i = 0;
     while (as[i])
     {
@@ -55,7 +56,7 @@ void	close_tube(t_pipe *pipex)
 	size_t	i;
 
 	i = 0;
-	while (i < (pipex->len))
+	while (i < (pipex->pipe_count))
 	{
 		close(pipex->tube[i][0]);
 		close(pipex->tube[i][1]);
@@ -63,20 +64,10 @@ void	close_tube(t_pipe *pipex)
 	}
 }
 
-void    delete_all_pipex_struct(t_pipe *pipex)
+void    destroy_pipex(t_pipe *pipex)
 {
-    close_tube(pipex);
-    if (pipex->in)
-        close(pipex->in);
-    if (pipex->out) 
-        close(pipex->out);
-    if (pipex->here_doc)
-        close(pipex->here_doc);
-    if (pipex->cmd_path)
-        ft_strdel_all(pipex->cmd_path);
-    if (pipex->pid)
-        free(pipex->pid);
-    if (pipex->tube)
-        ft_strdel_all2(pipex->tube);
+	close_tube(pipex);
+	free(pipex->pids);
+	ft_strdel_cmd_path(pipex->cmd_path);
+	ft_strdel_tube(pipex->tube);
 }
-
