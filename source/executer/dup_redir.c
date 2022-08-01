@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:44:13 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/31 20:48:51 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:53:43 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,5 @@ int dup_redir(t_redir_list *redir_list, t_shell_data *data)
 			return (FAIL);
 		redir_list = redir_list->next;
 	}
-	return (0);
+	return (SUCCESS);
 }

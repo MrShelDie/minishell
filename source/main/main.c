@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/31 19:55:21 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:40:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int	shell(t_shell_data *shell_data, char *user_input)
 	t_parsed_data	parsed_data;
 	int				exit_status;
 	
+	exit_status = EXIT_FAILURE;
 	if (!check_closing_quotes(user_input))
 	{
 		printf(SYNTAX_ERR_MSG);

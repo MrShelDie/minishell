@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 20:05:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/01 15:51:55 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ int    init_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list)
 	pipex->pids = malloc(sizeof(pid_t) * (pipex->pipe_count + 1));
 	if (!pipex->pids)
 		return (FAIL);
-	pipex->path = (char *)map_get(data->env_map, "PATH");
-	if (!pipex->path)
-		return (FAIL);
-	pipex->cmd_path = ft_split(pipex->path, ':');
+	pipex->cmd_path = get_cmd_paths(data->env_map);
 	if (!pipex->cmd_path)
 		return (FAIL);
 	if (create_pipes(pipex) == 1)

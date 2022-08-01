@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 20:06:12 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/01 15:50:21 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 #include "minishell.h"
 #include "executer_private.h"
 #include <stdlib.h>
-
-void ft_strdel(char **as)
-{
-    free(*as);
-    *as = NULL; 
-}
 
 void ft_strdel_cmd_path(char **as)
 {

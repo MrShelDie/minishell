@@ -25,6 +25,8 @@ SRC = 															\
 	source/builtin/ft_export_ut.c								\
 	source/builtin/ft_unset.c									\
 	source/builtin/pwd.c										\
+	source/builtin/get_builtin_nb.c								\
+	source/executer/get_cmd_path.c								\
 	source/executer/dup_pipe.c									\
 	source/executer/dup_redir.c									\
 	source/executer/executer.c									\
@@ -33,6 +35,7 @@ SRC = 															\
 	source/executer/read_heredoc.c								\
 	source/executer/read_heredoc_utils.c						\
 	source/executer/exec_pipe_group.c							\
+	source/executer/exec_simple_cmd.c							\
 	source/executer/init_pipex.c								\
 	source/executer/destroy_pipex.c								\
 	source/get_next_line/get_next_line.c						\

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 21:04:46 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/31 21:50:58 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:48:47 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_PRIVATE_H
 
 # include "libft.h"
+# include "builtin.h"
 # include "minishell.h"
 
 void	ft_strcpy(char *dst, const char *src, size_t size);

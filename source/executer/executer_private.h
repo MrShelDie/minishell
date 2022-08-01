@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 19:26:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/31 20:49:17 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/01 15:46:24 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_pipe
 }	t_pipe;
 
 int     exec_pipe_group(t_shell_data *data, t_cmd_list *cmd_list);
-int	    exec_builtin(t_shell_data *shell_data, t_vector *cmd);
+int 	exec_simple_cmd(t_shell_data *shell_data, t_cmd_list *cmd_list);
 
 int	    read_all_heredocs(t_pipe_group_list *pipe_group);
 
@@ -41,6 +41,9 @@ int     dup_heredoc(t_map *env, t_redir *redir);
 int	    dup_infile(const char *file_name);
 int	    dup_outfile(const char *file_name);
 int	    dup_outfile_append(const char *file_name);
+
+char	**get_cmd_paths(t_map *env);
+char 	*get_cmd(char **paths, char *cmd);
 
 // ---------------------------------------
 
