@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:54:19 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 14:32:42 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 20:15:47 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,14 @@ static int	expand_redir_list(
 	return (SUCCESS);
 }
 
-static int	expand_cmd(const t_shell_data *shell_data, t_cmd *cmd)
+int	expand_cmd(const t_shell_data *shell_data, t_cmd *cmd)
 {
 	if (!expand_arg_list(shell_data->env_map, &cmd->arg_list)
 		|| !expand_redir_list(shell_data, cmd->redir_list)
 	)
 		return (FAIL);
-	ft_strtolower(cmd->arg_list->content);
+	if (cmd->arg_list && cmd->arg_list->content)
+		ft_strtolower(cmd->arg_list->content);
 	cmd->argv = vector_create_from_list(cmd->arg_list);
 	if (!cmd->argv)
 		return (FAIL);

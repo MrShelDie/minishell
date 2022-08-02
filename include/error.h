@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/18 20:59:03 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 18:40:41 by gannemar         ###   ########.fr       */
+/*   Created: 2022/08/02 14:06:03 by gannemar          #+#    #+#             */
+/*   Updated: 2022/08/02 14:26:55 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "builtin_private.h"
-#include "minishell.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-int	ft_unset(t_shell_data *data, t_vector *cmd)
-{
-	map_delete(data->env_map, cmd->data[1]);
-	if (vector_delete(data->env_vector, cmd->data[1]) == FAIL)
-		return (FAIL);
-	return (SUCCESS);
-}
+# define PROGRAM_NAME "minishell"
+
+void	print_error(const char *msg);
+
+void	exit_with_error_msg(const char *msg, int exit_status);
+
+#endif

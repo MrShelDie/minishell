@@ -6,19 +6,13 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 15:04:13 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 18:16:29 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_private.h"
 #include "libft.h"
 #include <stdlib.h>
-
-void	init_parsed_data(t_parsed_data *parsed_data)
-{
-	if (parsed_data)
-		ft_bzero(parsed_data, sizeof(t_parsed_data));
-}
 
 void	destroy_parsed_data(t_parsed_data *parsed_data)
 {
@@ -30,7 +24,7 @@ void	destroy_parsed_data(t_parsed_data *parsed_data)
 		ft_lstclear(&parsed_data->operator_list, free);
 }
 
-int	parse(t_parsed_data *parsed_data, t_token_list *token_list)
+int	parse_tokens(t_parsed_data *parsed_data, t_token_list *token_list)
 {
 	t_pipe_group_list	*pipe_group;
 	t_operator_list		*operator;
@@ -52,4 +46,19 @@ int	parse(t_parsed_data *parsed_data, t_token_list *token_list)
 		ft_lstadd_back(&parsed_data->operator_list, operator);
 	}
 	return (SUCCESS);
+}
+
+int parse_user_input(t_parsed_data *parsed_data, const char *str)
+{
+	t_token_list	*token_list;
+	int				parse_status;
+
+	if (!check_closed_quotes(str))
+		return (FAIL);
+	token_list = get_token_list(str);
+	if (!token_list)
+		return (FAIL);
+	parse_status = parse_tokens(parsed_data, token_list);
+	ft_lstclear(&token_list, destroy_token);
+	return (parse_status);
 }

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 22:58:22 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 21:07:38 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 19:11:01 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void	putstr(int len, char **map_buff, char **value)
+void	putstr(int len, char **map_buff)
 {
 	int		i;
 
 	i = -1;
-	while (++i < len - 1)
-	{
-		if (ft_strcmp(value[i], "") == 0)
-			printf("declare -x %s\n", map_buff[i]);
-		else
-			printf("declare -x %s=\"%s\"\n", map_buff[i], value[i]);
-	}
+	while (++i < len)
+		printf("declare -x %s\n", map_buff[i]);
 }
 
-int	print_sort_env(t_map *map)
+int	print_sort_env(t_vector *map)
 {
 	char	**map_buff;
 	char	**value;
@@ -40,15 +35,14 @@ int	print_sort_env(t_map *map)
 	value = NULL;
 	map_buff = NULL;
 	map_buff = create_buff(map_buff, map, &err);
-	value = create_valbuf(value, map, &err);
 	if (err == 1)
 	{
-		delete_buff(map_buff, value, map->length);
+		delete_buff(map_buff, map->length);
 		return (FAIL);
 	}
-	map_buff = sort_buff(map_buff, map->length, &value);
-	putstr((int)map->length, map_buff, value);
-	delete_buff(map_buff, value, map->length);
+	map_buff = sort_buff(map_buff, map->length);
+	putstr((int)map->length, map_buff);
+	delete_buff(map_buff, map->length);
 	return (SUCCESS);
 }
 
@@ -61,9 +55,7 @@ int	add_data(t_shell_data *data, t_vector *cmd)
 	tmp = NULL;
 	if (ft_searchr(cmd->data[i], '=') == 0)
 	{
-		if (map_add(data->env_map, cmd->data[i], "") == FAIL)
-			return (FAIL);
-		if (vector_add(data->env_vector, "") == FAIL)
+		if (vector_add(data->env_vector, cmd->data[i]) == FAIL)
 			return (FAIL);
 		return (SUCCESS);
 	}
@@ -72,20 +64,16 @@ int	add_data(t_shell_data *data, t_vector *cmd)
 		return (FAIL);
 	if (map_add(data->env_map, tmp[0], tmp[1]) == FAIL)
 		return (FAIL);
-	if (vector_add(data->env_vector, tmp[1]) == FAIL)
+	if (vector_add(data->env_vector, cmd->data[i]) == FAIL)
 		return (FAIL);
 	return (SUCCESS);
 }
 
-int	ft_export(t_shell_data *data, char **av)
+int	ft_export(t_shell_data *data, t_vector *cmd)
 {
-	t_vector	*cmd;
-
-	(void)av;
-	cmd = data->env_vector;
 	if (cmd->length < 2)
 	{
-		if (print_sort_env(data->env_map) == FAIL)
+		if (print_sort_env(data->env_vector) == FAIL)
 			return (FAIL);
 		return (SUCCESS);
 	}

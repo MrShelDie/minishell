@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 19:26:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/01 15:46:24 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 20:02:11 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ typedef struct s_pipe
 	char    **cmd_path;
 }	t_pipe;
 
-int     exec_pipe_group(t_shell_data *data, t_cmd_list *cmd_list);
-int 	exec_simple_cmd(t_shell_data *shell_data, t_cmd_list *cmd_list);
+int 	execute_pipe_group_list(t_shell_data *shell_data,
+			t_pipe_group_list *pipe_group, t_operator_list *operator_list);
+int 	execute_simple_cmd(
+			t_shell_data *shell_data, t_pipe_group_list *pipe_group);
 
 int	    read_all_heredocs(t_pipe_group_list *pipe_group);
 

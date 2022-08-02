@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:13:42 by medric            #+#    #+#             */
-/*   Updated: 2022/08/01 14:48:52 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 18:40:59 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	next_exec_minus(t_shell_data *data, char *cwd, \
 	return (3);
 }
 
-int	ft_cd(t_shell_data *shell_data, char **av)
+int	ft_cd(t_shell_data *shell_data, t_vector *cmd)
 {
 	char		cwd[PATH_MAX];
 	char		*new_cwd;
@@ -92,7 +92,7 @@ int	ft_cd(t_shell_data *shell_data, char **av)
 	int			option;
 
 	new_cwd = NULL;
-	if (check_arg(av, &check_args, &option) == FAIL)
+	if (check_arg(cmd->data, &check_args, &option) == FAIL)
 		return (FAIL);
 	getcwd(cwd, PATH_MAX);
 	if (check_args > 0)
@@ -105,8 +105,8 @@ int	ft_cd(t_shell_data *shell_data, char **av)
 	}
 	map_add(shell_data->env_map, "OLDPWD", cwd);
 	vector_add(shell_data->env_vector, cwd);
-	map_add(shell_data->env_map, "PWD", av[1]);
-	if (chdir(av[1]) == -1)
+	map_add(shell_data->env_map, "PWD", cmd->data[1]);
+	if (chdir(cmd->data[1]) == -1)
 		return (FAIL);
 	return (SUCCESS);
 }

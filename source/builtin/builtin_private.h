@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 21:04:46 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/01 14:48:47 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 18:57:27 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 # include "minishell.h"
 
 void	ft_strcpy(char *dst, const char *src, size_t size);
-char	**create_buff(char **map_buff, t_map *map, int *err);
+char	**create_buff(char **map_buff, t_vector *map, int *err);
 char	**create_valbuf(char **value, t_map *map, int *err);
-char	**sort_buff(char **buff, int len, char ***value);
-void	delete_buff(char **m, char **v, int length);
+char	**sort_buff(char **buff, int len);
+void	delete_buff(char **m, int length);
 int		ft_searchr(char *s, char c);
 void	ft_strcpy(char *dst, const char *src, size_t size);
 int		check_arg(char **av, int *check, int *option);

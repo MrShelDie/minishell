@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:56 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 17:35:07 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 18:16:51 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # include "parser.h"
 # include "lexer.h"
 # include "minishell.h"
+
+int					check_closed_quotes(const char *str);
+
+int					parse_tokens(
+						t_parsed_data *parsed_data, t_token_list *token_list);
 
 t_pipe_group_list	*get_next_pipe_group(
 						t_token_list **token, size_t *recursion_level);

@@ -6,13 +6,14 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 13:20:42 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/30 14:13:52 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 18:15:59 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser_private.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#include "../parser_private.h"
 
 static t_token_list	*copy_sublist(
 			t_token_list *begin, t_token_list *end, size_t recursion_level)
@@ -69,12 +70,12 @@ static int	check_subshell(t_token_list *token, size_t *recursion_level)
 	t_token_list	*token_sublist;
 	int				result;
 
-	init_parsed_data(&parsed_data);
+	ft_bzero(&parsed_data, sizeof(t_parsed_data));
 	token_sublist = get_token_sublist(token, *recursion_level);
 	if (!token_sublist)
 		return (FAIL);
 	++(*recursion_level);
-	result = parse(&parsed_data, token_sublist);
+	result = parse_tokens(&parsed_data, token_sublist);
 	--(*recursion_level);
 	ft_lstclear(&token_sublist, destroy_token);
 	destroy_parsed_data(&parsed_data);

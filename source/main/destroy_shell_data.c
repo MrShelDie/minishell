@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   destroy_shell_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/18 20:59:03 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 18:40:41 by gannemar         ###   ########.fr       */
+/*   Created: 2022/08/02 14:55:01 by gannemar          #+#    #+#             */
+/*   Updated: 2022/08/02 18:11:40 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "builtin_private.h"
 #include "minishell.h"
+#include "libft.h"
 
-int	ft_unset(t_shell_data *data, t_vector *cmd)
+void	destroy_shell_data(t_shell_data *shell_data)
 {
-	map_delete(data->env_map, cmd->data[1]);
-	if (vector_delete(data->env_vector, cmd->data[1]) == FAIL)
-		return (FAIL);
-	return (SUCCESS);
+	if (!shell_data)
+		return ;
+	map_destroy(shell_data->env_map);
+	vector_destroy(shell_data->env_vector);
+	ft_bzero(shell_data, sizeof(t_shell_data));
 }

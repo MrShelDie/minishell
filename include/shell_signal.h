@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   shell_signal.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/18 20:59:03 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 18:40:41 by gannemar         ###   ########.fr       */
+/*   Created: 2022/08/01 17:03:19 by gannemar          #+#    #+#             */
+/*   Updated: 2022/08/02 14:46:46 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "builtin_private.h"
-#include "minishell.h"
+#ifndef SHELL_SIGNAL_H
+# define SHELL_SIGNAL_H
 
-int	ft_unset(t_shell_data *data, t_vector *cmd)
-{
-	map_delete(data->env_map, cmd->data[1]);
-	if (vector_delete(data->env_vector, cmd->data[1]) == FAIL)
-		return (FAIL);
-	return (SUCCESS);
-}
+typedef void	(*sighandler_t)(int);
+
+void	set_signals(void);
+void	disable_display_control_symbols(void);
+void	newline_sig_handler(int signum);
+
+#endif

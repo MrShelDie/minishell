@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:01:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/01 15:51:18 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:39:24 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_isspace(char c);
+int		ft_is_space_string(const char *str);
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);

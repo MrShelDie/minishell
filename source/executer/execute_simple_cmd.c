@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_simple_cmd.c                                  :+:      :+:    :+:   */
+/*   execute_simple_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/01 15:51:38 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 20:20:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "minishell.h"
-#include "executer_private.h"
 #include <stdlib.h>
+
+#include "executer_private.h"
+#include "minishell.h"
+#include "expand.h"
+#include "libft.h"
 
 static void	delete_saved_stdio(int dupped_io_fd[2])
 {
@@ -65,7 +67,7 @@ static int	exec_builtin(
 		return (EXIT_FAILURE);
 	}
 	exit_status =
-		shell_data->builtins[builtin_nb](shell_data, cmd->argv->data);
+		shell_data->builtins[builtin_nb](shell_data, cmd->argv);
 	if (!restore_stdio(dupped_io_fd))
 	{
 		delete_saved_stdio(dupped_io_fd);
@@ -108,14 +110,19 @@ static int	exec_util(t_shell_data *shell_data, t_cmd *cmd)
 	return (exit_status);
 }
 
-int exec_simple_cmd(t_shell_data *shell_data, t_cmd_list *cmd_list)
+int execute_simple_cmd(t_shell_data *shell_data, t_pipe_group_list *pipe_group)
 {
-	t_builtin_nb	builtin_nb;
+	t_cmd_list		*cmd_list;
 	t_cmd			*cmd;
+	t_builtin_nb	builtin_nb;
 
+	cmd_list = pipe_group->content;
 	cmd = cmd_list->content;
+	expand_cmd(shell_data, cmd);
+	if (!cmd->arg_list)
+		return (EXIT_SUCCESS);
 	builtin_nb = get_builtin_nb(cmd->argv->data[0]);
-	if (builtin_nb != NONE)
+	if (builtin_nb != BUILTIN_NONE)
 		return (exec_builtin(shell_data, cmd, builtin_nb));
 	else
 		return (exec_util(shell_data, cmd));

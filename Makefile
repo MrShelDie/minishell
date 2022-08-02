@@ -1,13 +1,20 @@
 SRC = 															\
 	source/main/main.c											\
-	source/main/shell_data.c									\
+	source/main/init_shell_data.c								\
+	source/main/destroy_shell_data.c							\
+	source/main/parse_env.c										\
+																\
 	source/map/map.c											\
 	source/map/map_private.c									\
+																\
 	source/vector/vector.c										\
 	source/vector/vector_create_from.c							\
 	source/vector/vector_private.c								\
+																\
 	source/lexer/lexer.c										\
 	source/lexer/lexer_utils.c									\
+																\
+	source/parser/check_closed_quotes.c							\
 	source/parser/parser.c										\
 	source/parser/pipe_group.c									\
 	source/parser/operator.c									\
@@ -17,6 +24,7 @@ SRC = 															\
 	source/parser/cmd/fill_subshell.c							\
 	source/parser/cmd/fill_subshell_utils.c						\
 	source/parser/error.c										\
+																\
 	source/builtin/cd_utils.c									\
 	source/builtin/cd.c											\
 	source/builtin/echo.c										\
@@ -26,6 +34,7 @@ SRC = 															\
 	source/builtin/ft_unset.c									\
 	source/builtin/pwd.c										\
 	source/builtin/get_builtin_nb.c								\
+																\
 	source/executer/get_cmd_path.c								\
 	source/executer/dup_pipe.c									\
 	source/executer/dup_redir.c									\
@@ -34,12 +43,14 @@ SRC = 															\
 	source/executer/expand_heredoc_utils.c						\
 	source/executer/read_heredoc.c								\
 	source/executer/read_heredoc_utils.c						\
-	source/executer/exec_pipe_group.c							\
-	source/executer/exec_simple_cmd.c							\
+	source/executer/execute_pipe_group.c						\
+	source/executer/execute_simple_cmd.c						\
 	source/executer/init_pipex.c								\
 	source/executer/destroy_pipex.c								\
+																\
 	source/get_next_line/get_next_line.c						\
 	source/get_next_line/get_next_line_utils.c					\
+																\
 	source/expand/asterisk.c									\
 	source/expand/expand_pipe_group.c							\
 	source/expand/expand_quote_var/append_expanded_str.c		\
@@ -52,7 +63,11 @@ SRC = 															\
 	source/expand/expand_wildcard/is_matched_utils.c			\
 	source/expand/expand_wildcard/is_matched.c					\
 	source/expand/expand_wildcard/match_arg.c					\
-	source/expand/expand_wildcard/match_redir.c
+	source/expand/expand_wildcard/match_redir.c					\
+																\
+	source/signal/signal.c										\
+																\
+	source/error/error.c
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)

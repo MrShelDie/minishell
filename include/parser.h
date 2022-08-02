@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/21 14:11:18 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 16:39:13 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include "lexer.h"
 
-# define SYNTAX_ERR_MSG "syntax error near unexpected token "
+# define SYNTAX_ERR_MSG "minishell: syntax error near unexpected token "
 
 typedef t_list	t_pipe_group_list;
 typedef t_list	t_operator_list;
@@ -36,9 +36,8 @@ typedef struct s_parsed_data
 	t_operator_list		*operator_list;
 }	t_parsed_data;
 
-void	init_parsed_data(t_parsed_data *parsed_data);
 void	destroy_parsed_data(t_parsed_data *parsed_data);
 
-int		parse(t_parsed_data *parsed_data, t_token_list *token_list);
+int 	parse_user_input(t_parsed_data *parsed_data, const char *str);
 
 #endif // !PARSER_H

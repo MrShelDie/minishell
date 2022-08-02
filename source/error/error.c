@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/18 20:59:03 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 18:40:41 by gannemar         ###   ########.fr       */
+/*   Created: 2022/08/02 14:05:38 by gannemar          #+#    #+#             */
+/*   Updated: 2022/08/02 14:27:11 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "builtin_private.h"
-#include "minishell.h"
+#include <stdlib.h>
 
-int	ft_unset(t_shell_data *data, t_vector *cmd)
+#include "error.h"
+#include "libft.h"
+
+void	print_error(const char *msg)
 {
-	map_delete(data->env_map, cmd->data[1]);
-	if (vector_delete(data->env_vector, cmd->data[1]) == FAIL)
-		return (FAIL);
-	return (SUCCESS);
+	ft_putstr_fd(PROGRAM_NAME, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+}
+
+void	exit_with_error_msg(const char *msg, int exit_status)
+{
+	print_error(msg);
+	exit(exit_status);
 }

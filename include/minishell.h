@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/01 14:49:10 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/02 19:38:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 # include "map.h"
 # include "vector.h"
-# include "libft.h"
 # include "builtin.h"
+
 
 # define FAIL 0
 # define SUCCESS 1
@@ -28,10 +28,10 @@
  */
 typedef struct s_shell_data
 {
-	char		*program_name;
 	t_map		*env_map;
 	t_vector	*env_vector;
 	t_builtin	builtins[6];
+	int			exit_status;
 }	t_shell_data;
 
 typedef t_list				t_redir_list;
@@ -59,10 +59,11 @@ typedef struct s_cmd
 	bool			is_subshell;
 }	t_cmd;
 
-t_shell_data	*shell_init(t_shell_data *shell_data, char *const *argv,
-					char *const *envp);
-void			shell_destroy(t_shell_data *shell_data);
+void	init_shell_data(t_shell_data *shell_data, char *const *envp);
+void	destroy_shell_data(t_shell_data *shell_data);
 
-int				shell(t_shell_data *shell_data, char *user_input);
+int		parse_env_to_map(t_map *map, char *const *envp);
+
+int		execute_user_input(t_shell_data *shell_data, char *user_input);
 
 #endif // !MINISHELL_H
