@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 22:58:22 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 19:11:01 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 11:08:27 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ void	putstr(int len, char **map_buff)
 int	print_sort_env(t_vector *map)
 {
 	char	**map_buff;
-	char	**value;
 	int		err;
 
 	err = 0;
-	value = NULL;
 	map_buff = NULL;
 	map_buff = create_buff(map_buff, map, &err);
 	if (err == 1)

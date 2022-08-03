@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 19:39:22 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 13:25:41 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "minishell.h"
 #include "parser.h"
 #include "executer.h"
-#include "error.h"
+#include "shell_error.h"
 #include "shell_signal.h"
 
 int	execute_user_input(t_shell_data *shell_data, char *user_input)
@@ -54,7 +54,7 @@ static char	*shell_readline(void)
 	return (user_input);
 }
 
-static void	shell_loop(t_shell_data	*shell_data)
+static int	shell_loop(t_shell_data	*shell_data)
 {
 	char	*user_input;
 
@@ -66,27 +66,29 @@ static void	shell_loop(t_shell_data	*shell_data)
 				execute_user_input(shell_data, user_input);
 		user_input = shell_readline();
 	}
+	return (shell_data->exit_status);
 }
 
 static void	check_argc(int argc)
 {
 	if (argc > 1)
 		exit_with_error_msg(
-			"the number of arguments is not zero\n", EXIT_FAILURE
+			"the number of arguments is not zero", EXIT_FAILURE
 		);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_shell_data	shell_data;
+	int				exit_status;
 
 	(void)argv;
 	check_argc(argc);
 	disable_display_control_symbols();	
 	set_signals();
 	init_shell_data(&shell_data, envp);
-	shell_loop(&shell_data);
+	exit_status = shell_loop(&shell_data);
 	destroy_shell_data(&shell_data);
 	rl_clear_history();
-	return (0);
+	return (exit_status);
 }

@@ -14,7 +14,6 @@ SRC = 															\
 	source/lexer/lexer.c										\
 	source/lexer/lexer_utils.c									\
 																\
-	source/parser/check_closed_quotes.c							\
 	source/parser/parser.c										\
 	source/parser/pipe_group.c									\
 	source/parser/operator.c									\

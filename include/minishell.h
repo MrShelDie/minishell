@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 19:38:25 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 13:08:15 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "vector.h"
 # include "builtin.h"
 
+# define SYNTAX_ERR_MSG "minishell: syntax error near unexpected token "
 
 # define FAIL 0
 # define SUCCESS 1

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 14:11:11 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 18:11:01 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 11:35:43 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include "minishell.h"
 #include "libft.h"
-#include "error.h"
+#include "shell_error.h"
 
 static void	set_builtin_array(t_builtin *builtins)
 {

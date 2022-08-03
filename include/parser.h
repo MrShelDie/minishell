@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 16:39:13 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 13:08:09 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "libft.h"
 # include "lexer.h"
-
-# define SYNTAX_ERR_MSG "minishell: syntax error near unexpected token "
 
 typedef t_list	t_pipe_group_list;
 typedef t_list	t_operator_list;

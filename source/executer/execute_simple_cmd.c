@@ -6,11 +6,13 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 20:20:08 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 11:09:20 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "executer_private.h"
 #include "minishell.h"

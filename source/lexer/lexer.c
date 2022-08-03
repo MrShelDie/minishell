@@ -6,12 +6,16 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 12:26:28 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 17:30:09 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 13:15:19 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include <errno.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "lexer.h"
+#include "shell_error.h"
 
 /**
  * @brief Checks if the next few characters are metacharacters.
@@ -40,28 +44,18 @@ static int	is_metacharacter(const char *c)
  */
 static size_t	get_word_token_length(const char *str)
 {
-	size_t	i;
+	const char	*str_start;
 
 	if (!str)
 		return (0);
-	i = 0;
-	while (!ft_isspace(str[i]) && !is_metacharacter(str + i))
+	str_start = str;
+	while (!ft_isspace(*str) && !is_metacharacter(str))
 	{
-		if (str[i] == '\'')
-		{
-			++i;
-			while (str[i] != '\'' && str[i] != '\0')
-				++i;
-		}
-		else if (str[i] == '\"')
-		{
-			++i;
-			while (str[i] != '\"' && str[i] != '\0')
-				++i;
-		}
-		++i;
+		if (*str == '\'' || *str == '\"')
+			move_to_closed_quote(&str);
+		++str;
 	}
-	return (i);
+	return (str - str_start);
 }
 
 /**
@@ -76,69 +70,70 @@ static size_t	get_word_token_length(const char *str)
  * 		   In case of a memory allocation error, returns NULL.
  */
 static t_token_list	*get_token(
-	const char **pp_current_char, t_token_id id, size_t value_length)
+	const char **current_char, t_token_id id, size_t value_length)
 {
-	t_token_list	*list_node;
+	t_token_list	*token_list_node;
 	t_token			*token;
-	char			*value;
 
-	value = (char *)malloc(sizeof(char) * (value_length + 1));
-	if (!value)
-		return (NULL);
-	ft_strlcpy(value, *pp_current_char, value_length + 1);
-	token = (t_token *)malloc(sizeof(t_token));
+	token = malloc(sizeof(t_token));
 	if (!token)
 	{
-		free(value);
+		print_error(strerror(errno));
 		return (NULL);
 	}
 	token->id = id;
-	token->value = value;
-	list_node = ft_lstnew(token);
-	if (!list_node)
+	token->value = ft_substr(*current_char, 0, value_length);
+	if (!token->value)
 	{
-		free(value);
-		free(token);
+		print_error(strerror(errno));
+		destroy_token(token);
+		return (NULL);
 	}
-	*pp_current_char += value_length;
-	return (list_node);
+	token_list_node = ft_lstnew(token);
+	if (!token_list_node)
+	{
+		print_error(strerror(errno));
+		destroy_token(token);
+	}
+	*current_char += value_length;
+	return (token_list_node);
 }
 
 /**
  * @brief Gets the next token, moves the pointer to the current character
  * 		by a value equal to the length of the read token.
  * 
- * @param pp_current_char Double pointer to the current character
+ * @param current_char Double pointer to the current character
  * @return Pointer to the created token.
  *		   In case of a memory allocation error, returns NULL.
  */
-static t_token_list	*get_next_token(const char **pp_current_char)
+static t_token_list	*get_next_token(const char **current_char)
 {
-	while (ft_isspace(**pp_current_char))
-		++(*pp_current_char);
-	if (ft_strncmp(*pp_current_char, "<<", 2) == 0)
-		return (get_token(pp_current_char, TOKEN_D_ANG_BR_L, 2));
-	else if (ft_strncmp(*pp_current_char, ">>", 2) == 0)
-		return (get_token(pp_current_char, TOKEN_D_ANG_BR_R, 2));
-	else if (ft_strncmp(*pp_current_char, "&&", 2) == 0)
-		return (get_token(pp_current_char, TOKEN_AND, 2));
-	else if (ft_strncmp(*pp_current_char, "||", 2) == 0)
-		return (get_token(pp_current_char, TOKEN_OR, 2));
-	else if (**pp_current_char == '\0')
-		return (get_token(pp_current_char, TOKEN_NEW_LINE, 1));
-	else if (**pp_current_char == '|')
-		return (get_token(pp_current_char, TOKEN_PIPE, 1));
-	else if (**pp_current_char == '(')
-		return (get_token(pp_current_char, TOKEN_PAR_L, 1));
-	else if (**pp_current_char == ')')
-		return (get_token(pp_current_char, TOKEN_PAR_R, 1));
-	else if (**pp_current_char == '<')
-		return (get_token(pp_current_char, TOKEN_ANG_BR_L, 1));
-	else if (**pp_current_char == '>')
-		return (get_token(pp_current_char, TOKEN_ANG_BR_R, 1));
+	while (ft_isspace(**current_char))
+		++(*current_char);
+	if (ft_strncmp(*current_char, "<<", 2) == 0)
+		return (get_token(current_char, TOKEN_D_ANG_BR_L, 2));
+	else if (ft_strncmp(*current_char, ">>", 2) == 0)
+		return (get_token(current_char, TOKEN_D_ANG_BR_R, 2));
+	else if (ft_strncmp(*current_char, "&&", 2) == 0)
+		return (get_token(current_char, TOKEN_AND, 2));
+	else if (ft_strncmp(*current_char, "||", 2) == 0)
+		return (get_token(current_char, TOKEN_OR, 2));
+	else if (**current_char == '\0')
+		return (get_token(current_char, TOKEN_NEW_LINE, 1));
+	else if (**current_char == '|')
+		return (get_token(current_char, TOKEN_PIPE, 1));
+	else if (**current_char == '(')
+		return (get_token(current_char, TOKEN_PAR_L, 1));
+	else if (**current_char == ')')
+		return (get_token(current_char, TOKEN_PAR_R, 1));
+	else if (**current_char == '<')
+		return (get_token(current_char, TOKEN_ANG_BR_L, 1));
+	else if (**current_char == '>')
+		return (get_token(current_char, TOKEN_ANG_BR_R, 1));
 	else
-		return (get_token(pp_current_char, TOKEN_WORD,
-				get_word_token_length(*pp_current_char)));
+		return (get_token(current_char, TOKEN_WORD,
+				get_word_token_length(*current_char)));
 }
 
 /**
@@ -153,16 +148,16 @@ t_token_list	*get_token_list(const char *str)
 {
 	t_token_list	*token_list;
 	t_token_list	*new_token;
-	const char		*p_current_char;
+	const char		*current_char;
 
 	if (!str)
 		return (NULL);
-	p_current_char = str;
+	current_char = str;
 	token_list = NULL;
 	while (!token_list
 		|| ((t_token *)(new_token->content))->id != TOKEN_NEW_LINE)
 	{
-		new_token = get_next_token(&p_current_char);
+		new_token = get_next_token(&current_char);
 		if (!new_token)
 		{
 			ft_lstclear(&token_list, destroy_token);

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:02:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 18:17:32 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 11:36:04 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "shell_signal.h"
 #include "libft.h"
-#include "error.h"
+#include "shell_signal.h"
+#include "shell_error.h"
 
 void	set_signals(void)
 {
