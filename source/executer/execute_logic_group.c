@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_pipe_group.c                               :+:      :+:    :+:   */
+/*   execute_logic_group.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 20:04:15 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 01:07:45 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,22 +113,22 @@ static int execute_cmd_list(t_shell_data *data, t_cmd_list *cmd_list)
 	return (exit_status);
 }
 
-int execute_pipe_group_list(t_shell_data *shell_data,
-	t_pipe_group_list *pipe_group, t_operator_list *operator_list)
+int execute_logic_group_list(t_shell_data *shell_data,
+	t_logic_group_list *logic_group_list, t_operator_list *operator_list)
 {
 	t_operator	*operator;
 	int			exit_status;
 
-	while (pipe_group)
+	while (logic_group_list)
 	{
 		operator = operator_list->content;
-		if (!expand_pipe_group(shell_data, pipe_group->content))
+		if (!expand_logic_group(shell_data, logic_group_list->content))
 			return (EXIT_FAILURE);
-		exit_status = execute_cmd_list(shell_data, pipe_group->content);
-		pipe_group = pipe_group->next;
+		exit_status = execute_cmd_list(shell_data, logic_group_list->content);
+		logic_group_list = logic_group_list->next;
 		if ((*operator == OP_AND && exit_status != 0)
 			|| (*operator == OP_OR && exit_status == 0))
-			pipe_group = pipe_group->next;
+			logic_group_list = logic_group_list->next;
 		if (*operator == OP_NEW_LINE)
 			break ;
 		operator_list = operator_list->next;

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 18:16:29 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 01:18:59 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,42 @@ void	destroy_parsed_data(t_parsed_data *parsed_data)
 {
 	if (!parsed_data)
 		return ;
-	if (parsed_data->pipe_group_list)
-		ft_lstclear(&parsed_data->pipe_group_list, destroy_pipe_group);
-	if (parsed_data->operator_list)
-		ft_lstclear(&parsed_data->operator_list, free);
+	ft_lstclear(&parsed_data->logic_group_list, destroy_logic_group);
+	ft_lstclear(&parsed_data->operator_list, free);
 }
 
+/*
+**  The function fills in the list of logical groups and the list
+**	of operators standing between logical groups in the user input line.
+**	
+**	If the parser encountered parentheses, then the tokens of the substring
+**  in parentheses are passed recursively to this function, having previously
+**  increased the recursion level variable.
+**
+**  The recursion level variable is used to correctly display error messages.
+*/
 int	parse_tokens(t_parsed_data *parsed_data, t_token_list *token_list)
 {
-	t_pipe_group_list	*pipe_group;
-	t_operator_list		*operator;
+	t_logic_group_list	*logic_group_list_node;
+	t_operator_list		*operator_list_node;
+	t_operator			*operator;
 	static size_t		recursion_level = 0;
 
-	if (!parsed_data || !token_list)
-		return (FAIL);
+	operator_list_node = NULL;
 	operator = NULL;
-	while (!(operator
-			&& *((t_operator *)(operator->content)) == OP_NEW_LINE))
+	while (!operator || *operator != OP_NEW_LINE)
 	{
-		pipe_group = get_next_pipe_group(&token_list, &recursion_level);
-		if (!pipe_group)
+		logic_group_list_node = get_next_logic_group_list_node(
+			&token_list, &recursion_level);
+		if (!logic_group_list_node)
 			return (FAIL);
-		operator = get_next_operator(&token_list, recursion_level);
-		if (!operator)
+		ft_lstadd_back(&parsed_data->logic_group_list, logic_group_list_node);
+		operator_list_node = get_next_operator_list_node(
+			&token_list, recursion_level);
+		if (!operator_list_node)
 			return (FAIL);
-		ft_lstadd_back(&parsed_data->pipe_group_list, pipe_group);
-		ft_lstadd_back(&parsed_data->operator_list, operator);
+		ft_lstadd_back(&parsed_data->operator_list, operator_list_node);
+		operator = operator_list_node->content;
 	}
 	return (SUCCESS);
 }

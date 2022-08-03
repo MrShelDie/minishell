@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/03 13:08:09 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:51:54 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include "lexer.h"
 
-typedef t_list	t_pipe_group_list;
+typedef t_list	t_logic_group_list;
 typedef t_list	t_operator_list;
 
 typedef t_list	t_cmd_list;
@@ -30,7 +30,7 @@ typedef enum e_operator
 
 typedef struct s_parsed_data
 {
-	t_pipe_group_list	*pipe_group_list;
+	t_logic_group_list	*logic_group_list;
 	t_operator_list		*operator_list;
 }	t_parsed_data;
 

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:29 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 17:31:57 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 01:18:44 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,29 @@ static t_operator_list	*create_operator_list_node(t_operator id)
 	return (operator_list_node);
 }
 
-t_operator_list	*get_next_operator(t_token_list **token, size_t recursion_level)
+t_operator_list	*get_next_operator_list_node(
+	t_token_list **token_list_node, size_t recursion_level)
 {
 	t_token_id		token_id;
 
-	if (!token || !*token)
+	if (!token_list_node || !*token_list_node)
 		return (NULL);
-	token_id = ((t_token *)((*token)->content))->id;
+	token_id = ((t_token *)((*token_list_node)->content))->id;
 	if (token_id == TOKEN_OR)
 	{
-		*token = (*token)->next;
+		*token_list_node = (*token_list_node)->next;
 		return (create_operator_list_node(OP_OR));
 	}
 	else if (token_id == TOKEN_AND)
 	{
-		*token = (*token)->next;
+		*token_list_node = (*token_list_node)->next;
 		return (create_operator_list_node(OP_AND));
 	}
 	else if (token_id == TOKEN_NEW_LINE)
 	{
-		*token = (*token)->next;
+		*token_list_node = (*token_list_node)->next;
 		return (create_operator_list_node(OP_NEW_LINE));
 	}
-	unexpected_token_error((*token)->content, recursion_level);
+	unexpected_token_error((*token_list_node)->content, recursion_level);
 	return (NULL);
 }

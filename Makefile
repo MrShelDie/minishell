@@ -42,7 +42,7 @@ SRC = 															\
 	source/executer/expand_heredoc_utils.c						\
 	source/executer/read_heredoc.c								\
 	source/executer/read_heredoc_utils.c						\
-	source/executer/execute_pipe_group.c						\
+	source/executer/execute_logic_group.c						\
 	source/executer/execute_simple_cmd.c						\
 	source/executer/init_pipex.c								\
 	source/executer/destroy_pipex.c								\
@@ -51,7 +51,7 @@ SRC = 															\
 	source/get_next_line/get_next_line_utils.c					\
 																\
 	source/expand/asterisk.c									\
-	source/expand/expand_pipe_group.c							\
+	source/expand/expand_logic_group.c							\
 	source/expand/expand_quote_var/append_expanded_str.c		\
 	source/expand/expand_quote_var/append_regular_str.c			\
 	source/expand/expand_quote_var/append_substr.c				\

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 12:48:20 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/20 17:31:57 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:32:04 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,21 @@ void	destroy_redir(void *redir)
 	free(((t_redir *)redir)->value);
 }
 
-int	fill_redir(t_cmd *cmd, t_token_list **token,
+int	fill_redir(t_cmd *cmd, t_token_list **token_list_node,
 		t_redir_id redir_id, size_t *recursion_level)
 {
 	t_redir			*redir;
 	t_redir_list	*redir_list_node;
+	t_token			*token;
 
-	(*token) = (*token)->next;
-	if (((t_token *)((*token)->content))->id != TOKEN_WORD)
+	*token_list_node = (*token_list_node)->next;
+	token = (*token_list_node)->content;
+	if (token->id != TOKEN_WORD)
 	{
-		unexpected_token_error((*token)->content, *recursion_level);
+		unexpected_token_error(token, *recursion_level);
 		return (FAIL);
 	}
-	redir = create_redir(redir_id, ((t_token *)((*token)->content))->value);
+	redir = create_redir(redir_id, token->value);
 	if (!redir)
 		return (FAIL);
 	redir_list_node = ft_lstnew(redir);
@@ -60,6 +62,6 @@ int	fill_redir(t_cmd *cmd, t_token_list **token,
 		return (FAIL);
 	}
 	ft_lstadd_back(&cmd->redir_list, redir_list_node);
-	(*token) = (*token)->next;
+	(*token_list_node) = (*token_list_node)->next;
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 16:01:00 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/31 17:49:12 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 23:23:39 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	read_heredocs_in_cmd_list(t_cmd_list *cmd_list)
 }
 
 ///TODO chto esli ne zapisalis' dannye
-int	read_all_heredocs(t_pipe_group_list *pipe_group)
+int	read_all_heredocs(t_logic_group_list *pipe_group)
 {
 	while (pipe_group)
 	{

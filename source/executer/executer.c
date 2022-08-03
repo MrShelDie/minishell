@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 20:00:44 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:58:47 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 
 int	execute_parsed_line(t_shell_data *shell_data, t_parsed_data *parsed_data)
 {
-	t_pipe_group_list	*pipe_group;
+	t_logic_group_list	*logic_group_list;
 	t_operator_list		*operator_list;
 
-	pipe_group = parsed_data->pipe_group_list;
+	logic_group_list = parsed_data->logic_group_list;
 	operator_list = parsed_data->operator_list;
-	if (!read_all_heredocs(pipe_group))
+	if (!read_all_heredocs(logic_group_list))
 		return (EXIT_FAILURE);
-	if (pipe_group->next)
-		return (execute_pipe_group_list(shell_data, pipe_group, operator_list));
-	return (execute_simple_cmd(shell_data, pipe_group));
+	if (logic_group_list->next)
+		return (execute_logic_group_list(shell_data, logic_group_list, operator_list));
+	return (execute_simple_cmd(shell_data, logic_group_list));
 }

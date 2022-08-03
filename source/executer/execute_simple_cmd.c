@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/03 11:09:20 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/03 23:23:39 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	exec_util(t_shell_data *shell_data, t_cmd *cmd)
 	return (exit_status);
 }
 
-int execute_simple_cmd(t_shell_data *shell_data, t_pipe_group_list *pipe_group)
+int execute_simple_cmd(t_shell_data *shell_data, t_logic_group_list *pipe_group)
 {
 	t_cmd_list		*cmd_list;
 	t_cmd			*cmd;

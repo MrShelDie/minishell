@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:56 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/03 13:07:14 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:14:03 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 int					parse_tokens(
 						t_parsed_data *parsed_data, t_token_list *token_list);
 
-t_pipe_group_list	*get_next_pipe_group(
+t_logic_group_list	*get_next_logic_group_list_node(
 						t_token_list **token, size_t *recursion_level);
-t_operator_list		*get_next_operator(
+t_operator_list		*get_next_operator_list_node(
 						t_token_list **token, size_t recursion_level);
 
 t_cmd				*get_next_cmd(
@@ -37,7 +37,7 @@ int					fill_subshell(t_cmd *cmd,
 
 void				destroy_cmd(void *cmd);
 void				destroy_redir(void *redir);
-void				destroy_pipe_group(void *pipeline);
+void				destroy_logic_group(void *pipeline);
 
 void				unexpected_token_error(
 						t_token *token, size_t recursion_level);
