@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:21:17 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 17:00:08 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:06:54 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	append_substr(char **dst, const char *src, size_t len)
 	return (SUCCESS);
 }
 
-static char	*cut_key(char *str, size_t *i)
+static char	*cut_variable_name(char *str, size_t *i)
 {
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 		++(*i);
@@ -51,7 +51,7 @@ static int	append_expanded_dolar(
 
 	i = 0;
 	++(*src);
-	key = cut_key(*src, &i);
+	key = cut_variable_name(*src, &i);
 	if (!key)
 	{
 		free(*dst);

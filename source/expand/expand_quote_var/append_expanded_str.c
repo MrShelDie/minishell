@@ -6,50 +6,31 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:42:17 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 15:38:06 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 17:36:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../expand_private.h"
-#include <stdlib.h>
 
-static char	*cut_key(char *str, size_t *i)
+static int	append_expanded_variable(
+	const t_shell_data *shell_data, char **dst, char **src)
 {
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
-		++(*i);
-	return (ft_substr(str, 0, *i));
-}
+	const char	*variable_value;
+	size_t		variable_length;
 
-static int	append_expanded_dolar(
-	const t_map *env_map, char **dst, char **src)
-{
-	size_t		i;
-	char		*key;
-	const char	*value;
-
-	i = 0;
 	++(*src);
-	key = cut_key(*src, &i);
-	if (!key)
-	{
-		free(*dst);
-		return (FAIL);
-	}
-	value = map_get(env_map, key);
-	free(key);
-	if (!value)
-	{
-		*src += i;
+	variable_value = get_variable_value(shell_data, *src);
+	variable_length = get_variable_length(*src);
+	*src += variable_length;
+	if (!variable_value)
 		return (SUCCESS);
-	}
-	if (!append_substr(dst, value, ft_strlen(value)))
+	if (!append_substr(dst, variable_value, ft_strlen(variable_value)))
 		return (FAIL);
-	*src += i;
 	return (SUCCESS);
 }
 
 static int	append_expanded_double_quotes_str(
-	const t_map *env_map, char **dst, char **src)
+	const t_shell_data *shell_data, char **dst, char **src)
 {
 	size_t	i;
 
@@ -58,14 +39,14 @@ static int	append_expanded_double_quotes_str(
 	while ((*src)[i] != '\"')
 	{
 		while ((*src)[i] != '\"' && !((*src)[i] == '$'
-				&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
+			&& !is_variable(*src + i)))
 			++i;
 		if (!append_substr(dst, *src, i))
 			return (FAIL);
 		(*src) += i;
 		if (**src == '$')
 		{
-			if (!append_expanded_dolar(env_map, dst, src))
+			if (!append_expanded_variable(shell_data, dst, src))
 				return (FAIL);
 		}
 		i = 0;
@@ -89,15 +70,14 @@ static int	append_expanded_quotes_str(char **dst, char **src)
 }
 
 int	append_expanded_str(
-	const t_map *env_map, char **dst, char **src)
+	const t_shell_data *shell_data, char **dst, char **src)
 {
 	if (**src == '\'' && !append_expanded_quotes_str(dst, src))
 		return (FAIL);
 	else if (**src == '\"'
-		&& !append_expanded_double_quotes_str(env_map, dst, src))
+		&& !append_expanded_double_quotes_str(shell_data, dst, src))
 		return (FAIL);
-	else if (**src == '$' && (ft_isalnum((*src)[1]) || (*src)[1] == '_')
-		&& !append_expanded_dolar(env_map, dst, src))
+	else if (is_variable(*src) && !append_expanded_variable(shell_data, dst, src))
 		return (FAIL);
 	return (SUCCESS);
 }

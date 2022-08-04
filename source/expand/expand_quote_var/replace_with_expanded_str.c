@@ -6,32 +6,37 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:54:24 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/28 20:42:41 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 16:36:42 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../expand_private.h"
+#include <string.h>
+#include <errno.h>
 #include <stdlib.h>
 
+#include "../expand_private.h"
+#include "shell_error.h"
+
 int	replace_with_expanded_str(
-	const t_map *env_map, void **str)
+	const t_shell_data *shell_data, void **str)
 {
-	char	**_str;
 	char	*str_start;
 	char	*expanded;
 
-	_str = (char **)str;
-	str_start = *_str;
+	str_start = *str;
 	expanded = ft_strdup("");
 	if (!expanded)
-		return (FAIL);
-	while (**_str)
 	{
-		if (!append_regular_str(&expanded, _str))
+		print_error(strerror(errno));
+		return (FAIL);
+	}
+	while (**(char **)str)
+	{
+		if (!append_regular_str(&expanded, (char **)str))
 			return (FAIL);
-		if (!**_str)
+		if (!**(char **)str)
 			break ;
-		if (!append_expanded_str(env_map, &expanded, _str))
+		if (!append_expanded_str(shell_data, &expanded, (char **)str))
 			return (FAIL);
 	}
 	free(str_start);

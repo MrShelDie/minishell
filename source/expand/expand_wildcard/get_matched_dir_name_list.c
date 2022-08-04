@@ -6,38 +6,16 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:52:01 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 17:45:07 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 17:32:30 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../expand_private.h"
+#include <errno.h>
+#include <string.h>
 #include <stdlib.h>
 
-static int	fill_dir_name_list(
-	t_list **matched_dir_list, const char *cwd, bool is_hidden)
-{
-	DIR         *dir;
-	t_dirent    *dirent;
-
-	dir = opendir(cwd);
-	if (!dir)
-		return (FAIL);
-	dirent = readdir(dir);
-	if (dirent && !is_hidden
-		&& !append_exposed_dir_name_to_list(matched_dir_list, dir, dirent))
-	{
-		closedir(dir);
-		return (FAIL);
-	}
-	else if (dirent && is_hidden
-		&& !append_hidden_dir_name_to_list(matched_dir_list, dir, dirent))
-	{
-		closedir(dir);
-		return (FAIL);
-	}
-	closedir(dir);
-	return (SUCCESS);
-}
+#include "../expand_private.h"
+#include "shell_error.h"
 
 static int	remove_unmatched_dirs(
 	t_list **matched_dir_list, const char *pattern, bool *asterisk_map)
@@ -65,6 +43,35 @@ static int	remove_unmatched_dirs(
 	return (SUCCESS);
 }
 
+static int	fill_dir_name_list(
+	t_list **matched_dir_list, const char *cwd, bool is_hidden_directories)
+{
+	DIR			*dir;
+	t_dirent	*dirent;
+	int			previous_errno;
+	int			append_status;
+
+	dir = opendir(cwd);
+	if (!dir)
+	{
+		print_error(strerror(errno));
+		return (FAIL);
+	}
+	previous_errno = errno;
+	dirent = readdir(dir);
+	if (!dirent && previous_errno != errno)
+		print_error(strerror(errno));
+	append_status = FAIL;
+	if (dirent && is_hidden_directories)
+		append_status = append_hidden_dir_name_to_list(
+				matched_dir_list, dir, dirent);
+	else if (dirent && !is_hidden_directories)
+		append_status = append_exposed_dir_name_to_list(
+				matched_dir_list, dir, dirent);
+	closedir(dir);
+	return (append_status);
+}
+
 int	get_matched_dir_name_list(
 	t_list **matched_dir_list, const char *pattern, bool *asterisk_map)
 {
@@ -73,18 +80,14 @@ int	get_matched_dir_name_list(
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		// TODO handle error
+		print_error(strerror(errno));
 		return (FAIL);
 	}
-	if (!fill_dir_name_list(matched_dir_list, cwd, pattern[0] == '.'))
+	if (!fill_dir_name_list(matched_dir_list, cwd, pattern[0] == '.')
+		|| !remove_unmatched_dirs(matched_dir_list, pattern, asterisk_map))
 	{
 		free(cwd);
-		return (FAIL);
-	}
-	if (!remove_unmatched_dirs(matched_dir_list, pattern, asterisk_map))
-	{
-		free(cwd);
-		ft_lstclear(matched_dir_list, free);		
+		ft_lstclear(matched_dir_list, free);
 		return (FAIL);
 	}
 	free(cwd);

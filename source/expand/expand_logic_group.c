@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_pipe_group.c                                :+:      :+:    :+:   */
+/*   expand_logic_group.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:54:19 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 00:58:33 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 17:21:27 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "expand_private.h"
+#include <errno.h>
+#include <string.h>
 #include <stdlib.h>
 
-static int	expand_arg_list(const t_map *env_map, t_arg_list **arg_list)
+#include "parser.h"
+#include "shell_error.h"
+#include "expand_private.h"
+
+static int	expand_arg_list(
+	const t_shell_data *shell_data, t_arg_list **arg_list)
 {
 	t_arg_list	**current;
 	t_arg_list	*next;
@@ -27,7 +32,7 @@ static int	expand_arg_list(const t_map *env_map, t_arg_list **arg_list)
 		if (!fill_asterisk_map(&asterisk, (*current)->content))
 			return (FAIL);
 		if (check_expansion((*current)->content)
-			&& !replace_with_expanded_str(env_map, &(*current)->content))
+			&& !replace_with_expanded_str(shell_data, &(*current)->content))
 			return (FAIL);
 		if (asterisk.contains_wildcard
 			&& !insert_matched_wildcard_arg_list(current, next, asterisk.array))
@@ -46,15 +51,14 @@ static int	expand_redir_list(
 	while (redir_list)
 	{
 		if (!fill_asterisk_map(
-			&asterisk, ((t_redir *)redir_list->content)->value))
+				&asterisk, ((t_redir *)redir_list->content)->value))
 			return (FAIL);
 		if (check_expansion(((t_redir *)redir_list->content)->value)
-			&& !replace_with_expanded_str(shell_data->env_map,
+			&& !replace_with_expanded_str(shell_data,
 				&((t_redir *)redir_list->content)->value))
 			return (FAIL);
 		if (asterisk.contains_wildcard && !replace_matched_redir(
-				shell_data, &((t_redir *)redir_list->content)->value,
-				asterisk.array))
+				&((t_redir *)redir_list->content)->value, asterisk.array))
 			return (FAIL);
 		free_asterisk_map(&asterisk);
 		redir_list = redir_list->next;
@@ -64,7 +68,7 @@ static int	expand_redir_list(
 
 int	expand_cmd(const t_shell_data *shell_data, t_cmd *cmd)
 {
-	if (!expand_arg_list(shell_data->env_map, &cmd->arg_list)
+	if (!expand_arg_list(shell_data, &cmd->arg_list)
 		|| !expand_redir_list(shell_data, cmd->redir_list)
 	)
 		return (FAIL);
@@ -72,7 +76,10 @@ int	expand_cmd(const t_shell_data *shell_data, t_cmd *cmd)
 		ft_strtolower(cmd->arg_list->content);
 	cmd->argv = vector_create_from_list(cmd->arg_list);
 	if (!cmd->argv)
+	{
+		print_error(strerror(errno));
 		return (FAIL);
+	}
 	return (SUCCESS);
 }
 

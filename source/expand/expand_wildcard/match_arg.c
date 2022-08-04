@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:59:47 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 18:49:03 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:36:55 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	insert_matched_wildcard_arg_list(
 
 	matched_dir_list = NULL;
 	if (!get_matched_dir_name_list(
-		&matched_dir_list, (*current)->content, asterisk_map))
+			&matched_dir_list, (*current)->content, asterisk_map))
 		return (FAIL);
 	if (!matched_dir_list)
 		return (SUCCESS);

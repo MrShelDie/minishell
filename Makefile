@@ -53,6 +53,7 @@ SRC = 															\
 	source/expand/asterisk.c									\
 	source/expand/expand_logic_group.c							\
 	source/expand/expand_quote_var/append_expanded_str.c		\
+	source/expand/expand_quote_var/append_expanded_str_utils.c	\
 	source/expand/expand_quote_var/append_regular_str.c			\
 	source/expand/expand_quote_var/append_substr.c				\
 	source/expand/expand_quote_var/check_expansion.c			\

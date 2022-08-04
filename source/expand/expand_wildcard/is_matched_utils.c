@@ -6,12 +6,16 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 19:48:57 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 18:51:08 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 17:17:49 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../expand_private.h"
+#include <errno.h>
+#include <string.h>
 #include <stdlib.h>
+
+#include "../expand_private.h"
+#include "shell_error.h"
 
 static void	destroy_matrix_array(bool **array, size_t i)
 {
@@ -57,17 +61,22 @@ int	init_matrix(t_matrix *matrix, const char *str,
 	matrix->str_len = ft_strlen(str) + 1;
 	matrix->pattern_len = ft_strlen(pattern) + 1;
 	matrix->array = create_matrix_array(
-		matrix->str_len + 1, matrix->pattern_len + 1);
+			matrix->str_len + 1, matrix->pattern_len + 1);
 	matrix->str = ft_strjoin(" ", str);
 	matrix->pattern = ft_strjoin(" ", pattern);
 	if (!matrix->array || !matrix->str || !matrix->pattern)
 	{
+		print_error(strerror(errno));
 		destroy_matrix(matrix);
 		return (FAIL);
 	}
 	return (SUCCESS);
 }
 
+/* 
+** Dynamic programming algorithm for wildcard matching.
+** https://www.youtube.com/watch?v=3ZDZ-N0EPV0
+*/
 void	fill_matrix(t_matrix matrix)
 {
 	size_t	i;
@@ -79,7 +88,7 @@ void	fill_matrix(t_matrix matrix)
 	j = 1;
 	while (j < matrix.pattern_len && matrix.pattern[j] == '*'
 		&& matrix.asterisk_map[j - 1])
-		matrix.array[0][j++] = true;	
+		matrix.array[0][j++] = true;
 	i = 0;
 	while (++i < matrix.str_len)
 	{
@@ -91,8 +100,8 @@ void	fill_matrix(t_matrix matrix)
 				matrix.array[i][j] = matrix.array[i - 1][j - 1];
 			else if (matrix.pattern[j] == '*'
 				&& matrix.asterisk_map[aster_idx++])
-				matrix.array[i][j] =
-					matrix.array[i - 1][j] || matrix.array[i][j - 1];
+				matrix.array[i][j]
+					= matrix.array[i - 1][j] || matrix.array[i][j - 1];
 		}
 	}
 }

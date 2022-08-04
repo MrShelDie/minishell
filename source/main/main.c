@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 13:17:15 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:18:30 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,6 @@ int	execute_user_input(t_shell_data *shell_data, char *user_input)
 	return (exit_status);
 }
 
-/**
- * @brief Writes the prompt string, reads user input and adds
- * 	it to the history if at least one non-whitespace character was entered.
- * 
- * @return The string entered by the user.
- * 	If EOF is read it returns NULL.
- */
 static char	*shell_readline(void)
 {
 	char	*user_input;
@@ -64,6 +57,7 @@ static int	shell_loop(t_shell_data	*shell_data)
 		if (!ft_is_space_string(user_input))
 			shell_data->exit_status = execute_user_input(
 					shell_data, user_input);
+		free(user_input);
 		user_input = shell_readline();
 	}
 	return (shell_data->exit_status);

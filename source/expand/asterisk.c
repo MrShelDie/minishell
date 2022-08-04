@@ -6,17 +6,21 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:02:19 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/28 19:23:16 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:30:24 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_private.h"
+#include <errno.h>
+#include <string.h>
 #include <stdlib.h>
+
+#include "expand_private.h"
+#include "shell_error.h"
 
 static size_t	get_asterisk_count(const char *str)
 {
 	size_t	asterisk_count;
-	
+
 	asterisk_count = 0;
 	while (*str)
 	{
@@ -33,17 +37,18 @@ static int	init_asterisk_map(t_asterisk *asterisk_map, const char *str)
 	asterisk_map->size = get_asterisk_count(str);
 	if (asterisk_map->size == 0)
 		return (SUCCESS);
-	asterisk_map->array = (bool *)malloc(sizeof(bool) * asterisk_map->size);
+	asterisk_map->array = ft_calloc(asterisk_map->size, sizeof(bool));
 	if (!asterisk_map->array)
+	{
+		print_error(strerror(errno));
 		return (FAIL);
-	ft_bzero(asterisk_map->array, sizeof(bool) * asterisk_map->size);
+	}
 	return (SUCCESS);
 }
 
 void	free_asterisk_map(t_asterisk *asterisk_map)
 {
-	if (asterisk_map->array)
-		free(asterisk_map->array);
+	free(asterisk_map->array);
 	ft_bzero(asterisk_map, sizeof(t_asterisk));
 }
 
@@ -51,7 +56,7 @@ int	fill_asterisk_map(t_asterisk *asterisk_map, const char *str)
 {
 	t_quote			quote;
 	size_t			asterisk_idx;
-	
+
 	if (!init_asterisk_map(asterisk_map, str))
 		return (FAIL);
 	ft_bzero(&quote, sizeof(t_quote));
@@ -69,7 +74,7 @@ int	fill_asterisk_map(t_asterisk *asterisk_map, const char *str)
 		{
 			asterisk_map->array[asterisk_idx++] = !quote.inside;
 			if (!quote.inside)
-				asterisk_map->contains_wildcard = true;	
+				asterisk_map->contains_wildcard = true;
 		}
 		++str;
 	}
