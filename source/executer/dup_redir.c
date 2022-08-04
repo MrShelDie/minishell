@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:44:13 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 15:43:50 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/04 19:19:06 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
+#include <errno.h>
+#include <string.h>
+
 int	dup_infile(const char *file_name)
 {
 	int	in;
 
+	if (access(file_name, 0) == -1)
+	{
+		print_error_with_file(file_name, strerror(errno));
+		return (FAIL);
+	}
 	in = open(file_name, O_RDONLY);
 	if (in < 0)
 		return (FAIL);

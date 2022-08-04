@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 19:48:57 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 17:17:49 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 20:12:57 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	fill_matrix(t_matrix matrix)
 			else if (matrix.pattern[j] == '*'
 				&& matrix.asterisk_map[aster_idx++])
 				matrix.array[i][j]
-					= matrix.array[i - 1][j] || matrix.array[i][j - 1];
+					= (matrix.array[i - 1][j] || matrix.array[i][j - 1]);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 14:18:30 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 19:48:13 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	check_argc(argc);
 	disable_display_control_symbols();
-	set_signals();
+	set_custom_signals();
 	init_shell_data(&shell_data, envp);
 	exit_status = shell_loop(&shell_data);
 	destroy_shell_data(&shell_data);

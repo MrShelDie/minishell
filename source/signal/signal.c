@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:02:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/03 11:36:04 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 19:56:06 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,29 @@
 #include "libft.h"
 #include "shell_signal.h"
 #include "shell_error.h"
+#include "minishell.h"
 
-void	set_signals(void)
+void	set_custom_signals(void)
 {
 	if (signal(SIGINT, newline_sig_handler) == SIG_ERR)
-		exit_with_error_msg(strerror(errno), EXIT_FAILURE);
+		print_error(strerror(errno));
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		exit_with_error_msg(strerror(errno), EXIT_FAILURE);
+		print_error(strerror(errno));
+}
+
+int	set_default_signals(void)
+{
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+	{
+		print_error(strerror(errno));
+		return (FAIL);
+	}
+	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+	{
+		print_error(strerror(errno));
+		return (FAIL);
+	}
+	return (SUCCESS);
 }
 
 void	disable_display_control_symbols(void)

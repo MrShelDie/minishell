@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_private.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 19:26:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 16:07:25 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/04 20:22:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int		restore_stdio(int dupped_io_fd[2]);
 // ---------------------------------------
 
 int		expand_var_in_heredoc(t_map *env, void **file_name);
+char	*open_files(const char *old_file_name, int *old_fd, int *new_fd);
 int		create_pipes(t_pipe *pipex);
 int		init_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list);
 void	ft_strdel(char **as);

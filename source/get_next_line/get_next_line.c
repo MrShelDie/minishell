@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 15:05:36 by gannemar          #+#    #+#             */
-/*   Updated: 2021/11/13 15:12:01 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 20:09:58 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	init_res(t_result *res)
 	res->size = 0;
 }
 
-static int	copy_buff_to_list_elem(t_buff *buff, t_gnl_list *list, t_result *res)
+static int	copy_buff_to_list_elem(
+	t_buff *buff, t_gnl_list *list, t_result *res)
 {
 	int	is_line_end;
 

@@ -40,6 +40,7 @@ SRC = 															\
 	source/executer/executer.c									\
 	source/executer/expand_heredoc.c							\
 	source/executer/expand_heredoc_utils.c						\
+	source/executer/expand_heredoc_utils2.c						\
 	source/executer/read_heredoc.c								\
 	source/executer/read_heredoc_utils.c						\
 	source/executer/execute_logic_group.c						\

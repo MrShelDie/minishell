@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:42:17 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 17:36:25 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 20:08:51 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int	append_expanded_str(
 	else if (**src == '\"'
 		&& !append_expanded_double_quotes_str(shell_data, dst, src))
 		return (FAIL);
-	else if (is_variable(*src) && !append_expanded_variable(shell_data, dst, src))
+	else if (
+		is_variable(*src) && !append_expanded_variable(shell_data, dst, src))
 		return (FAIL);
 	return (SUCCESS);
 }

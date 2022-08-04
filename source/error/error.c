@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:05:38 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 17:26:39 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 19:13:00 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 #include "shell_error.h"
 #include "libft.h"
+
+void	print_error_with_file(const char *file_name, const char *msg)
+{
+	ft_putstr_fd(PROGRAM_NAME, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(file_name, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+}
 
 void	print_error_ambiguous_redirect(const char *pattern)
 {

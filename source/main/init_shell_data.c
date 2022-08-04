@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 14:11:11 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/03 11:35:43 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 20:09:17 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	init_shell_data(t_shell_data *shell_data, char *const *envp)
 		handle_shell_init_error(shell_data);
 	shell_data->env_map = map_create();
 	if (!shell_data->env_map)
-		handle_shell_init_error(shell_data);	
+		handle_shell_init_error(shell_data);
 	if (!parse_env_to_map(shell_data->env_map, envp))
 		handle_shell_init_error(shell_data);
 	set_builtin_array(shell_data->builtins);

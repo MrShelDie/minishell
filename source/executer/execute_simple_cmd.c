@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_simple_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 16:06:25 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/04 19:59:53 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <sys/wait.h>
 
 #include "executer_private.h"
+#include "shell_signal.h"
 #include "minishell.h"
 #include "expand.h"
 #include "libft.h"
@@ -54,6 +55,8 @@ static int	child(t_shell_data *shell_data, t_cmd *cmd)
 	char	**cmd_paths;
 	char	*cmd_path;
 
+	if (set_default_signals() == FAIL)
+		exit(EXIT_FAILURE);
 	cmd_paths = get_cmd_paths(shell_data->env_map);
 	if (!cmd_paths)
 		exit(EXIT_FAILURE);
@@ -65,10 +68,7 @@ static int	child(t_shell_data *shell_data, t_cmd *cmd)
 		exit (EXIT_FAILURE);
 	}
 	if (!dup_redir(cmd->redir_list, shell_data))
-	{
-		print_error(strerror(errno));
 		exit (EXIT_FAILURE);
-	}
 	execve(cmd_path, cmd->argv->data, shell_data->env_vector->data);
 	free(cmd_path);
 	print_error(strerror(errno));
@@ -97,7 +97,8 @@ int	execute_simple_cmd(t_shell_data *shell_data, t_logic_group_list *pipe_group)
 
 	cmd_list = pipe_group->content;
 	cmd = cmd_list->content;
-	expand_cmd(shell_data, cmd);
+	if (!expand_cmd(shell_data, cmd))
+		return (EXIT_FAILURE);
 	if (!cmd->arg_list)
 		return (EXIT_SUCCESS);
 	builtin_nb = get_builtin_nb(cmd->argv->data[0]);

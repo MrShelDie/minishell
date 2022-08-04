@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 15:57:23 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/04 20:21:28 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,6 @@ static char	*get_stop_word(const char *str)
 	stop_word = ft_strdup(words[1]);
 	free_words(words);
 	return (stop_word);
-}
-
-static char	*open_files(const char *old_file_name, int *old_fd, int *new_fd)
-{
-	char	*new_file_name;
-
-	new_file_name = ft_strjoin(old_file_name, "_exp");
-	if (!new_file_name)
-		return (NULL);
-	*old_fd = open(old_file_name, O_RDONLY);
-	if (*old_fd < 0)
-	{
-		free(new_file_name);
-		print_error(strerror(errno));
-		return (NULL);
-	}
-	unlink(old_file_name);
-	*new_fd = open(new_file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	if (*new_fd < 0)
-	{
-		close(*old_fd);
-		free(new_file_name);
-		print_error(strerror(errno));
-		return (NULL);
-	}
-	return (new_file_name);
 }
 
 static int	expand_var(
