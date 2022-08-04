@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 15:49:35 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/01 15:50:47 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:54:24 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void ft_strdel(char **as)
+void	ft_strdel(char **as)
 {
-    free(*as);
-    *as = NULL; 
+	free(*as);
+	*as = NULL;
 }

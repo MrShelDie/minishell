@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:44:13 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/01 14:53:43 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:43:50 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	dup_infile(const char *file_name)
 {
-	int in;
+	int	in;
 
 	in = open(file_name, O_RDONLY);
 	if (in < 0)
@@ -29,7 +29,7 @@ int	dup_infile(const char *file_name)
 	return (SUCCESS);
 }
 
-int dup_heredoc(t_map *env, t_redir *redir)
+int	dup_heredoc(t_map *env, t_redir *redir)
 {
 	int		heredoc;
 
@@ -44,8 +44,8 @@ int dup_heredoc(t_map *env, t_redir *redir)
 
 int	dup_outfile(const char *file_name)
 {
-	int out;
-	
+	int	out;
+
 	out = open(file_name, O_TRUNC | O_CREAT | O_WRONLY, 0666);
 	if (out < 0)
 		return (FAIL);
@@ -56,8 +56,8 @@ int	dup_outfile(const char *file_name)
 
 int	dup_outfile_append(const char *file_name)
 {
-	int out;
-	
+	int	out;
+
 	out = open(file_name, O_APPEND | O_CREAT | O_WRONLY, 0666);
 	if (out < 0)
 		return (FAIL);
@@ -66,7 +66,7 @@ int	dup_outfile_append(const char *file_name)
 	return (SUCCESS);
 }
 
-int dup_redir(t_redir_list *redir_list, t_shell_data *data)
+int	dup_redir(t_redir_list *redir_list, t_shell_data *data)
 {
 	t_redir	*redir;
 

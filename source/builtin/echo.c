@@ -3,26 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 15:09:27 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 18:40:58 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:31:24 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin_private.h"
 #include "minishell.h"
-
-// static int	num_args(char **argv)
-// {
-// 	int	size;
-
-// 	size = 0;
-// 	while (argv[size])
-// 		size++;
-// 	return (size);
-// }	
 
 int	ft_echo(t_shell_data *data, t_vector *cmd)
 {

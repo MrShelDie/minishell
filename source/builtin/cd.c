@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:13:42 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 18:40:59 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:13:11 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "minishell.h"
 #include <limits.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 int	exec_double_minus(char *new_cwd, char *cwd, t_shell_data *data, char **tmp)
 {
@@ -40,6 +42,27 @@ int	exec_double_minus(char *new_cwd, char *cwd, t_shell_data *data, char **tmp)
 	return (SUCCESS);
 }
 
+static int	double_minus_error(char **tmp, int *i, char *cwd, char *new_cwd)
+{
+	tmp = ft_split(cwd, '/');
+	if (!tmp)
+	{
+		print_error(strerror(errno));
+		return (FAIL);
+	}
+	while (tmp[*i])
+		(*i)++;
+	new_cwd = (char *)malloc(sizeof(char) * 2);
+	if (!new_cwd)
+	{
+		print_error(strerror(errno));
+		return (FAIL);
+	}	
+	new_cwd[0] = '/';
+	new_cwd[1] = '\0';
+	return (SUCCESS);
+}
+
 int	double_minus(char *cwd, t_shell_data *data, char *new_cwd)
 {
 	char	**tmp;
@@ -48,12 +71,9 @@ int	double_minus(char *cwd, t_shell_data *data, char *new_cwd)
 
 	i = 0;
 	j = 0;
-	tmp = ft_split(cwd, '/');
-	while (tmp[i])
-		i++;
-	new_cwd = (char *)malloc(sizeof(char) * 2);
-	new_cwd[0] = '/';
-	new_cwd[1] = '\0';
+	tmp = NULL;
+	if (!double_minus_error(tmp, &i, cwd, new_cwd))
+		return (FAIL);
 	while (j < i - 1)
 	{
 		new_cwd = ft_strjoin(new_cwd, tmp[j]);

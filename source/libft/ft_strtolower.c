@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 13:42:48 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/31 11:22:06 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:53:25 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@ void	ft_strtolower(char *str)
 	while (*str)
 	{
 		*str = ft_tolower(*str);
-		str++;	
+		str++;
 	}
 }

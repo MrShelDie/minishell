@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 17:34:50 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 18:41:01 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:47:47 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "builtin_private.h"
 #include "minishell.h"
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 void	ft_strcpy(char *dst, const char *src, size_t size)
 {
@@ -65,6 +67,11 @@ int	one_minus(char *cwd, t_shell_data *data, char *new_cwd)
 	if (vector_add(data->env_vector, cwd) == FAIL)
 		return (FAIL);
 	new_cwd = (char *)malloc(sizeof(char) * (lenght + 1));
+	if (!new_cwd)
+	{
+		print_error(strerror(errno));
+		return (FAIL);
+	}
 	ft_strcpy(new_cwd, map_get(data->env_map, "HOME"), (lenght + 1));
 	if (map_add(data->env_map, "PWD", new_cwd) == FAIL)
 		return (FAIL);

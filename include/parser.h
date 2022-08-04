@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 00:51:54 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:33:40 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ typedef struct s_parsed_data
 
 void	destroy_parsed_data(t_parsed_data *parsed_data);
 
-int 	parse_user_input(t_parsed_data *parsed_data, const char *str);
+int		parse_user_input(t_parsed_data *parsed_data, const char *str);
 
 #endif // !PARSER_H

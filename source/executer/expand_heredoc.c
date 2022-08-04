@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 17:50:00 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:57:23 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "executer_private.h"
 #include <fcntl.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 static void	free_words(char **words)
 {
@@ -37,7 +39,10 @@ static char	*get_stop_word(const char *str)
 
 	words = ft_split(str, '_');
 	if (!words)
+	{
+		print_error(strerror(errno));
 		return (NULL);
+	}
 	stop_word = ft_strdup(words[1]);
 	free_words(words);
 	return (stop_word);
@@ -54,6 +59,7 @@ static char	*open_files(const char *old_file_name, int *old_fd, int *new_fd)
 	if (*old_fd < 0)
 	{
 		free(new_file_name);
+		print_error(strerror(errno));
 		return (NULL);
 	}
 	unlink(old_file_name);
@@ -62,6 +68,7 @@ static char	*open_files(const char *old_file_name, int *old_fd, int *new_fd)
 	{
 		close(*old_fd);
 		free(new_file_name);
+		print_error(strerror(errno));
 		return (NULL);
 	}
 	return (new_file_name);
@@ -76,7 +83,10 @@ static int	expand_var(
 	{
 		input_here = get_next_line(old_fd);
 		if (!input_here)
+		{
+			print_error(strerror(errno));
 			return (FAIL);
+		}
 		if (ft_strcmp(input_here, stop_word) == 0)
 			break ;
 		if (!replace_expanded_var(env, &input_here))
@@ -85,7 +95,7 @@ static int	expand_var(
 			return (FAIL);
 		}
 		ft_putstr_fd(input_here, new_fd);
-		free(input_here);	
+		free(input_here);
 	}
 	free(input_here);
 	return (SUCCESS);
@@ -101,7 +111,10 @@ int	expand_var_in_heredoc(t_map *env, void **file_name)
 
 	stop_word = get_stop_word(*file_name);
 	if (!stop_word)
+	{
+		print_error(strerror(errno));
 		return (FAIL);
+	}
 	new_file_name = open_files(*file_name, &old_fd, &new_fd);
 	if (!new_file_name)
 	{
