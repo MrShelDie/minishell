@@ -6,14 +6,46 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 13:20:42 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 18:15:59 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 13:14:31 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../parser_private.h"
+#include "shell_error.h"
+
+static char	*get_subshell_arg(t_token_list **token_list_node)
+{
+	char	*subshell_arg;
+	size_t	par_count;
+	t_token	*curren_token;
+	t_token	*next_token;
+
+	subshell_arg = ft_strdup("");
+	if (!subshell_arg)
+	{
+		print_error(strerror(errno));
+		return (NULL);
+	}
+	par_count = 1;
+	while (par_count > 0)
+	{
+		curren_token = (*token_list_node)->content;
+		next_token = (*token_list_node)->next->content;
+		if (curren_token->id == TOKEN_PAR_L)
+			++par_count;
+		else if (next_token->id == TOKEN_PAR_R)
+			--par_count;
+		if (!str_append_word(&subshell_arg, curren_token->value))
+			return (NULL);
+		(*token_list_node) = (*token_list_node)->next;
+	}
+	return (subshell_arg);
+}
 
 static t_token_list	*copy_sublist(
 			t_token_list *begin, t_token_list *end, size_t recursion_level)
@@ -82,49 +114,6 @@ static int	check_subshell(t_token_list *token, size_t *recursion_level)
 	return (result);
 }
 
-static char	*str_append_word(char **dst, const char *src)
-{
-	char	*new_str;
-
-	new_str = ft_strjoin(*dst, " ");
-	if (!new_str)
-		return (NULL);
-	free(*dst);
-	*dst = new_str;
-	new_str = ft_strjoin(new_str, src);
-	if (!new_str)
-		return (NULL);
-	free(*dst);
-	*dst = new_str;
-	return (*dst);
-}
-
-static char	*get_subshell_arg(t_token_list **token_list_node)
-{
-	char	*subshell_arg;
-	size_t	par_count;
-
-	subshell_arg = ft_strdup("");
-	if (!subshell_arg)
-		return (NULL);
-	par_count = 1;
-	while (par_count > 0)
-	{
-		if (((t_token *)((*token_list_node)->content))->id == TOKEN_PAR_L)
-			++par_count;
-		else if (((t_token *)((*token_list_node)->next->content))->id == TOKEN_PAR_R)
-			--par_count;
-		if (!str_append_word(&subshell_arg,
-				((t_token *)((*token_list_node)->content))->value))
-		{
-			free(subshell_arg);
-			return (NULL);
-		}
-		(*token_list_node) = (*token_list_node)->next;
-	}
-	return (subshell_arg);
-}
-
 int	fill_subshell(
 	t_cmd *cmd, t_token_list **token_list_node, size_t *recursion_level)
 {
@@ -140,8 +129,9 @@ int	fill_subshell(
 	new_arg_list_node = ft_lstnew(subshell_arg);
 	if (!new_arg_list_node)
 	{
+		print_error(strerror(errno));
 		free(subshell_arg);
-		return (FAIL);	
+		return (FAIL);
 	}	
 	ft_lstadd_back(&cmd->arg_list, new_arg_list_node);
 	cmd->is_subshell = true;

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/03 13:25:41 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 13:17:15 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	execute_user_input(t_shell_data *shell_data, char *user_input)
 {
 	t_parsed_data	parsed_data;
 	int				exit_status;
-	
+
 	exit_status = EXIT_FAILURE;
 	ft_bzero(&parsed_data, sizeof(t_parsed_data));
 	if (parse_user_input(&parsed_data, user_input) == SUCCESS)
@@ -62,8 +62,8 @@ static int	shell_loop(t_shell_data	*shell_data)
 	while (user_input)
 	{
 		if (!ft_is_space_string(user_input))
-			shell_data->exit_status =
-				execute_user_input(shell_data, user_input);
+			shell_data->exit_status = execute_user_input(
+					shell_data, user_input);
 		user_input = shell_readline();
 	}
 	return (shell_data->exit_status);
@@ -73,8 +73,7 @@ static void	check_argc(int argc)
 {
 	if (argc > 1)
 		exit_with_error_msg(
-			"the number of arguments is not zero", EXIT_FAILURE
-		);
+			"the number of arguments is not zero", EXIT_FAILURE);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -84,7 +83,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argv;
 	check_argc(argc);
-	disable_display_control_symbols();	
+	disable_display_control_symbols();
 	set_signals();
 	init_shell_data(&shell_data, envp);
 	exit_status = shell_loop(&shell_data);

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 01:18:59 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 13:17:37 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	parse_tokens(t_parsed_data *parsed_data, t_token_list *token_list)
 	while (!operator || *operator != OP_NEW_LINE)
 	{
 		logic_group_list_node = get_next_logic_group_list_node(
-			&token_list, &recursion_level);
+				&token_list, &recursion_level);
 		if (!logic_group_list_node)
 			return (FAIL);
 		ft_lstadd_back(&parsed_data->logic_group_list, logic_group_list_node);
 		operator_list_node = get_next_operator_list_node(
-			&token_list, recursion_level);
+				&token_list, recursion_level);
 		if (!operator_list_node)
 			return (FAIL);
 		ft_lstadd_back(&parsed_data->operator_list, operator_list_node);
@@ -58,7 +58,7 @@ int	parse_tokens(t_parsed_data *parsed_data, t_token_list *token_list)
 	return (SUCCESS);
 }
 
-int parse_user_input(t_parsed_data *parsed_data, const char *str)
+int	parse_user_input(t_parsed_data *parsed_data, const char *str)
 {
 	t_token_list	*token_list;
 	int				parse_status;

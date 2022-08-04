@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:56 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 00:14:03 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 13:12:46 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int					fill_argv(
 						t_cmd *cmd, t_token_list **token);
 int					fill_subshell(t_cmd *cmd,
 						t_token_list **token, size_t *recursion_level);
+
+char				*str_append_word(char **dst, const char *src);
 
 void				destroy_cmd(void *cmd);
 void				destroy_redir(void *redir);

@@ -15,7 +15,7 @@ SRC = 															\
 	source/lexer/lexer_utils.c									\
 																\
 	source/parser/parser.c										\
-	source/parser/pipe_group.c									\
+	source/parser/logic_group.c									\
 	source/parser/operator.c									\
 	source/parser/cmd/cmd.c										\
 	source/parser/cmd/fill_argv.c								\

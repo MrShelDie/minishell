@@ -6,12 +6,16 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:40:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/30 15:54:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 13:20:39 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser_private.h"
+#include <errno.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "../parser_private.h"
+#include "shell_error.h"
 
 static int	fill_cmd(t_cmd *cmd, t_token_list **token, size_t *recursion_level)
 {
@@ -41,11 +45,19 @@ static t_cmd	*create_cmd(void)
 {
 	t_cmd	*cmd;
 
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
+	{
+		print_error(strerror(errno));
 		return (NULL);
-	ft_bzero(cmd, sizeof(t_cmd));
+	}
 	cmd->argv = vector_create();
+	if (!cmd->argv)
+	{
+		print_error(strerror(errno));
+		free(cmd);
+		return (NULL);
+	}
 	return (cmd);
 }
 
@@ -55,23 +67,23 @@ void	destroy_cmd(void *cmd)
 	ft_lstclear(&((t_cmd *)cmd)->redir_list, destroy_redir);
 }
 
-t_cmd	*get_next_cmd(t_token_list **token, size_t *recursion_level)
+t_cmd	*get_next_cmd(t_token_list **token_list_node, size_t *recursion_level)
 {
 	t_cmd			*cmd;
 	t_token_id		token_id;
 
-	if (!token && !*token)
+	if (!token_list_node && !*token_list_node)
 		return (NULL);
-	token_id = ((t_token *)((*token)->content))->id;
+	token_id = ((t_token *)((*token_list_node)->content))->id;
 	cmd = create_cmd();
 	if (!cmd)
 		return (NULL);
 	while (token_id != TOKEN_PIPE && token_id != TOKEN_AND
 		&& token_id != TOKEN_OR && token_id != TOKEN_NEW_LINE)
 	{
-		if (!fill_cmd(cmd, token, recursion_level))
+		if (!fill_cmd(cmd, token_list_node, recursion_level))
 			return (NULL);
-		token_id = ((t_token *)((*token)->content))->id;
+		token_id = ((t_token *)((*token_list_node)->content))->id;
 	}
 	return (cmd);
 }

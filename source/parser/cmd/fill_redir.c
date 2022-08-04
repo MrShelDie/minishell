@@ -6,13 +6,17 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 12:48:20 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 00:32:04 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 12:51:48 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser_private.h"
-#include "libft.h"
+#include <errno.h>
+#include <string.h>
 #include <stdlib.h>
+
+#include "../parser_private.h"
+#include "shell_error.h"
+#include "libft.h"
 
 static t_redir	*create_redir(t_redir_id id, char *value)
 {
@@ -21,10 +25,14 @@ static t_redir	*create_redir(t_redir_id id, char *value)
 
 	redir_value_copy = ft_strdup(value);
 	if (!redir_value_copy)
+	{
+		print_error(strerror(errno));
 		return (NULL);
+	}
 	redir = (t_redir *)malloc(sizeof(t_redir));
 	if (!redir)
 	{
+		print_error(strerror(errno));
 		free(redir_value_copy);
 		return (NULL);
 	}
@@ -58,6 +66,7 @@ int	fill_redir(t_cmd *cmd, t_token_list **token_list_node,
 	redir_list_node = ft_lstnew(redir);
 	if (!redir_list_node)
 	{
+		print_error(strerror(errno));
 		destroy_redir(redir);
 		return (FAIL);
 	}
