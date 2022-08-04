@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_ut.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 17:28:17 by medric            #+#    #+#             */
-/*   Updated: 2022/08/02 18:55:46 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:35:45 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	**create_buff(char **map_buff, t_vector *map, int *err)
 		*err = 1;
 	while (i < (int)map->length)
 	{
-		map_buff[i] = (char *)malloc(sizeof(char) * (ft_strlen(map->data[i]) + 1));
+		map_buff[i] = (char *)malloc(sizeof(char)
+				* (ft_strlen(map->data[i]) + 1));
 		if (!map_buff[i])
 			*err = 1;
 		ft_strcpy(map_buff[i], map->data[i], (ft_strlen(map->data[i]) + 1));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy_pipex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/01 15:50:21 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:43:05 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,34 @@
 #include "executer_private.h"
 #include <stdlib.h>
 
-void ft_strdel_cmd_path(char **as)
+void	ft_strdel_cmd_path(char **as)
 {
-    int i;
+	int	i;
 
-    if (!as)
-        return ;
-    i = 0;
-    while (as[i])
-    {
-        free(as[i]);
-        i++;
-    }
-    as = NULL;
+	if (!as)
+		return ;
+	i = 0;
+	while (as[i])
+	{
+		free(as[i]);
+		i++;
+	}
+	as = NULL;
 }
 
-void ft_strdel_tube(int **as)
+void	ft_strdel_tube(int **as)
 {
-    int i;
+	int	i;
 
-    if (!as)
-        return ;
-    i = 0;
-    while (as[i])
-    {
-        free(as[i]);
-        i++;
-    }
-    as = NULL;
+	if (!as)
+		return ;
+	i = 0;
+	while (as[i])
+	{
+		free(as[i]);
+		i++;
+	}
+	as = NULL;
 }
 
 void	close_tube(t_pipe *pipex)
@@ -58,7 +58,7 @@ void	close_tube(t_pipe *pipex)
 	}
 }
 
-void    destroy_pipex(t_pipe *pipex)
+void	destroy_pipex(t_pipe *pipex)
 {
 	close_tube(pipex);
 	free(pipex->pids);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_part2.c                                      :+:      :+:    :+:   */
+/*   dup_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 20:02:14 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:43:26 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-int dup_pipe(t_pipe *pipex, size_t i)
+int	dup_pipe(t_pipe *pipex, size_t i)
 {
 	if (i == 0)
 	{

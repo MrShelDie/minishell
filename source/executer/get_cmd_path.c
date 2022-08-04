@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 15:34:37 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/01 15:42:22 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:50:37 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	**get_cmd_paths(t_map *env)
 {
-	char *path;
-	char **paths;
-	
+	char	*path;
+	char	**paths;
+
 	path = (char *)map_get(env, "PATH");
 	if (!path)
 		return (NULL);
@@ -24,7 +24,7 @@ char	**get_cmd_paths(t_map *env)
 	return (paths);
 }
 
-char *get_cmd(char **paths, char *cmd)
+char	*get_cmd(char **paths, char *cmd)
 {
 	char	*tmp;
 	char	*command;

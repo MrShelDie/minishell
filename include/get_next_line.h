@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 15:05:44 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/31 11:25:12 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:32:51 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-#ifndef OPEN_MAX
- # define OPEN_MAX FOPEN_MAX 
-#endif // !OPEN_MAX
-
 typedef struct s_buff
 {
 	char	arr[BUFFER_SIZE];
@@ -35,8 +31,8 @@ typedef struct s_buff
 
 typedef struct s_gnl_list
 {
-	char			arr[BUFFER_SIZE];
-	size_t			len;
+	char				arr[BUFFER_SIZE];
+	size_t				len;
 	struct s_gnl_list	*next;
 }	t_gnl_list;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_private.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 21:04:46 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 18:57:27 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:12:46 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_PRIVATE_H
 
 # include "libft.h"
+# include "shell_error.h"
 # include "builtin.h"
 # include "minishell.h"
 

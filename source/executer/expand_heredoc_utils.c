@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:21:17 by medric            #+#    #+#             */
-/*   Updated: 2022/07/31 17:00:08 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:49:55 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "executer_private.h"
+
+#include <errno.h>
+#include <string.h>
 #include <stdlib.h>
 
 static int	append_substr(char **dst, const char *src, size_t len)
@@ -24,6 +27,7 @@ static int	append_substr(char **dst, const char *src, size_t len)
 	if (!substr)
 	{
 		free(*dst);
+		print_error(strerror(errno));
 		return (FAIL);
 	}
 	new_dst = ft_strjoin(*dst, substr);
@@ -31,7 +35,10 @@ static int	append_substr(char **dst, const char *src, size_t len)
 	free(substr);
 	*dst = new_dst;
 	if (!new_dst)
+	{
+		print_error(strerror(errno));
 		return (FAIL);
+	}
 	return (SUCCESS);
 }
 
@@ -55,6 +62,7 @@ static int	append_expanded_dolar(
 	if (!key)
 	{
 		free(*dst);
+		print_error(strerror(errno));
 		return (FAIL);
 	}
 	value = map_get(env_map, key);
@@ -73,10 +81,10 @@ static int	append_expanded_dolar(
 static int	append_regular_str(char **dst, char **src)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while ((*src)[i] && !((*src)[i] == '$'
- 			&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
+			&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
 		++i;
 	if (!append_substr(dst, *src, i))
 		return (FAIL);
@@ -93,7 +101,10 @@ int	replace_expanded_var(
 	str_copy = *str;
 	expanded = ft_strdup("");
 	if (!expanded)
+	{
+		print_error(strerror(errno));
 		return (FAIL);
+	}
 	while (**str)
 	{
 		if (!append_regular_str(&expanded, str))

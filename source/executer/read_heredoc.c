@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 16:01:00 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/03 23:23:39 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:52:14 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 static int	read_heredoc(int fd, char *stop_word)
 {
 	char	*input_here;
-	
+
 	while (true)
 	{
 		input_here = readline("> ");
@@ -69,7 +69,7 @@ static int	read_heredocs_in_redir_list(t_redir_list *redir_list)
 		redir = (t_redir *)redir_list->content;
 		if (redir->id == REDIR_HEREDOC)
 		{
-			if(!read_heredoc_in_redir(redir))
+			if (!read_heredoc_in_redir(redir))
 				return (FAIL);
 		}
 		redir_list = redir_list->next;
@@ -82,14 +82,13 @@ static int	read_heredocs_in_cmd_list(t_cmd_list *cmd_list)
 	while (cmd_list)
 	{
 		if (!read_heredocs_in_redir_list(
-			((t_cmd *)cmd_list->content)->redir_list))
+				((t_cmd *)cmd_list->content)->redir_list))
 			return (FAIL);
 		cmd_list = cmd_list->next;
 	}
 	return (SUCCESS);
 }
 
-///TODO chto esli ne zapisalis' dannye
 int	read_all_heredocs(t_logic_group_list *pipe_group)
 {
 	while (pipe_group)

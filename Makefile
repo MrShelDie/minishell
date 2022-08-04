@@ -43,7 +43,9 @@ SRC = 															\
 	source/executer/read_heredoc.c								\
 	source/executer/read_heredoc_utils.c						\
 	source/executer/execute_logic_group.c						\
+	source/executer/exec_logic_group_utils.c					\
 	source/executer/execute_simple_cmd.c						\
+	source/executer/exec_simple_cmd_utils.c						\
 	source/executer/init_pipex.c								\
 	source/executer/destroy_pipex.c								\
 																\
