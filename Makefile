@@ -26,14 +26,15 @@ SRC = 															\
 	source/parser/cmd/fill_subshell_utils.c						\
 	source/parser/error.c										\
 																\
-	source/builtin/cd_utils.c									\
-	source/builtin/cd.c											\
-	source/builtin/echo.c										\
+	source/builtin/ft_cd_utils.c								\
+	source/builtin/ft_cd.c										\
+	source/builtin/ft_echo.c									\
+	source/builtin/ft_exit.c									\
 	source/builtin/ft_env.c										\
 	source/builtin/ft_export.c									\
-	source/builtin/ft_export_ut.c								\
+	source/builtin/ft_export_utils.c							\
 	source/builtin/ft_unset.c									\
-	source/builtin/pwd.c										\
+	source/builtin/ft_pwd.c										\
 	source/builtin/get_builtin_nb.c								\
 																\
 	source/executer/get_cmd_path.c								\

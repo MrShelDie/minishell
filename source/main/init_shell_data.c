@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell_data.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 14:11:11 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 14:53:16 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 16:10:55 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	set_builtin_array(t_builtin *builtins)
 	builtins[BUILTIN_ECHO] = ft_echo;
 	builtins[BUILTIN_ENV] = ft_env;
 	builtins[BUILTIN_EXPORT] = ft_export;
+	builtins[BUILTIN_EXIT] = ft_exit;
 	builtins[BUILTIN_PWD] = ft_pwd;
 	builtins[BUILTIN_UNSET] = ft_unset;
 }
@@ -37,6 +38,7 @@ static void	handle_shell_init_error(t_shell_data *shell_data)
 void	init_shell_data(t_shell_data *shell_data, char *const *envp)
 {
 	ft_bzero(shell_data, sizeof(t_shell_data));
+	shell_data->is_run = true;
 	shell_data->env_vector = vector_create_from_array(envp);
 	shell_data->env_map = map_create();
 	if (shell_data->env_map == FAIL

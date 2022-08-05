@@ -15,7 +15,7 @@ ft_lstadd_front.c	ft_lstsize.c	ft_lstlast.c		\
 ft_lstadd_back.c	ft_lstdelone.c	ft_lstclear.c		\
 ft_lstiter.c		ft_lstmap.c		ft_strcmp.c			\
 ft_strtolower.c		ft_strdel.c		ft_is_space_str.c	\
-ft_free_str_arr.c
+ft_free_str_arr.c	ft_atou.c
 
 OBJ			= ${SRC:.c=.o}
 DEP			= ${SRC:.c=.d}

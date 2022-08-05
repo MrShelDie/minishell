@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_logic_group.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 16:02:50 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/05 18:29:20 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int	dup_tube_and_redir( t_pipe *pipex,
 	return (0);
 }
 
-// TODO очистка данных при exit fail && write exit code in exit_status 
 static int	child(
 	t_pipe *pipex, t_shell_data *shell_data, t_cmd *cmd, int i)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 15:00:05 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 16:09:22 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ typedef struct s_shell_data
 {
 	t_map		*env_map;
 	t_vector	*env_vector;
-	t_builtin	builtins[6];
+	t_builtin	builtins[7];
 	int			exit_status;
+	bool		is_run;
 }	t_shell_data;
 
 typedef t_list				t_redir_list;

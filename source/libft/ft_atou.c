@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atou.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 12:34:29 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 16:03:07 by medric           ###   ########.fr       */
+/*   Created: 2022/08/05 16:02:54 by medric            #+#    #+#             */
+/*   Updated: 2022/08/05 16:04:31 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static long int	ft_str_to_num(const char **str, int *ndigit)
 	return (num);
 }
 
-int	ft_atoi(const char *str)
+unsigned int	ft_atou(const char *str)
 {
 	int			is_neg;
 	int			ndigit;
@@ -58,12 +58,6 @@ int	ft_atoi(const char *str)
 	is_neg = ft_get_sign(&str);
 	num = ft_str_to_num(&str, &ndigit);
 	if (ndigit > 19)
-	{
-		if (is_neg)
-			return (0);
 		return (-1);
-	}
-	if (is_neg)
-		num *= -1;
-	return ((int)num);
+	return ((unsigned int)num);
 }

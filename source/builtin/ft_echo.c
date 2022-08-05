@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 15:09:27 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 14:31:24 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/05 18:10:38 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin_private.h"
 #include "minishell.h"
+#include <stdlib.h>
 
 int	ft_echo(t_shell_data *data, t_vector *cmd)
 {
@@ -38,7 +39,7 @@ int	ft_echo(t_shell_data *data, t_vector *cmd)
 		}
 		if (n_option == 0)
 			write(1, "\n", 1);
-		return (SUCCESS);
+		return (EXIT_SUCCESS);
 	}
-	return (FAIL);
+	return (EXIT_FAILURE);
 }
