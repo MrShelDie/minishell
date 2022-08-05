@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:02:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 12:35:15 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 20:09:25 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,44 +24,33 @@
 #include "shell_error.h"
 #include "minishell.h"
 
-int	set_interactive_mode_signals(void)
+void	set_interactive_mode_signals(void)
 {
-	if (signal(SIGINT, newline_sig_handler) == SIG_ERR)
-	{
-		print_error(strerror(errno));
-		return (FAIL);
-	}
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-	{
-		print_error(strerror(errno));
-		return (FAIL);
-	}
-	return (SUCCESS);
+	signal(SIGINT, newline_sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-int	set_default_signals(void)
+void	sigint_fork_handler(int signum)
 {
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-	{
-		print_error(strerror(errno));
-		return (FAIL);
-	}
-	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
-	{
-		print_error(strerror(errno));
-		return (FAIL);
-	}
-	return (SUCCESS);
+	(void)signum;
+	ft_putchar_fd('\n', 2);
 }
 
-int	set_ignore_sigint(void)
+void	sigquit_fork_handler(int signum)
 {
-	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-	{
-		print_error(strerror(errno));
-		return (FAIL);
-	}
-	return (SUCCESS);
+	(void)signum;
+	ft_putstr_fd("Quit: 3\n", 2);
+}
+
+void	set_fork_signals(void)
+{
+	signal(SIGINT, sigint_fork_handler);
+	signal(SIGQUIT, sigquit_fork_handler);
+}
+
+void	set_ignore_sigint(void)
+{
+	signal(SIGINT, SIG_IGN);
 }
 
 void	disable_display_control_symbols(void)

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 13:08:01 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 19:58:24 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ static int	child(t_shell_data *shell_data, t_cmd *cmd)
 	char	**cmd_paths;
 	char	*cmd_path;
 
-	if (set_default_signals() == FAIL)
-		exit(EXIT_FAILURE);
+	set_fork_signals();
 	cmd_paths = get_cmd_paths(shell_data->env_map);
 	if (!cmd_paths)
 		exit(EXIT_FAILURE);
