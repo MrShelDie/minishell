@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_signal.h                                     :+:      :+:    :+:   */
+/*   ft_free_str_arr.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/01 17:03:19 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 12:35:14 by gannemar         ###   ########.fr       */
+/*   Created: 2022/08/05 14:27:02 by gannemar          #+#    #+#             */
+/*   Updated: 2022/08/05 14:29:33 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_SIGNAL_H
-# define SHELL_SIGNAL_H
+#include <stdlib.h>
 
-typedef void	(*t_sighandler)(int);
+void	ft_free_str_arr(char **str_arr)
+{
+	size_t	i;
 
-int		set_interactive_mode_signals(void);
-int		set_default_signals(void);
-int		set_ignore_sigint(void);
-void	disable_display_control_symbols(void);
-void	newline_sig_handler(int signum);
-
-#endif
+	if (!str_arr)
+		return ;
+	i = -1;
+	while (str_arr[++i])
+		free(str_arr[i]);
+	free(str_arr[i]);
+	free(str_arr);
+}

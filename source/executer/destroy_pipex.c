@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy_pipex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 15:43:05 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/05 12:54:09 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "executer_private.h"
 #include <stdlib.h>
 
-void	ft_strdel_cmd_path(char **as)
+void	ft_strdel_cmd_paths(char **as)
 {
 	int	i;
 
@@ -62,6 +62,6 @@ void	destroy_pipex(t_pipe *pipex)
 {
 	close_tube(pipex);
 	free(pipex->pids);
-	ft_strdel_cmd_path(pipex->cmd_path);
+	ft_strdel_cmd_paths(pipex->cmd_path);
 	ft_strdel_tube(pipex->tube);
 }

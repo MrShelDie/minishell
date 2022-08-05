@@ -6,13 +6,13 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:05:54 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 18:21:47 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 14:53:22 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-#include "minishell.h"
+#include "minishell_private.h"
 #include "libft.h"
 
 static char	**split_env(const char *env_line)

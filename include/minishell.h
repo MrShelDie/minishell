@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/03 13:08:15 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 15:00:05 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ typedef struct s_cmd
 
 void	init_shell_data(t_shell_data *shell_data, char *const *envp);
 void	destroy_shell_data(t_shell_data *shell_data);
-
-int		parse_env_to_map(t_map *map, char *const *envp);
 
 int		execute_user_input(t_shell_data *shell_data, char *user_input);
 

@@ -3,6 +3,8 @@ SRC = 															\
 	source/main/init_shell_data.c								\
 	source/main/destroy_shell_data.c							\
 	source/main/parse_env.c										\
+	source/main/increase_shlvl.c								\
+	source/main/increase_shlvl_utils.c							\
 																\
 	source/map/map.c											\
 	source/map/map_private.c									\

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 22:14:06 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 14:33:29 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 14:40:11 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,32 @@ int	vector_delete(t_vector *vector, const char *value)
 	free(vector->data);
 	vector->data = new_data;
 	vector->length--;
+	return (SUCCESS);
+}
+
+/**
+ * @brief Inserts a copy of value parameter to the index position.
+ * 
+ * @param vector Pointer to the vector.
+ * @param value The string to be inserted into the vector.
+ * @param index Index of the position where the inserted data will be.
+ * @return If successful, the value 1 is returned.
+ *		In case of a memory allocation error,
+ *		if a NULL pointer to vector was passed to the function, or
+ *		if the index exceeds the length of the vector
+ *  	the value 0 is returned.
+ */
+int	vector_insert_at(t_vector *vector, const char *value, size_t index)
+{
+	char	*value_copy;
+
+	if (!vector)
+		return (FAIL);
+	if (index > vector->length)
+		return (FAIL);
+	value_copy = ft_strdup(value);
+	if (!value_copy)
+		return (FAIL);
+	vector->data[index] = value_copy;
 	return (SUCCESS);
 }

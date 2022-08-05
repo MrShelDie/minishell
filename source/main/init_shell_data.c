@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 14:11:11 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 20:09:17 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 14:53:16 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "minishell.h"
+#include "minishell_private.h"
 #include "libft.h"
 #include "shell_error.h"
 
@@ -38,12 +38,13 @@ void	init_shell_data(t_shell_data *shell_data, char *const *envp)
 {
 	ft_bzero(shell_data, sizeof(t_shell_data));
 	shell_data->env_vector = vector_create_from_array(envp);
-	if (!shell_data->env_vector)
-		handle_shell_init_error(shell_data);
 	shell_data->env_map = map_create();
-	if (!shell_data->env_map)
-		handle_shell_init_error(shell_data);
-	if (!parse_env_to_map(shell_data->env_map, envp))
+	if (shell_data->env_map == FAIL
+		|| shell_data->env_vector == FAIL
+		|| parse_env_to_map(shell_data->env_map, envp) == FAIL
+		|| increase_shlvl_in_map_and_vector(
+			shell_data->env_map, shell_data->env_vector) == FAIL
+	)
 		handle_shell_init_error(shell_data);
 	set_builtin_array(shell_data->builtins);
 }

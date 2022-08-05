@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 19:59:53 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 13:08:01 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	child(t_shell_data *shell_data, t_cmd *cmd)
 	if (!cmd_paths)
 		exit(EXIT_FAILURE);
 	cmd_path = get_cmd(cmd_paths, cmd->argv->data[0]);
-	ft_strdel_cmd_path(cmd_paths);
+	ft_strdel_cmd_paths(cmd_paths);
 	if (!cmd)
 	{
 		print_error(strerror(errno));

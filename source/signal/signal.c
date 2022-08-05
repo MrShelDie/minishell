@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:02:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 19:56:06 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 12:35:15 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,19 @@
 #include "shell_error.h"
 #include "minishell.h"
 
-void	set_custom_signals(void)
+int	set_interactive_mode_signals(void)
 {
 	if (signal(SIGINT, newline_sig_handler) == SIG_ERR)
+	{
 		print_error(strerror(errno));
+		return (FAIL);
+	}
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	{
 		print_error(strerror(errno));
+		return (FAIL);
+	}
+	return (SUCCESS);
 }
 
 int	set_default_signals(void)
@@ -40,6 +47,16 @@ int	set_default_signals(void)
 		return (FAIL);
 	}
 	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+	{
+		print_error(strerror(errno));
+		return (FAIL);
+	}
+	return (SUCCESS);
+}
+
+int	set_ignore_sigint(void)
+{
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
 	{
 		print_error(strerror(errno));
 		return (FAIL);

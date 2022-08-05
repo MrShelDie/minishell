@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 22:13:43 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 14:34:13 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 14:38:21 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ void		vector_destroy(t_vector *vector);
 
 int			vector_add(t_vector *vector, const char *value);
 int			vector_delete(t_vector *vector, const char *value);
+int			vector_insert_at(t_vector *vector, const char *value, size_t index);
 
 #endif // !VECTOR_H
