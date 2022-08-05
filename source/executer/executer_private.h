@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 19:26:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 12:54:09 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 16:01:29 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,6 @@ char	*generate_file_name(char *pattenr, char *stop_word);
 
 int		dup_redir(t_redir_list *redir_list, t_shell_data *data);
 
-int		dup_heredoc(t_map *env, t_redir *redir);
-int		dup_infile(const char *file_name);
-int		dup_outfile(const char *file_name);
-int		dup_outfile_append(const char *file_name);
-
 char	**get_cmd_paths(t_map *env);
 char	*get_cmd(char **paths, char *cmd);
 
@@ -58,9 +53,12 @@ void	delete_saved_stdio(int dupped_io_fd[2]);
 int		save_stdio(int dupped_io_fd[2]);
 int		restore_stdio(int dupped_io_fd[2]);
 
+int		expand_var_in_heredoc(const t_shell_data *shell_data, void **file_name);
+
+int		replace_with_expanded_variables(
+			const t_shell_data *shell_data, char **str);
 // ---------------------------------------
 
-int		expand_var_in_heredoc(t_map *env, void **file_name);
 char	*open_files(const char *old_file_name, int *old_fd, int *new_fd);
 int		create_pipes(t_pipe *pipex);
 int		init_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list);
@@ -70,7 +68,5 @@ void	ft_strdel_tube(int **as);
 void	close_tube(t_pipe *pipex);
 int		dup_pipe(t_pipe *pipex, size_t i);
 void	destroy_pipex(t_pipe *pipex);
-
-int		replace_expanded_var(const t_map *env_map, char **str);
 
 #endif

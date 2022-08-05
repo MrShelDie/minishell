@@ -6,16 +6,18 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 13:59:27 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 17:21:16 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 15:58:15 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPAND_PRIVATE_H
 # define EXPAND_PRIVATE_H
 
-# include "minishell.h"
 # include <dirent.h>
 # include <sys/types.h>
+
+# include "minishell.h"
+# include "expand.h"
 
 typedef struct s_asterisk
 {
@@ -52,7 +54,6 @@ int			fill_asterisk_map(t_asterisk *asterisk_map, const char *str);
 void		free_asterisk_map(t_asterisk *asterisk_map);
 
 bool		check_expansion(const char *str);
-bool		is_variable(const char *str);
 
 int			replace_with_expanded_str(
 				const t_shell_data *shell_data, void **str);

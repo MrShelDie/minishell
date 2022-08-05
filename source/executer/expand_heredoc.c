@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 20:21:28 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 16:01:29 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static char	*get_stop_word(const char *str)
 	return (stop_word);
 }
 
-static int	expand_var(
-	t_map *env, int old_fd, int new_fd, const char *stop_word)
+static int	expand_variables(const t_shell_data *shell_data,
+	int old_fd, int new_fd, const char *stop_word)
 {
 	char	*input_here;
 
@@ -63,7 +63,7 @@ static int	expand_var(
 		}
 		if (ft_strcmp(input_here, stop_word) == 0)
 			break ;
-		if (!replace_expanded_var(env, &input_here))
+		if (!replace_with_expanded_variables(shell_data, &input_here))
 		{
 			free(input_here);
 			return (FAIL);
@@ -75,7 +75,7 @@ static int	expand_var(
 	return (SUCCESS);
 }
 
-int	expand_var_in_heredoc(t_map *env, void **file_name)
+int	expand_var_in_heredoc(const t_shell_data *shell_data, void **file_name)
 {
 	char	*stop_word;
 	char	*new_file_name;
@@ -97,7 +97,7 @@ int	expand_var_in_heredoc(t_map *env, void **file_name)
 	}
 	free(*file_name);
 	*file_name = new_file_name;
-	exit_status = expand_var(env, old_fd, new_fd, stop_word);
+	exit_status = expand_variables(shell_data, old_fd, new_fd, stop_word);
 	free(stop_word);
 	close(old_fd);
 	close(new_fd);

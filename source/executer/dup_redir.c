@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 17:44:13 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 19:19:06 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 15:43:43 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <errno.h>
 #include <string.h>
 
-int	dup_infile(const char *file_name)
+static int	dup_infile(const char *file_name)
 {
 	int	in;
 
@@ -37,11 +37,11 @@ int	dup_infile(const char *file_name)
 	return (SUCCESS);
 }
 
-int	dup_heredoc(t_map *env, t_redir *redir)
+static int	dup_heredoc(const t_shell_data *shell_data, t_redir *redir)
 {
 	int		heredoc;
 
-	if (!expand_var_in_heredoc(env, &redir->value))
+	if (!expand_var_in_heredoc(shell_data, &redir->value))
 		return (FAIL);
 	heredoc = open(redir->value, O_RDONLY);
 	unlink(redir->value);
@@ -50,7 +50,7 @@ int	dup_heredoc(t_map *env, t_redir *redir)
 	return (SUCCESS);
 }
 
-int	dup_outfile(const char *file_name)
+static int	dup_outfile(const char *file_name)
 {
 	int	out;
 
@@ -62,7 +62,7 @@ int	dup_outfile(const char *file_name)
 	return (SUCCESS);
 }
 
-int	dup_outfile_append(const char *file_name)
+static int	dup_outfile_append(const char *file_name)
 {
 	int	out;
 
@@ -74,7 +74,7 @@ int	dup_outfile_append(const char *file_name)
 	return (SUCCESS);
 }
 
-int	dup_redir(t_redir_list *redir_list, t_shell_data *data)
+int	dup_redir(t_redir_list *redir_list, t_shell_data *shell_data)
 {
 	t_redir	*redir;
 
@@ -84,7 +84,7 @@ int	dup_redir(t_redir_list *redir_list, t_shell_data *data)
 		if (redir->id == REDIR_IN && !dup_infile(redir->value))
 			return (FAIL);
 		else if (redir->id == REDIR_HEREDOC
-			&& !dup_heredoc(data->env_map, redir))
+			&& !dup_heredoc(shell_data, redir))
 			return (FAIL);
 		else if (redir->id == REDIR_OUT
 			&& !dup_outfile(redir->value))

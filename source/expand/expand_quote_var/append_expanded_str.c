@@ -6,13 +6,13 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:42:17 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 20:08:51 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 15:19:24 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../expand_private.h"
 
-static int	append_expanded_variable(
+int	append_expanded_variable(
 	const t_shell_data *shell_data, char **dst, char **src)
 {
 	const char	*variable_value;

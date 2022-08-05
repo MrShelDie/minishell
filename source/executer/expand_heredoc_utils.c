@@ -6,11 +6,12 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:21:17 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 18:49:57 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 16:20:45 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "expand.h"
 #include "minishell.h"
 #include "executer_private.h"
 
@@ -42,49 +43,12 @@ static int	append_substr(char **dst, const char *src, size_t len)
 	return (SUCCESS);
 }
 
-static char	*cut_variable_name(char *str, size_t *i)
-{
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
-		++(*i);
-	return (ft_substr(str, 0, *i));
-}
-
-static int	append_expanded_dolar(
-	const t_map *env_map, char **dst, char **src)
-{
-	size_t		i;
-	char		*key;
-	const char	*value;
-
-	i = 0;
-	++(*src);
-	key = cut_variable_name(*src, &i);
-	if (!key)
-	{
-		free(*dst);
-		print_error(strerror(errno));
-		return (FAIL);
-	}
-	value = map_get(env_map, key);
-	free(key);
-	if (!value)
-	{
-		*src += i;
-		return (SUCCESS);
-	}
-	if (!append_substr(dst, value, ft_strlen(value)))
-		return (FAIL);
-	*src += i;
-	return (SUCCESS);
-}
-
 static int	append_regular_str(char **dst, char **src)
 {
 	size_t	i;
 
 	i = 0;
-	while ((*src)[i] && !((*src)[i] == '$'
-			&& (ft_isalnum((*src)[i + 1]) || (*src)[i + 1] == '_')))
+	while ((*src)[i] && !is_variable(*src + i))
 		++i;
 	if (!append_substr(dst, *src, i))
 		return (FAIL);
@@ -92,8 +56,8 @@ static int	append_regular_str(char **dst, char **src)
 	return (SUCCESS);
 }
 
-int	replace_expanded_var(
-	const t_map *env_map, char **str)
+int	replace_with_expanded_variables(
+	const t_shell_data *shell_data, char **str)
 {
 	char	*expanded;
 	char	*str_copy;
@@ -111,7 +75,7 @@ int	replace_expanded_var(
 			return (FAIL);
 		if (!**str)
 			break ;
-		if (!append_expanded_dolar(env_map, &expanded, str))
+		if (!append_expanded_variable(shell_data, &expanded, str))
 			return (FAIL);
 	}
 	free(str_copy);
