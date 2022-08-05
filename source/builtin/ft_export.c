@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 22:58:22 by medric            #+#    #+#             */
-/*   Updated: 2022/08/03 11:08:27 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 18:11:53 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ int	ft_export(t_shell_data *data, t_vector *cmd)
 	if (cmd->length < 2)
 	{
 		if (print_sort_env(data->env_vector) == FAIL)
-			return (FAIL);
-		return (SUCCESS);
+			return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
 	}
 	if (add_data(data, cmd) == FAIL)
-		return (FAIL);
-	return (SUCCESS);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

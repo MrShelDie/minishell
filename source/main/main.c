@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 14:53:09 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 16:18:26 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,14 @@ static int	shell_loop(t_shell_data	*shell_data)
 	if (set_interactive_mode_signals() == FAIL)
 		return (EXIT_FAILURE);
 	user_input = shell_readline();
-	while (user_input)
+	while (user_input && shell_data->is_run)
 	{
 		if (!ft_is_space_str(user_input))
 			shell_data->exit_status = execute_user_input(
 					shell_data, user_input);
 		free(user_input);
-		user_input = shell_readline();
+		if (shell_data->is_run)
+			user_input = shell_readline();
 	}
 	return (shell_data->exit_status);
 }

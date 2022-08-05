@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 14:44:54 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/02 18:41:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/05 15:48:24 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef enum e_builtin_nb
 	BUILTIN_ECHO,
 	BUILTIN_ENV,
 	BUILTIN_EXPORT,
+	BUILTIN_EXIT,
 	BUILTIN_PWD,
 	BUILTIN_UNSET,
 	BUILTIN_NONE
@@ -34,6 +35,7 @@ int				ft_env(t_shell_data *data, t_vector *vector);
 int				ft_cd(t_shell_data *data, t_vector *vector);
 int				ft_unset(t_shell_data *data, t_vector *vector);
 int				ft_export(t_shell_data *data, t_vector *vector);
+int				ft_exit(t_shell_data *data, t_vector *vector);
 
 t_builtin_nb	get_builtin_nb(const char *cmd);
 

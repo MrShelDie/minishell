@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:13:42 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 15:13:11 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/05 18:10:04 by medric           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,20 +113,20 @@ int	ft_cd(t_shell_data *shell_data, t_vector *cmd)
 
 	new_cwd = NULL;
 	if (check_arg(cmd->data, &check_args, &option) == FAIL)
-		return (FAIL);
+		return (EXIT_FAILURE);
 	getcwd(cwd, PATH_MAX);
 	if (check_args > 0)
 	{
 		option = next_exec_minus(shell_data, cwd, new_cwd, option);
 		if (option == FAIL)
-			return (FAIL);
+			return (EXIT_FAILURE);
 		else if (option == SUCCESS)
-			return (SUCCESS);
+			return (EXIT_SUCCESS);
 	}
 	map_add(shell_data->env_map, "OLDPWD", cwd);
 	vector_add(shell_data->env_vector, cwd);
 	map_add(shell_data->env_map, "PWD", cmd->data[1]);
 	if (chdir(cmd->data[1]) == -1)
-		return (FAIL);
-	return (SUCCESS);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
