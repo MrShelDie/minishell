@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 16:01:00 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 15:52:14 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/06 14:15:33 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ static int	read_heredoc(int fd, char *stop_word)
 	{
 		input_here = readline("> ");
 		if (!input_here)
+		{
+			rl_replace_line("", 1);
 			return (FAIL);
+		}
 		ft_putstr_fd(input_here, fd);
 		if (ft_strcmp(input_here, stop_word) == 0)
 			break ;

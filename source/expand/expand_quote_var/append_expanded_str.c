@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 16:42:17 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 15:19:24 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/06 18:45:03 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static int	append_expanded_double_quotes_str(
 	++(*src);
 	while ((*src)[i] != '\"')
 	{
-		while ((*src)[i] != '\"' && !((*src)[i] == '$'
-			&& !is_variable(*src + i)))
+		while ((*src)[i] != '\"' && !is_variable(*src + i))
 			++i;
 		if (!append_substr(dst, *src, i))
 			return (FAIL);

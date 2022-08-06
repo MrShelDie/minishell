@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_logic_group_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 16:01:48 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 16:09:40 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/06 18:21:21 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	exec_init_pipex(t_pipe *pipex,
 {
 	if (!init_pipex(pipex, data, cmd_list))
 	{
+		close_tube(pipex);
 		destroy_pipex(pipex);
 		print_error(strerror(errno));
 		return (FAIL);
@@ -54,11 +55,13 @@ void	exec_utils(t_pipe *pipex,
 		pipex->cmd = get_cmd(pipex->cmd_path, cmd->argv->data[0]);
 		if (!pipex->cmd)
 		{
+			close_tube(pipex);
 			destroy_pipex(pipex);
 			print_error(strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 		execve(pipex->cmd, cmd->argv->data, shell_data->env_vector->data);
+		close_tube(pipex);
 		destroy_pipex(pipex);
 		print_error(strerror(errno));
 		exit(EXIT_FAILURE);

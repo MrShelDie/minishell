@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 19:26:50 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 16:01:29 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/06 18:26:30 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int		expand_var_in_heredoc(const t_shell_data *shell_data, void **file_name);
 
 int		replace_with_expanded_variables(
 			const t_shell_data *shell_data, char **str);
+
+void	ft_strdel_tube(int **as, size_t size);
 // ---------------------------------------
 
 char	*open_files(const char *old_file_name, int *old_fd, int *new_fd);
@@ -64,7 +66,6 @@ int		create_pipes(t_pipe *pipex);
 int		init_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list);
 void	ft_strdel(char **as);
 void	ft_strdel_cmd_paths(char **as);
-void	ft_strdel_tube(int **as);
 void	close_tube(t_pipe *pipex);
 int		dup_pipe(t_pipe *pipex, size_t i);
 void	destroy_pipex(t_pipe *pipex);

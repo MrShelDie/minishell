@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:02:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 20:09:25 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/06 15:25:50 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	set_interactive_mode_signals(void)
 void	sigint_fork_handler(int signum)
 {
 	(void)signum;
-	ft_putchar_fd('\n', 2);
+	ft_putstr_fd("\n", 1);
 }
 
 void	sigquit_fork_handler(int signum)
 {
 	(void)signum;
-	ft_putstr_fd("Quit: 3\n", 2);
+	ft_putstr_fd("Quit: 3\n", 1);
 }
 
 void	set_fork_signals(void)
@@ -48,9 +48,10 @@ void	set_fork_signals(void)
 	signal(SIGQUIT, sigquit_fork_handler);
 }
 
-void	set_ignore_sigint(void)
+void	set_ignore_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	disable_display_control_symbols(void)

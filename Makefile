@@ -84,9 +84,7 @@ LIBFTDIR	= source/libft
 CFLAGS 		= -Wall -Werror -Wextra -g
 CPPFLAGS 	= -MMD -I./include
 
-all:		$(LIBFT) $(NAME) Makefile
-
-$(LIBFT):
+all:		$(NAME) Makefile
 	@make -C $(LIBFTDIR) all
 
 $(NAME):	$(OBJ)

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/05 12:54:09 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/06 18:27:58 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,16 @@ void	ft_strdel_cmd_paths(char **as)
 	as = NULL;
 }
 
-void	ft_strdel_tube(int **as)
+void	ft_strdel_tube(int **as, size_t size)
 {
-	int	i;
+	size_t	i;
 
 	if (!as)
 		return ;
-	i = 0;
-	while (as[i])
-	{
+	i = -1;
+	while (++i < size)
 		free(as[i]);
-		i++;
-	}
+	free(as);
 	as = NULL;
 }
 
@@ -60,8 +58,7 @@ void	close_tube(t_pipe *pipex)
 
 void	destroy_pipex(t_pipe *pipex)
 {
-	close_tube(pipex);
 	free(pipex->pids);
 	ft_strdel_cmd_paths(pipex->cmd_path);
-	ft_strdel_tube(pipex->tube);
+	ft_strdel_tube(pipex->tube, pipex->pipe_count);
 }

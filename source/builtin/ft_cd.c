@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:13:42 by medric            #+#    #+#             */
-/*   Updated: 2022/08/05 18:10:04 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/06 17:49:04 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int	ft_cd(t_shell_data *shell_data, t_vector *cmd)
 	int			option;
 
 	new_cwd = NULL;
+	if (cmd->length < 2)
+		return (EXIT_SUCCESS);
 	if (check_arg(cmd->data, &check_args, &option) == FAIL)
 		return (EXIT_FAILURE);
 	getcwd(cwd, PATH_MAX);

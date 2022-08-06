@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 20:04:07 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/06 17:35:53 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	execute_user_input(t_shell_data *shell_data, char *user_input)
 	t_parsed_data	parsed_data;
 	int				exit_status;
 
-	set_ignore_sigint();
+	set_ignore_signals();
 	exit_status = EXIT_FAILURE;
 	ft_bzero(&parsed_data, sizeof(t_parsed_data));
 	if (parse_user_input(&parsed_data, user_input) == SUCCESS)
@@ -83,7 +83,9 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argv;
 	check_argc(argc);
-	disable_display_control_symbols();
+	// disable_display_control_symbols();
+	rl_outstream = stderr;
+	
 	init_shell_data(&shell_data, envp);
 	exit_status = shell_loop(&shell_data);
 	destroy_shell_data(&shell_data);

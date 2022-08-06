@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 19:58:24 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/06 16:14:52 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static int	child(t_shell_data *shell_data, t_cmd *cmd)
 	char	**cmd_paths;
 	char	*cmd_path;
 
-	set_fork_signals();
+	if (cmd->is_subshell)
+		exit(execute_user_input(shell_data, cmd->argv->data[0]));
 	cmd_paths = get_cmd_paths(shell_data->env_map);
 	if (!cmd_paths)
 		exit(EXIT_FAILURE);
@@ -70,7 +71,7 @@ static int	child(t_shell_data *shell_data, t_cmd *cmd)
 		exit (EXIT_FAILURE);
 	execve(cmd_path, cmd->argv->data, shell_data->env_vector->data);
 	free(cmd_path);
-	print_error(strerror(errno));
+	print_error_with_file(cmd->argv->data[0], strerror(errno));
 	exit(EXIT_FAILURE);
 }
 
@@ -85,7 +86,7 @@ static int	exec_util(t_shell_data *shell_data, t_cmd *cmd)
 	if (pid == 0)
 		child(shell_data, cmd);
 	waitpid(pid, &exit_status, 0);
-	return (exit_status);
+	return (exit_status >> 8);
 }
 
 int	execute_simple_cmd(t_shell_data *shell_data, t_logic_group_list *pipe_group)
@@ -101,8 +102,8 @@ int	execute_simple_cmd(t_shell_data *shell_data, t_logic_group_list *pipe_group)
 	if (!cmd->arg_list)
 		return (EXIT_SUCCESS);
 	builtin_nb = get_builtin_nb(cmd->argv->data[0]);
-	if (builtin_nb != BUILTIN_NONE)
-		return (exec_builtin(shell_data, cmd, builtin_nb));
-	else
+	if (builtin_nb == BUILTIN_NONE || cmd->is_subshell)
 		return (exec_util(shell_data, cmd));
+	else
+		return (exec_builtin(shell_data, cmd, builtin_nb));
 }

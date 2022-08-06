@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 15:09:27 by medric            #+#    #+#             */
-/*   Updated: 2022/08/05 18:10:38 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/06 20:58:49 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,69 @@
 #include "minishell.h"
 #include <stdlib.h>
 
-int	ft_echo(t_shell_data *data, t_vector *cmd)
+static size_t	get_index_of_first_not_empty(
+	t_vector *argv, size_t start_index)
 {
-	int	i;
-	int	n_option;
+	size_t	i;
+
+	i = start_index;
+	while (i < argv->length && argv->data[i][0] == '\0')
+		++i;
+	return (i);
+}
+
+static size_t	get_index_of_last_not_empty(
+	t_vector *argv, size_t start_index
+)
+{
+	size_t	i;
+
+	i = start_index;
+	while (argv->data[i][0] == '\0')
+		--i;
+	return (i);
+}
+
+static void	print_args(t_vector *argv, size_t start_index)
+{
+	size_t	i;
+	size_t	last_not_empty_idx;
+
+	i = get_index_of_first_not_empty(argv, start_index);
+	last_not_empty_idx = get_index_of_last_not_empty(argv, argv->length - 1);
+	if (i > last_not_empty_idx)
+		return ;
+	while (i < last_not_empty_idx)
+	{
+		ft_putstr_fd(argv->data[i], STDOUT_FILENO);
+		ft_putchar_fd(' ', STDOUT_FILENO);
+		++i;
+	}
+	ft_putstr_fd(argv->data[i], STDOUT_FILENO);
+}
+
+static bool	check_options(t_vector *argv, size_t argnum)
+{
+	return (argnum < argv->length
+		&& ft_strncmp(argv->data[argnum], "-n", 2) == 0
+	);
+}
+
+int	ft_echo(t_shell_data *data, t_vector *argv)
+{
+	bool	with_option;
+	size_t	i;
 
 	(void)data;
+	with_option = false;
 	i = 1;
-	n_option = 0;
-	if (cmd->length > 1)
+	if (check_options(argv, i))
 	{
-		if (cmd->data[i] && ft_strncmp(cmd->data[i], "-n", 2) == 0)
-		{
-			n_option = 1;
-			i++;
-		}
-		while (cmd->data[i])
-		{
-			ft_putstr_fd(cmd->data[i], 1);
-			if (cmd->data[i + 1] && cmd->data[i][0] != '\0')
-				write(1, " ", 1);
-			i++;
-		}
-		if (n_option == 0)
-			write(1, "\n", 1);
-		return (EXIT_SUCCESS);
+		with_option = true;
+		i++;
 	}
-	return (EXIT_FAILURE);
+	print_args(argv, i);
+	if (!with_option || argv->length == 2)
+		write(1, "\n", 1);
+	return (EXIT_SUCCESS);
 }

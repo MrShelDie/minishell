@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_pipex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 15:51:14 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/06 18:27:45 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	malloc_tube(t_pipe *pipex)
 	}
 	if (flg == false)
 	{
-		ft_strdel_tube(pipex->tube);
+		ft_strdel_tube(pipex->tube, pipex->pipe_count);
 		print_error(strerror(errno));
 		return (1);
 	}
