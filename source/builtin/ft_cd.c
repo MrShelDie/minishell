@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:13:42 by medric            #+#    #+#             */
-/*   Updated: 2022/08/06 17:49:04 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 12:31:56 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,9 @@ int	ft_cd(t_shell_data *shell_data, t_vector *cmd)
 	vector_add(shell_data->env_vector, cwd);
 	map_add(shell_data->env_map, "PWD", cmd->data[1]);
 	if (chdir(cmd->data[1]) == -1)
-		return (EXIT_FAILURE);
+	{
+		print_error(strerror(errno));
+		return (errno);
+	}
 	return (EXIT_SUCCESS);
 }

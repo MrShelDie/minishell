@@ -84,7 +84,10 @@ LIBFTDIR	= source/libft
 CFLAGS 		= -Wall -Werror -Wextra -g
 CPPFLAGS 	= -MMD -I./include
 
-all:		$(NAME) Makefile
+
+all:		lib $(NAME) Makefile
+
+lib:
 	@make -C $(LIBFTDIR) all
 
 $(NAME):	$(OBJ)
@@ -100,6 +103,6 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:		all lib clean fclean re
 
 -include $(DEP)

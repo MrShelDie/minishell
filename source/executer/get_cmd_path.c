@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 15:34:37 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 13:07:33 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 13:08:04 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*get_cmd(char **paths, const char *cmd)
 	char	*tmp;
 	char	*command;
 
+	if (cmd[0] == '/')
+		return (ft_strdup(cmd));
 	while (*paths)
 	{
 		tmp = ft_strjoin(*paths, "/");

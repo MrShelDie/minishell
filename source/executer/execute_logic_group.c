@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/06 18:21:49 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 14:39:10 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,36 @@ static int	execute_cmd_list(t_shell_data *data, t_cmd_list *cmd_list)
 	return (exit_status);
 }
 
+static void	move_logic_group_and_operator(t_logic_group_list **logic_group_list,
+	t_operator_list **operator_list, int exit_status)
+{
+	t_operator	*operator;
+
+	operator = (*operator_list)->content;
+	while (*logic_group_list)
+	{
+		*logic_group_list = (*logic_group_list)->next;
+		*operator_list = (*operator_list)->next;
+		if (!*logic_group_list || !*operator_list
+			|| (*operator == OP_AND && exit_status == 0)
+			|| (*operator == OP_OR && exit_status != 0))
+			break ;
+		operator = (*operator_list)->content;
+	}
+}
+
 int	execute_logic_group_list(t_shell_data *shell_data,
 	t_logic_group_list *logic_group_list, t_operator_list *operator_list)
 {
-	t_operator	*operator;
 	int			exit_status;
 
 	while (logic_group_list)
 	{
-		operator = operator_list->content;
 		if (!expand_logic_group(shell_data, logic_group_list->content))
 			return (EXIT_FAILURE);
 		exit_status = execute_cmd_list(shell_data, logic_group_list->content);
-		logic_group_list = logic_group_list->next;
-		if ((*operator == OP_AND && exit_status != 0)
-			|| (*operator == OP_OR && exit_status == 0))
-			logic_group_list = logic_group_list->next;
-		if (*operator == OP_NEW_LINE)
-			break ;
-		operator_list = operator_list->next;
+		move_logic_group_and_operator(&logic_group_list,
+			&operator_list, exit_status);
 	}
 	return (exit_status);
 }

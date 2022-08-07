@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/06 16:14:52 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 13:09:05 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,20 @@ static int	exec_builtin(
 	return (exit_status);
 }
 
+static void	check_path_and_exit_on_fail(char *cmd_path)
+{
+	if (!cmd_path)
+	{
+		print_error(strerror(errno));
+		exit (EXIT_FAILURE);
+	}
+	else if (access(cmd_path, X_OK) == -1)
+	{
+		print_error_with_file(cmd_path, strerror(errno));
+		exit (127);
+	}
+}
+
 static int	child(t_shell_data *shell_data, t_cmd *cmd)
 {
 	char	**cmd_paths;
@@ -62,11 +76,7 @@ static int	child(t_shell_data *shell_data, t_cmd *cmd)
 		exit(EXIT_FAILURE);
 	cmd_path = get_cmd(cmd_paths, cmd->argv->data[0]);
 	ft_strdel_cmd_paths(cmd_paths);
-	if (!cmd)
-	{
-		print_error(strerror(errno));
-		exit (EXIT_FAILURE);
-	}
+	check_path_and_exit_on_fail(cmd_path);
 	if (!dup_redir(cmd->redir_list, shell_data))
 		exit (EXIT_FAILURE);
 	execve(cmd_path, cmd->argv->data, shell_data->env_vector->data);

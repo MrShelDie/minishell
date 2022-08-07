@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 16:09:22 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/07 13:16:08 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # define FAIL 0
 # define SUCCESS 1
+# define EXIT_PARSE_ERROR 2
 
 /**
  * @brief General program data.

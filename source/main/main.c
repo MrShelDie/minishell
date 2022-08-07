@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:50:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/06 17:35:53 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 13:16:18 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	execute_user_input(t_shell_data *shell_data, char *user_input)
 	ft_bzero(&parsed_data, sizeof(t_parsed_data));
 	if (parse_user_input(&parsed_data, user_input) == SUCCESS)
 		exit_status = execute_parsed_line(shell_data, &parsed_data);
+	else
+		exit_status = EXIT_PARSE_ERROR;
 	destroy_parsed_data(&parsed_data);
 	set_interactive_mode_signals();
 	return (exit_status);
