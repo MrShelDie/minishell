@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 13:13:34 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 13:16:04 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 18:16:23 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "shell_error.h"
 #include "libft.h"
 
-int	fill_argv(t_cmd *cmd, t_token_list **token_list_node)
+int	fill_arg_list(t_cmd *cmd, t_token_list **token_list_node)
 {
 	char		*value_copy;
 	t_arg_list	*new_node;

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/07 15:58:49 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 16:14:04 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ int	execute_logic_group_list(t_shell_data *shell_data,
 			return (EXIT_FAILURE);
 		cmd_list = logic_group_list->content;
 		if (cmd_list->next)
-			exit_status = execute_cmd_list(shell_data, logic_group_list->content);
+			exit_status = execute_cmd_list(
+					shell_data, logic_group_list->content);
 		else
 			exit_status = execute_simple_cmd(shell_data, logic_group_list);
 		move_logic_group_and_operator(&logic_group_list,

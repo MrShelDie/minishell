@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:39:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/07 14:25:04 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 17:57:09 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 #include "parser_private.h"
 #include "shell_error.h"
 
-void	destroy_logic_group(void *pipe_group)
+void	destroy_cmd_list(void *cmd_list)
 {
-	ft_lstclear((t_list **)&pipe_group, destroy_cmd);
+	ft_lstclear((t_list **)&cmd_list, destroy_cmd);
 }
 
 static t_cmd_list	*get_next_cmd_list_node(

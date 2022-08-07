@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:29:39 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/07 15:33:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 17:56:16 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	destroy_parsed_data(t_parsed_data *parsed_data)
 	if (!parsed_data)
 		return ;
 	unlink_heredocs(parsed_data->logic_group_list);
-	ft_lstclear(&parsed_data->logic_group_list, destroy_logic_group);
+	ft_lstclear(&parsed_data->logic_group_list, destroy_cmd_list);
 	ft_lstclear(&parsed_data->operator_list, free);
 }
 

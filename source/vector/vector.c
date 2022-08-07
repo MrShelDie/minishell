@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 22:14:06 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 14:40:11 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 17:37:43 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ int	vector_add(t_vector *vector, const char *value)
 	char	**new_data;
 	size_t	i;
 
-	if (!vector)
+	if (!vector || !value)
 		return (FAIL);
 	value_copy = ft_strdup(value);
-	if (value && !value_copy)
+	if (!value_copy)
 		return (FAIL);
 	new_data = malloc(sizeof(char *) * (vector->length + 2));
 	if (!new_data)
@@ -160,6 +160,7 @@ int	vector_insert_at(t_vector *vector, const char *value, size_t index)
 	value_copy = ft_strdup(value);
 	if (!value_copy)
 		return (FAIL);
+	free(vector->data[index]);
 	vector->data[index] = value_copy;
 	return (SUCCESS);
 }

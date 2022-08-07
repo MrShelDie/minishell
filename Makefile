@@ -20,7 +20,7 @@ SRC = 															\
 	source/parser/logic_group.c									\
 	source/parser/operator.c									\
 	source/parser/cmd/cmd.c										\
-	source/parser/cmd/fill_argv.c								\
+	source/parser/cmd/fill_arg_list.c							\
 	source/parser/cmd/fill_redir.c								\
 	source/parser/cmd/fill_subshell.c							\
 	source/parser/cmd/fill_subshell_utils.c						\
@@ -82,7 +82,7 @@ DEP = $(SRC:.c=.d)
 NAME 		= minishell
 LIBFT		= source/libft/libft.a
 LIBFTDIR	= source/libft
-CFLAGS 		= -Wall -Werror -Wextra -g
+CFLAGS 		= -g # -Wall -Werror -Wextra
 CPPFLAGS 	= -MMD -I./include
 
 

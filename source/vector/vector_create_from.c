@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 14:09:26 by gannemar          #+#    #+#             */
-/*   Updated: 2022/07/29 14:36:46 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 17:28:05 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_vector	*vector_create_from_array(char *const *array)
 		free(vector);
 		return (NULL);
 	}
-	vector->length = data_length(array);
+	vector->length = data_length(vector->data);
 	return (vector);
 }
 

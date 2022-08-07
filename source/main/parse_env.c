@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:05:54 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 14:53:22 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 18:24:16 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	parse_env_line_to_map(t_map *map, const char *env_line)
 	map_add_status = map_add(map, env_pair[0], env_pair[1]);
 	free(env_pair[0]);
 	free(env_pair[1]);
+	free(env_pair);
 	return (map_add_status);
 }
 

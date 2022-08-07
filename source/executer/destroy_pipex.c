@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/06 18:27:58 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 18:29:15 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_strdel_cmd_paths(char **as)
 		free(as[i]);
 		i++;
 	}
-	as = NULL;
+	free(as);
 }
 
 void	ft_strdel_tube(int **as, size_t size)
@@ -40,7 +40,6 @@ void	ft_strdel_tube(int **as, size_t size)
 	while (++i < size)
 		free(as[i]);
 	free(as);
-	as = NULL;
 }
 
 void	close_tube(t_pipe *pipex)

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 22:26:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/07 15:59:48 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 16:14:28 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,6 @@ int	execute_simple_cmd(t_shell_data *shell_data, t_logic_group_list *pipe_group)
 
 	cmd_list = pipe_group->content;
 	cmd = cmd_list->content;
-	// if (!expand_cmd(shell_data, cmd))
-	// 	return (EXIT_FAILURE);
 	if (!cmd->arg_list)
 		return (EXIT_SUCCESS);
 	builtin_nb = get_builtin_nb(cmd->argv->data[0]);

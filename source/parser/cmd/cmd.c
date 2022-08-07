@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:40:52 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 13:20:39 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 18:18:04 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	fill_cmd(t_cmd *cmd, t_token_list **token, size_t *recursion_level)
 	else if (token_id == TOKEN_PAR_L && ft_lstsize(cmd->arg_list) == 0)
 		return (fill_subshell(cmd, token, recursion_level));
 	else if (token_id == TOKEN_WORD && cmd->is_subshell == false)
-		return (fill_argv(cmd, token));
+		return (fill_arg_list(cmd, token));
 	else
 	{
 		unexpected_token_error((*token)->content, *recursion_level);
@@ -51,13 +51,6 @@ static t_cmd	*create_cmd(void)
 		print_error(strerror(errno));
 		return (NULL);
 	}
-	cmd->argv = vector_create();
-	if (!cmd->argv)
-	{
-		print_error(strerror(errno));
-		free(cmd);
-		return (NULL);
-	}
 	return (cmd);
 }
 
@@ -65,6 +58,8 @@ void	destroy_cmd(void *cmd)
 {
 	vector_destroy(((t_cmd *)cmd)->argv);
 	ft_lstclear(&((t_cmd *)cmd)->redir_list, destroy_redir);
+	ft_lstclear(&((t_cmd *)cmd)->arg_list, free);
+	free(cmd);
 }
 
 t_cmd	*get_next_cmd(t_token_list **token_list_node, size_t *recursion_level)

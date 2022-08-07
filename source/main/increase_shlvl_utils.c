@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 14:45:16 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/05 14:58:50 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 17:40:56 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	replace_string_in_vector_by_key(
 {
 	size_t	string_idx;
 	char	*new_string;
+	int		add_status;
 
 	string_idx = get_string_index_by_key(vector, key);
 	if (string_idx == vector->length)
@@ -73,5 +74,7 @@ int	replace_string_in_vector_by_key(
 	new_string = create_string_by_key_and_value(key, value);
 	if (!new_string)
 		return (FAIL);
-	return (vector_insert_at(vector, new_string, string_idx));
+	add_status = vector_insert_at(vector, new_string, string_idx);
+	free(new_string);
+	return (add_status);
 }
