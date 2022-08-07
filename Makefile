@@ -40,40 +40,24 @@ LEXERDIR	= source/lexer
 GNL			= source/get_next_line/get_next_line_private.a
 GNLDIR		= source/get_next_line
 
-CFLAGS 		= -Wall -Werror -Wextra -g
+CFLAGS 		= -Wall -Werror -Wextra
 CPPFLAGS 	= -MMD -I./include
 
 
-all:		lib gnl builtin executer expand parser lexer map vector $(NAME) Makefile
+all:		modules Makefile $(NAME)
 
-lib:
+modules:
 	@make -C $(LIBFTDIR) all
-
-builtin:
 	@make -C $(BUILTINDIR) all
-
-expand:
-	@make -C $(EXPANDDIR) all
-
-executer:
 	@make -C $(EXECUTERDIR) all
-
-parser:
+	@make -C $(EXPANDDIR) all
 	@make -C $(PARSERDIR) all
-
-map:
 	@make -C $(MAPDIR) all
-
-vector:
 	@make -C $(VECTORDIR) all
-
-lexer:
 	@make -C $(LEXERDIR) all
-
-gnl:
 	@make -C $(GNLDIR) all
 
-$(NAME):	$(OBJ)
+$(NAME):	$(OBJ) $(EXECUTER) $(EXPAND) $(PARSER) $(LEXER) $(MAP) $(VECTOR) $(BUILTIN) $(GNL) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ) $(EXECUTER) $(EXPAND) $(PARSER) $(LEXER) $(MAP) $(VECTOR) $(BUILTIN) $(GNL) $(LIBFT) -lreadline -o $@
 
 clean:
@@ -102,6 +86,6 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all lib gnl builtin vector map lexer parser executer expand clean fclean re
+.PHONY:		all modules clean fclean re
 
 -include $(DEP)

@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 15:47:05 by medric            #+#    #+#             */
-/*   Updated: 2022/08/07 18:39:51 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 19:09:23 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 #include <errno.h>
 #include <string.h>
 
-static int check_exit_arg(char *data)
+static int	check_exit_arg(char *data)
 {
 	size_t			i;
 
 	i = 0;
-	if (ft_isalpha(data[i]) == 1)
+	if (ft_isdigit(data[i]) == 0)
 	{
-		ft_putstr_fd("exit: Illegal number:", 2);
+		ft_putstr_fd("exit: Illegal number: ", 2);
 		ft_putstr_fd(data, 2);
 		ft_putstr_fd("\n", 2);
 		return (1);
@@ -34,7 +34,7 @@ static int check_exit_arg(char *data)
 	{
 		if (ft_isalpha(data[i + 1]) == 1)
 		{
-			ft_putstr_fd("exit: Illegal number:", 2);
+			ft_putstr_fd("exit: Illegal number: ", 2);
 			ft_putstr_fd(data, 2);
 			ft_putstr_fd("\n", 2);
 			return (1);
@@ -55,7 +55,7 @@ int	ft_exit(t_shell_data *shell_data, t_vector *cmd)
 			if (check_exit_arg(cmd->data[1]) == 0)
 				exit_status = ft_atou(cmd->data[1]);
 			else
-				return (1);
+				return (2);
 		}
 		else
 			exit_status = 0;
