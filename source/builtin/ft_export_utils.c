@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export_ut.c                                     :+:      :+:    :+:   */
+/*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medric <medric@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 17:28:17 by medric            #+#    #+#             */
-/*   Updated: 2022/08/04 15:35:45 by medric           ###   ########.fr       */
+/*   Updated: 2022/08/07 21:34:07 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ void	delete_buff(char **m, int length)
 	i = -1;
 	if (m != NULL)
 	{
-		while (++i < length - 1)
+		while (++i < length)
 			free(m[i]);
 	}
+	free(m);
 }
 
 int	ft_searchr(char *s, char c)

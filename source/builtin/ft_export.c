@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 22:58:22 by medric            #+#    #+#             */
-/*   Updated: 2022/08/07 21:12:30 by marvin           ###   ########.fr       */
+/*   Updated: 2022/08/07 21:32:09 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "libft.h"
 #include "builtin_private.h"
 #include "minishell.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 static void	putstr(int len, char **map_buff)
 {
@@ -56,28 +57,32 @@ static int	print_sort_env(t_vector *map)
 	return (SUCCESS);
 }
 
-static int vector_add_or_replace(t_shell_data *shell_data, char *s, char *tmp)
+static int	vector_add_or_replace(t_shell_data *shell_data, char *s, char *tmp)
 {
 	size_t		i;
 	t_vector	*vector;
+	char		**words;
 
-	i = 0;
+	i = -1;
 	vector = shell_data->env_vector;
-	while (i < vector->length)
+	while (++i < vector->length)
 	{
+		words = split_env(vector->data[i]);
+		if (!words)
+			return (FAIL);
 		if (ft_strncmp(vector->data[i], s, ft_strlen(s)) == 0 && tmp == NULL)
 			return (SUCCESS);
-		else if (tmp != NULL && ft_strncmp(vector->data[i], tmp, ft_strlen(tmp)) == 0)
+		else if (tmp != NULL
+			&& ft_strncmp(words[0], tmp, ft_strlen(words[0]) + 1) == 0)
 		{
-			vector_delete(vector, vector->data[i]);
-			vector_add(vector, s);
+			vector_insert_at(vector, vector->data[i], i);
 			return (SUCCESS);
 		}
-		i++;
+		delete_buff(words, 2);
 	}
 	if (!vector_add(vector, s))
 		return (FAIL);
-	return (SUCCESS);	
+	return (SUCCESS);
 }
 
 int	add_data(t_shell_data *data, t_vector *cmd)
@@ -99,7 +104,7 @@ int	add_data(t_shell_data *data, t_vector *cmd)
 	if (map_add(data->env_map, tmp[0], tmp[1]) == FAIL)
 		return (FAIL);
 	if (vector_add_or_replace(data, cmd->data[i], tmp[0]) == FAIL)
-			return (FAIL);
+		return (FAIL);
 	free(tmp[0]);
 	free(tmp[1]);
 	free(tmp);
