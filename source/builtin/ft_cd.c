@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:13:42 by medric            #+#    #+#             */
-/*   Updated: 2022/08/07 12:31:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 21:48:15 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,6 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-
-int	exec_double_minus(char *new_cwd, char *cwd, t_shell_data *data, char **tmp)
-{
-	int	i;
-
-	i = 0;
-	while (tmp[i])
-	{
-		free(tmp[i]);
-		i++;
-	}
-	if (map_add(data->env_map, "OLDPWD", cwd) == FAIL)
-		return (FAIL);
-	if (vector_add(data->env_vector, cwd) == FAIL)
-		return (FAIL);
-	if (map_add(data->env_map, "PWD", new_cwd) == FAIL)
-		return (FAIL);
-	if (vector_add(data->env_vector, new_cwd) == FAIL)
-		return (FAIL);
-	if (chdir(new_cwd) == -1)
-		return (FAIL);
-	free(new_cwd);
-	return (SUCCESS);
-}
 
 static int	double_minus_error(char **tmp, int *i, char *cwd, char *new_cwd)
 {
@@ -104,6 +80,19 @@ int	next_exec_minus(t_shell_data *data, char *cwd, \
 	return (3);
 }
 
+int	add_to_map_and_vector(t_shell_data *shell_data, char *cwd, char *cmd)
+{
+	map_add(shell_data->env_map, "OLDPWD", cwd);
+	vector_add(shell_data->env_vector, cwd);
+	map_add(shell_data->env_map, "PWD", cmd);
+	if (chdir(cmd) == -1)
+	{
+		print_error(strerror(errno));
+		return (errno);
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	ft_cd(t_shell_data *shell_data, t_vector *cmd)
 {
 	char		cwd[PATH_MAX];
@@ -125,13 +114,5 @@ int	ft_cd(t_shell_data *shell_data, t_vector *cmd)
 		else if (option == SUCCESS)
 			return (EXIT_SUCCESS);
 	}
-	map_add(shell_data->env_map, "OLDPWD", cwd);
-	vector_add(shell_data->env_vector, cwd);
-	map_add(shell_data->env_map, "PWD", cmd->data[1]);
-	if (chdir(cmd->data[1]) == -1)
-	{
-		print_error(strerror(errno));
-		return (errno);
-	}
-	return (EXIT_SUCCESS);
+	return (add_to_map_and_vector(shell_data, cwd, cmd->data[1]));
 }

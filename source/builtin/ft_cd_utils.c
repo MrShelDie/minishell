@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 17:34:50 by medric            #+#    #+#             */
-/*   Updated: 2022/08/06 19:52:06 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 21:43:44 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,30 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+
+int	exec_double_minus(char *new_cwd, char *cwd, t_shell_data *data, char **tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		free(tmp[i]);
+		i++;
+	}
+	if (map_add(data->env_map, "OLDPWD", cwd) == FAIL)
+		return (FAIL);
+	if (vector_add(data->env_vector, cwd) == FAIL)
+		return (FAIL);
+	if (map_add(data->env_map, "PWD", new_cwd) == FAIL)
+		return (FAIL);
+	if (vector_add(data->env_vector, new_cwd) == FAIL)
+		return (FAIL);
+	if (chdir(new_cwd) == -1)
+		return (FAIL);
+	free(new_cwd);
+	return (SUCCESS);
+}
 
 void	ft_strcpy(char *dst, const char *src, size_t size)
 {

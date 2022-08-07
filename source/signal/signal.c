@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:02:02 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/06 15:25:50 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 21:39:44 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <readline/history.h>
 
 #include "libft.h"
-#include "shell_signal.h"
+#include "signal_private.h"
 #include "shell_error.h"
 #include "minishell.h"
 
@@ -28,18 +28,6 @@ void	set_interactive_mode_signals(void)
 {
 	signal(SIGINT, newline_sig_handler);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-void	sigint_fork_handler(int signum)
-{
-	(void)signum;
-	ft_putstr_fd("\n", 1);
-}
-
-void	sigquit_fork_handler(int signum)
-{
-	(void)signum;
-	ft_putstr_fd("Quit: 3\n", 1);
 }
 
 void	set_fork_signals(void)

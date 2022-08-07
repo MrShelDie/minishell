@@ -6,6 +6,7 @@ SRC = 															\
 	source/main/increase_shlvl.c								\
 	source/main/increase_shlvl_utils.c							\
 	source/signal/signal.c										\
+	source/signal/signal_handler.c								\
 	source/error/error.c
 
 OBJ = $(SRC:.c=.o)

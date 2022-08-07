@@ -1,6 +1,0 @@
-.vscode
-*.o
-*.d
-minishell
-msh_tester/
-*.a

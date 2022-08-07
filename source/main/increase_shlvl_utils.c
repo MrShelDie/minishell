@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 14:45:16 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/07 17:40:56 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 22:18:30 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*create_string_by_key_and_value(const char *key, const char *value)
 ** Returns an index equal to the length of the vector
 ** if a string with this key is not found.
 */
-static size_t	get_string_index_by_key(t_vector *vector, const char *key)
+size_t	vector_get_index_by_key(t_vector *vector, const char *key)
 {
 	size_t	i;
 	char	**fields;
@@ -68,7 +68,7 @@ int	replace_string_in_vector_by_key(
 	char	*new_string;
 	int		add_status;
 
-	string_idx = get_string_index_by_key(vector, key);
+	string_idx = vector_get_index_by_key(vector, key);
 	if (string_idx == vector->length)
 		return (FAIL);
 	new_string = create_string_by_key_and_value(key, value);

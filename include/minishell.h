@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/07 20:58:55 by marvin           ###   ########.fr       */
+/*   Updated: 2022/08/07 22:18:30 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	init_shell_data(t_shell_data *shell_data, char *const *envp);
 void	destroy_shell_data(t_shell_data *shell_data);
 
 int		execute_user_input(t_shell_data *shell_data, char *user_input);
+
 char	**split_env(const char *env_line);
+size_t	vector_get_index_by_key(t_vector *vector, const char *key);
 
 #endif // !MINISHELL_H

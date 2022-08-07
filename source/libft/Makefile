@@ -21,7 +21,7 @@ OBJ			= ${SRC:.c=.o}
 DEP			= ${SRC:.c=.d}
 
 NAME		= libft.a
-CFLAGS		= -Wall -Werror -Wextra -g
+CFLAGS		= -Wall -Werror -Wextra
 CPPFLAGS	= -I./../../include -MMD
 
 all:		${NAME}

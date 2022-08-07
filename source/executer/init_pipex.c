@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/06 18:27:45 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 23:12:44 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ int	init_pipex(t_pipe *pipex, t_shell_data *data, t_cmd_list *cmd_list)
 	if (!pipex->pids)
 		return (FAIL);
 	pipex->cmd_path = get_cmd_paths(data->env_map);
-	if (!pipex->cmd_path)
-		return (FAIL);
 	if (create_pipes(pipex) == 1)
 		return (FAIL);
 	return (SUCCESS);
