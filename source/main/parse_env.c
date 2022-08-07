@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:05:54 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/07 18:24:16 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 20:53:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "minishell_private.h"
 #include "libft.h"
 
-static char	**split_env(const char *env_line)
+char	**split_env(const char *env_line)
 {
 	char	**env_pair;
 	char	*equal_symbol;

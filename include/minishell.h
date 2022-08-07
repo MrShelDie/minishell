@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:01:33 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/07 13:16:08 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 20:58:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ void	init_shell_data(t_shell_data *shell_data, char *const *envp);
 void	destroy_shell_data(t_shell_data *shell_data);
 
 int		execute_user_input(t_shell_data *shell_data, char *user_input);
+char	**split_env(const char *env_line);
 
 #endif // !MINISHELL_H
