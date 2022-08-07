@@ -25,6 +25,7 @@ SRC = 															\
 	source/parser/cmd/fill_subshell.c							\
 	source/parser/cmd/fill_subshell_utils.c						\
 	source/parser/error.c										\
+	source/parser/unlink_heredoc.c								\
 																\
 	source/builtin/ft_cd_utils.c								\
 	source/builtin/ft_cd.c										\

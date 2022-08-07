@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 15:58:36 by medric            #+#    #+#             */
-/*   Updated: 2022/08/07 14:39:10 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 15:58:49 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,18 @@ static void	move_logic_group_and_operator(t_logic_group_list **logic_group_list,
 int	execute_logic_group_list(t_shell_data *shell_data,
 	t_logic_group_list *logic_group_list, t_operator_list *operator_list)
 {
+	t_cmd_list	*cmd_list;
 	int			exit_status;
 
 	while (logic_group_list)
 	{
 		if (!expand_logic_group(shell_data, logic_group_list->content))
 			return (EXIT_FAILURE);
-		exit_status = execute_cmd_list(shell_data, logic_group_list->content);
+		cmd_list = logic_group_list->content;
+		if (cmd_list->next)
+			exit_status = execute_cmd_list(shell_data, logic_group_list->content);
+		else
+			exit_status = execute_simple_cmd(shell_data, logic_group_list);
 		move_logic_group_and_operator(&logic_group_list,
 			&operator_list, exit_status);
 	}

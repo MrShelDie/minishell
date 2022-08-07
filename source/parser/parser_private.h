@@ -6,7 +6,7 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 15:34:56 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/04 13:12:46 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 15:36:16 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ void				unexpected_token_error(
 
 t_token_list		*append_new_token(
 						t_token_list **list, t_token_id token_id, char *value);
+
+void				unlink_heredocs(t_logic_group_list *logic_group_list);
 
 #endif // !PARSER_PRIVATE_H

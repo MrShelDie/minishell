@@ -6,17 +6,18 @@
 /*   By: gannemar <gannemar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 16:01:00 by gannemar          #+#    #+#             */
-/*   Updated: 2022/08/06 14:15:33 by gannemar         ###   ########.fr       */
+/*   Updated: 2022/08/07 16:10:17 by gannemar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "minishell.h"
-#include "executer_private.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
+
+#include "libft.h"
+#include "minishell.h"
+#include "executer_private.h"
 
 static int	read_heredoc(int fd, char *stop_word)
 {
@@ -45,7 +46,7 @@ static int	read_heredoc_in_redir(t_redir *redir)
 	char	*file_name;
 	int		fd;
 
-	file_name = generate_file_name(".heredoc_", redir->value);
+	file_name = generate_file_name("/tmp/heredoc_", redir->value);
 	if (!file_name)
 		return (1);
 	fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
