@@ -1,7 +1,7 @@
 
 # Minishell
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)  ![](https://img.shields.io/badge/Education%20Project-%F0%9F%93%96-orange)   
-[![GitHub commits](https://badgen.net/github/commits/MrShelDie/minishell)](https://GitHub.com/MrShelDie/minishell/commit/) [![GitHub latest commit](https://badgen.net/github/last-commit/MrShelDie/minishell)](https://GitHub.com/MrShelDie/minishell/commit/)   
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)  ![](https://img.shields.io/badge/Education%20Project-%F0%9F%93%96-orange)
+[![GitHub commits](https://badgen.net/github/commits/MrShelDie/minishell)](https://GitHub.com/MrShelDie/minishell/commit/) [![GitHub latest commit](https://badgen.net/github/last-commit/MrShelDie/minishell)](https://GitHub.com/MrShelDie/minishell/commit/)
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg) [![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
 
 ![](https://github.com/MrShelDie/minishell/blob/master/demo.gif?raw=true)
@@ -64,5 +64,8 @@ After building the source, run `./minishell` from the project root.
 ## Notes
 
 - This is an educational project of school 21 (ecole 42).
-- The project is written in accordance with the school code style (<a ref="https://github.com/MrShelDie/minishell/blob/master/en.norm.pdf">norm</a>).
-- You can find the project instructions by <a ref="https://github.com/MrShelDie/minishell/blob/master/en.subject.pdf">here</a>.
+- The project is written in accordance with the school code style ([norm][1]).
+- You can find the project instructions by [here][2].
+
+[1]: <https://github.com/MrShelDie/minishell/blob/master/en.norm.pdf>
+[2]: <https://github.com/MrShelDie/minishell/blob/master/en.subject.pdf>
