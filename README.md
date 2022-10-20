@@ -1,6 +1,7 @@
 # Minishell
 
 ![](https://github.com/MrShelDie/minishell/blob/master/demo.gif?raw=true)
+
 Minishell is a simplified version of bash. Nevertheless, this shell remains quite functional.
 The minishell works like a bash in interactive mode and supports the following functionality:
 - Command input prompt
