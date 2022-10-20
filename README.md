@@ -1,5 +1,6 @@
 # Minishell
 
+![](https://github.com/MrShelDie/minishell/blob/master/demo.gif?raw=true)
 Minishell is a simplified version of bash. Nevertheless, this shell remains quite functional.
 The minishell works like a bash in interactive mode and supports the following functionality:
 - Command input prompt
@@ -58,4 +59,5 @@ After building the source, run `./minishell` from the project root.
 ## Notes
 
 - This is an educational project of school 21 (ecole 42).
-- The project is written in accordance with the code style (norm).
+- The project is written in accordance with the school code style (<a ref="https://github.com/MrShelDie/minishell/blob/master/en.norm.pdf">norm</a>).
+- You can find the project instructions by <a ref="https://github.com/MrShelDie/minishell/blob/master/en.subject.pdf">here</a>.
